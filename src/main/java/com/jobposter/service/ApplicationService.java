@@ -1,0 +1,44 @@
+package com.jobposter.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jobposter.dao.ApplicationDao;
+import com.jobposter.entity.Application;
+import com.jobposter.exception.ErrorException;
+
+@Service("applicationService")
+public class ApplicationService {
+
+	@Autowired
+	private ApplicationDao applDao;
+
+	public Application findById(String id) {
+		Application appl = applDao.findById(id);
+		return appl;
+	}
+	
+	public void insert(Application appl) throws ErrorException{
+		applDao.save(appl);
+	}
+	
+	public void update(Application appl) throws ErrorException{
+		applDao.save(appl);
+	}
+	
+	public void delete(String id) throws ErrorException{
+		applDao.delete(id);
+	}
+	
+	public Application findByBk(String Bk1, String Bk2)  throws ErrorException {
+		Application appl = applDao.findByBk(Bk1, Bk2);
+		return appl;
+	}
+	
+	public List<Application> findAll()  throws ErrorException{
+		List<Application> appl = applDao.findAll();
+		return appl;
+	}
+}
