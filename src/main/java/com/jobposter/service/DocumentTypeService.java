@@ -41,4 +41,8 @@ public class DocumentTypeService {
 		List<DocumentType> dt = documentTypeDao.findAll();
 		return dt;
 	}
+	
+	public Long filterDoc() throws ErrorException {
+		return documentTypeDao.filterDoc();
+	}
 }

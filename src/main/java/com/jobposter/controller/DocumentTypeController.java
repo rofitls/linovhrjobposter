@@ -70,6 +70,7 @@ public class DocumentTypeController {
 	
 	@GetMapping("/doc-type")
 	public ResponseEntity<?> getAll()  throws ErrorException{
+		System.out.println(documentTypeService.filterDoc());
 		return ResponseEntity.ok(documentTypeService.findAll());
 	}
 	

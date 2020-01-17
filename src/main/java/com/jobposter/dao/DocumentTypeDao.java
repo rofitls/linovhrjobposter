@@ -51,12 +51,29 @@ public class DocumentTypeDao extends CommonDao {
 	@Transactional
 	public DocumentType findByBk(String Bk) {
 		List<DocumentType> list = super.entityManager
-				.createQuery("from DocumentType where documentTypeCode=: bk")
+				.createQuery("from DocumentType where docTypeCode=: bk")
 				.setParameter("bk", Bk)
 				.getResultList();
 		if(list.size()==0)
 			return null;
 		else
 			return (DocumentType)list.get(0);
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Long filterDoc(){
+		StringBuilder query = new StringBuilder();
+		query.append("select count(dt) from DocumentType dt where dt.flag =: flag");
+		List<Long> result = super.entityManager
+				.createQuery(query.toString())
+				.setParameter("flag", true)
+				.getResultList();
+//		if(list.size()==0)
+//			return 0;
+//		else
+//			return (List<DocumentType>)list;
+		return result.get(0);
 	}
 }
