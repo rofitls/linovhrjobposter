@@ -86,7 +86,7 @@ a, a:hover {
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
 			padding-top: 0px;" class="hero"><a target="_blank" style="text-decoration: none;"
 			href="https://github.com/konsav/email-templates/"><img border="0" vspace="0" hspace="0"
-			src="https://raw.githubusercontent.com/konsav/email-templates/master/images/hero-block.png"
+			src="https://github.com/rofitls/linovhrjobposter/tree/master/src/main/resources/templates/lwcn-logo.png"
 			alt="Please enable images to view this content" title="Hero Image"
 			width="340" style="
 			width: 87.5%;

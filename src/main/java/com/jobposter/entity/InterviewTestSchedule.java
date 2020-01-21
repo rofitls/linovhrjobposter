@@ -1,6 +1,5 @@
 package com.jobposter.entity;
 
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -35,7 +34,7 @@ public class InterviewTestSchedule {
 	private Date interviewDate;
 	
 	@Column(name="interview_time")
-	private Time interviewTime;
+	private long interviewTime;
 	
 	@ManyToOne
 	@JoinColumn(name="id_application", referencedColumnName="id", nullable=false)
@@ -73,6 +72,14 @@ public class InterviewTestSchedule {
 
 	public void setApplication(Application application) {
 		this.application = application;
+	}
+
+	public long getInterviewTime() {
+		return interviewTime;
+	}
+
+	public void setInterviewTime(long interviewTime) {
+		this.interviewTime = interviewTime;
 	}
 	
 }

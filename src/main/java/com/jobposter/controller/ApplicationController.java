@@ -1,5 +1,6 @@
 package com.jobposter.controller;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -130,8 +131,8 @@ public class ApplicationController {
 		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
 	}
 	
-	@PutMapping("/admin/application/interview/{id}/{date}")
-	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @PathVariable String date) throws ErrorException {
+	@PutMapping("/admin/application/interview/{id}/{date}/{time}")
+	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @PathVariable String date, @PathVariable String time) throws ErrorException {
 		try {
 			valIdExist(id);
 			Mail mail = new Mail();
@@ -148,8 +149,11 @@ public class ApplicationController {
 		    mail.setTo(appl.getUser().getUsername());
 		    schedule.setApplication(appl);
 		    Integer count = interviewTestScheduleService.countSchedule().intValue();
+		    DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+		    Date times = sdf.parse(time);
 		    schedule.setInterviewCode("SCHEDULE-"+count);
 		    schedule.setInterviewDate(interviewDate);
+		    schedule.setInterviewTime(times.getTime());
 		    alreadySchedule(appl);
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.insert(applStateChange);
