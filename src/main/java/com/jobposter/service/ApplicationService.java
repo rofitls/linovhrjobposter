@@ -15,7 +15,7 @@ public class ApplicationService {
 	@Autowired
 	private ApplicationDao applDao;
 
-	public Application findById(String id) {
+	public Application findById(String id) throws ErrorException {
 		Application appl = applDao.findById(id);
 		return appl;
 	}
@@ -40,5 +40,9 @@ public class ApplicationService {
 	public List<Application> findAll()  throws ErrorException{
 		List<Application> appl = applDao.findAll();
 		return appl;
+	}
+	
+	public Application findAppByApplicant(String id) throws ErrorException {
+		return applDao.findAppByApplicant(id);
 	}
 }

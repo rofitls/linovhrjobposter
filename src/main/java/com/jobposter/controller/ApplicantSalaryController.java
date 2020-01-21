@@ -3,6 +3,7 @@ package com.jobposter.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jobposter.entity.ApplicantSalary;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.ApplicantSalaryService;
+import com.jobposter.service.UserService;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin("*")
 public class ApplicantSalaryController {
 	
 	@Autowired
 	private ApplicantSalaryService applService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@PostMapping("/apl-salary")
 	public ResponseEntity<?> insert(@RequestBody ApplicantSalary appl) throws ErrorException{
@@ -110,7 +116,7 @@ public class ApplicantSalaryController {
 	}
 	
 	private Exception valBkNotChange(ApplicantSalary appl) throws Exception{
-		if(!appl.getUser().equals(applService.findById(appl.getId()).getUser())) {
+		if(!appl.getUser().getId().equalsIgnoreCase(userService.findById(appl.getUser().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}
 		return null;

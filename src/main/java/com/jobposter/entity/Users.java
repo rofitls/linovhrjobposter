@@ -66,7 +66,7 @@ public class Users {
 	private String imageFileName;
 	
 	@ManyToOne
-	@JoinColumn(name="id_city", referencedColumnName="id", nullable=false)
+	@JoinColumn(name="id_city", referencedColumnName="id", nullable=true)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private City city;

@@ -49,6 +49,19 @@ public class DocumentDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<Document> findADUser(String id){
+		List<Document> list = super.entityManager
+				.createQuery("from Document ad where ad.user.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<Document>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public Document findByBk(String Bk1, String Bk2) {
 		List<Document> list = super.entityManager
 				.createQuery("from Document where user.id =: bk1 and fileName =: bk2")
@@ -59,5 +72,21 @@ public class DocumentDao extends CommonDao {
 			return null;
 		else
 			return (Document)list.get(0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Long filterDoc(String id) {
+		StringBuilder query = new StringBuilder();
+		query.append("select count(d) from Document d where d.docType.flag =: flag and d.user.id =: id");
+		List<Long> list = super.entityManager
+				.createQuery(query.toString())
+				.setParameter("flag", true)
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0) 
+			return null;
+		else
+			return list.get(0);
 	}
 }

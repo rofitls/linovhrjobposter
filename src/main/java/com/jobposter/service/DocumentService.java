@@ -41,4 +41,13 @@ public class DocumentService {
 		List<Document> doc = documentDao.findAll();
 		return doc;
 	}
+	
+	public List<Document> findADUser(String id)  throws ErrorException {
+		List<Document> doc = documentDao.findADUser(id);
+		return doc;
+	}
+	
+	public Long filterDoc(String id) throws ErrorException {
+		return documentDao.filterDoc(id);
+	}
 }

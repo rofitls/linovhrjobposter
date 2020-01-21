@@ -1,6 +1,5 @@
 package com.jobposter.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +32,21 @@ public class ApplicationStateChangeService {
 		stateDao.delete(id);
 	}
 	
-	public ApplicationStateChange findByBk(String Bk1, String Bk2, Date Bk3) throws ErrorException {
-		ApplicationStateChange appl = stateDao.findByBk(Bk1, Bk2, Bk3);
+	public ApplicationStateChange findByBk(String Bk1) throws ErrorException {
+		ApplicationStateChange appl = stateDao.findByBk(Bk1);
 		return appl;
 	}
 	
 	public List<ApplicationStateChange> findAll() throws ErrorException{
 		List<ApplicationStateChange> appl = stateDao.findAll();
 		return appl;
+	}
+	
+	public ApplicationStateChange findByApplicantNotViewed(String id) throws Exception {
+		return stateDao.findByApplicationNotViewed(id);
+	}
+	
+	public Long findApplicationHire(String id) throws Exception {
+		return stateDao.findApplicationHire(id);
 	}
 }

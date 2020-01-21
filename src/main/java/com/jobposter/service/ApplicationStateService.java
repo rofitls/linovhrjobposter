@@ -41,4 +41,8 @@ public class ApplicationStateService {
 		List<ApplicationState> state = stateDao.findAll();
 		return state;
 	}
+	
+	public ApplicationState findByStateName(String name) throws ErrorException {
+		return stateDao.findByStateName(name);
+	}
 }

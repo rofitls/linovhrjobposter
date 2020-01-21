@@ -3,6 +3,7 @@ package com.jobposter.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.jobposter.service.ApplicationStateService;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin("*")
 public class ApplicationStateChangeController {
 	
 	@Autowired
@@ -110,7 +112,7 @@ public class ApplicationStateChangeController {
 	}
 	
 	private Exception valBkNotExist (ApplicationStateChange state) throws Exception{
-		if(appStateChangeService.findByBk(state.getApplication().getId(), state.getState().getId(), state.getDateChanged())!=null) {
+		if(appStateChangeService.findByBk(state.getApplication().getId())!=null) {
 			throw new Exception("Application already exists");
 		}else if(appStateService.findById(state.getState().getId())==null || appStateService.findById(state.getState().getId()).isActiveState()==false) {
 			throw new Exception("Application state doesn't exists");
@@ -121,7 +123,7 @@ public class ApplicationStateChangeController {
 	}
 	
 	private Exception valBkNotChange(ApplicationStateChange state) throws Exception{
-		if(!state.getApplication().equals(appStateChangeService.findById(state.getId()).getApplication())) {
+		if(!state.getApplication().getId().equalsIgnoreCase(applicationService.findById(state.getApplication().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}
 		return null;

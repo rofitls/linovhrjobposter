@@ -3,6 +3,7 @@ package com.jobposter.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.jobposter.service.UserService;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin("*")
 public class ApplicantSkillController {
 	
 	@Autowired
@@ -125,13 +127,14 @@ public class ApplicantSkillController {
 	}
 	
 	private Exception valBkNotChange(ApplicantSkill appl) throws Exception{
-		if(!appl.getUser().equals(applService.findById(appl.getId()).getUser())) {
+		if(!appl.getUser().getId().equalsIgnoreCase(userService.findById(appl.getUser().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}else if(!appl.getSkillName().equalsIgnoreCase(applService.findById(appl.getId()).getSkillName())) {
 			throw new Exception("BK cannot change");
-		}else if(!appl.getSkillLevel().equals(applService.findById(appl.getId()).getSkillLevel())) {
-			throw new Exception("BK cannot change");
 		}
+//		else if(!appl.getSkillLevel().getId().equalsIgnoreCase(skillLevelService.findById(appl.getId()).getId())) {
+//			throw new Exception("BK cannot change");
+//		}
 		return null;
 	}
 	

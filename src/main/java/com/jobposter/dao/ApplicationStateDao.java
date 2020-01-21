@@ -61,4 +61,17 @@ public class ApplicationStateDao extends CommonDao {
 		else
 			return (ApplicationState)list.get(0);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public ApplicationState findByStateName(String name) {
+		List<ApplicationState> list = super.entityManager
+				.createQuery("from ApplicationState where stateName =: name")
+				.setParameter("name", name)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (ApplicationState)list.get(0);
+	}
 }

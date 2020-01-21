@@ -3,6 +3,7 @@ package com.jobposter.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.jobposter.service.UserService;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin("*")
 public class DocumentController {
 	
 	@Autowired
@@ -119,7 +121,7 @@ public class DocumentController {
 	private Exception valBkNotChange(Document doc) throws Exception{
 		if(!doc.getFileName().equalsIgnoreCase(documentService.findById(doc.getId()).getFileName())) {
 			throw new Exception("BK cannot change");
-		}else if(!doc.getUser().equals(documentService.findById(doc.getId()).getUser())) {
+		}else if(!doc.getUser().getId().equalsIgnoreCase(userService.findById(doc.getUser().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}
 		return null;

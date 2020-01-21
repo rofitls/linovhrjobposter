@@ -38,6 +38,19 @@ public class ApplicantWorkExperienceDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<ApplicantWorkExperience> findAWEUser(String id) {
+		List<ApplicantWorkExperience> list = super.entityManager
+				.createQuery("from ApplicantWorkExperience awe where awe.user.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<ApplicantWorkExperience>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<ApplicantWorkExperience> findAll(){
 		List<ApplicantWorkExperience> list = super.entityManager
 				.createQuery("from ApplicantWorkExperience")

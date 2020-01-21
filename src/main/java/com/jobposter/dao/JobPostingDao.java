@@ -71,6 +71,19 @@ public class JobPostingDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<JobPosting> findJobByRecruiter(String id){
+		List<JobPosting> list = super.entityManager
+				.createQuery("from JobPosting where user.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<JobPosting>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<JobPostingPojo> filterJob(String city, String jobPosition, Double salaryMin, Double salaryMax){
 		
 		StringBuilder query = new StringBuilder();

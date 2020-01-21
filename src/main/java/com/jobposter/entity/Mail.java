@@ -15,7 +15,7 @@ public class Mail {
     private String to;
     private String name;
     private String subject;
-    private String content;
+    private Object content;
     private Map<String, String> model;
     
     public Mail() {}
@@ -43,10 +43,10 @@ public class Mail {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public String getContent() {
+	public Object getContent() {
 		return content;
 	}
-	public void setContent(String content) {
+	public void setContent(Object content) {
 		this.content = content;
 	}
 	public Map<String, String> getModel() {

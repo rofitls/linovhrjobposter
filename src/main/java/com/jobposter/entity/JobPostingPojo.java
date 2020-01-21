@@ -6,6 +6,12 @@ public class JobPostingPojo {
 
 	private String id;
 	
+	private String idCity;
+	
+	private String idJobPosition;
+	
+	private String idUser;
+	
 	private String jobTitleName;
 	
 	private Double salary;
@@ -22,7 +28,8 @@ public class JobPostingPojo {
 	
 	private String username;
 	
-
+	private Integer quota;
+	
 	public JobPostingPojo() {
 		super();
 	}
@@ -99,6 +106,36 @@ public class JobPostingPojo {
 		this.username = username;
 	}
 
-	
-	
+	public Integer getQuota() {
+		return quota;
+	}
+
+	public void setQuota(Integer quota) {
+		this.quota = quota;
+	}
+
+	public String getIdCity() {
+		return idCity;
+	}
+
+	public void setIdCity(String idCity) {
+		this.idCity = idCity;
+	}
+
+	public String getIdJobPosition() {
+		return idJobPosition;
+	}
+
+	public void setIdJobPosition(String idJobPosition) {
+		this.idJobPosition = idJobPosition;
+	}
+
+	public String getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+
 }

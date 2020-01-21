@@ -49,6 +49,19 @@ public class ApplicantProjectDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<ApplicantProject> findAPUser(String id){
+		List<ApplicantProject> list = super.entityManager
+				.createQuery("from ApplicantProject ap where ap.user.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<ApplicantProject>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public ApplicantProject findByBk(String Bk1, String Bk2, String Bk3) {
 		List<ApplicantProject> list = super.entityManager
 				.createQuery("from ApplicantProject where user.id =: bk1 and projectName =: bk2 and role =: bk3")

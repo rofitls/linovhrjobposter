@@ -3,6 +3,7 @@ package com.jobposter.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,14 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jobposter.entity.FilterJob;
 import com.jobposter.entity.JobPosting;
+import com.jobposter.entity.JobPostingPojo;
+import com.jobposter.entity.JobQuota;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.CityService;
 import com.jobposter.service.JobPositionService;
 import com.jobposter.service.JobPostingService;
+import com.jobposter.service.JobQuotaService;
 import com.jobposter.service.UserService;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin("*")
 public class JobPostingController {
 	
 	@Autowired
@@ -36,14 +41,32 @@ public class JobPostingController {
 	@Autowired
 	private CityService cityService;
 	
+	@Autowired
+	private JobQuotaService jobQuotaService;
+	
 	@PostMapping("/job-posting")
-	public ResponseEntity<?> insert(@RequestBody JobPosting jpost) throws ErrorException{
+	public ResponseEntity<?> insert(@RequestBody JobPostingPojo jPostPojo) throws ErrorException{
 		try {
+			JobPosting jpost = new JobPosting();
+			jpost.setJobTitleName(jPostPojo.getJobTitleName());
+			jpost.setSalary(jPostPojo.getSalary());
+			jpost.setStartDate(jPostPojo.getStartDate());
+			jpost.setEndDate(jPostPojo.getEndDate());
+			jpost.setAddress(jPostPojo.getAddress());
+			jpost.setCity(cityService.findById(jPostPojo.getIdCity()));
+			jpost.setJobPosition(jobPositionService.findById(jPostPojo.getIdJobPosition()));
+			jpost.setUser(userService.findById(jPostPojo.getIdUser()));
 			valIdNull(jpost);
 			valBkNotNull(jpost);
 			valBkNotExist(jpost);
 			valNonBk(jpost);
+			jpost.setActiveState(true);
 			jobPostingService.insert(jpost);
+			JobPosting jobPosting = jobPostingService.findByBk(jpost.getUser().getId(), jpost.getJobPosition().getId(), jpost.getCity().getId(), jpost.getStartDate(), jpost.getEndDate());
+			JobQuota jquota = new JobQuota();
+			jquota.setJobPosting(jobPosting);
+			jquota.setJobQuota(jPostPojo.getQuota());
+			jobQuotaService.insert(jquota);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -78,7 +101,23 @@ public class JobPostingController {
 	
 	@GetMapping("/job-posting/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(jobPostingService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(jobPostingService.findById(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+		}
+		
+	}
+	
+	@GetMapping("/job-posting/list/{id}")
+	public ResponseEntity<?> getJobByRecruiter(@PathVariable String id) throws ErrorException {
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(jobPostingService.findJobByRecruiter(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/job-posting")
@@ -145,11 +184,11 @@ public class JobPostingController {
 	}
 	
 	private Exception valBkNotChange(JobPosting jpost) throws Exception{
-		if(!jpost.getUser().equals(jobPostingService.findById(jpost.getId()).getUser())) {
+		if(!jpost.getUser().getId().equalsIgnoreCase(userService.findById(jpost.getUser().getId()).getId())) {
 			throw new Exception("BK cannot change");
-		}else if(!jpost.getJobPosition().equals(jobPostingService.findById(jpost.getId()).getJobPosition())) {
+		}else if(!jpost.getJobPosition().getId().equalsIgnoreCase(jobPositionService.findById(jpost.getJobPosition().getId()).getId())) {
 			throw new Exception("BK cannot change");
-		}else if(!jpost.getCity().equals(jobPostingService.findById(jpost.getId()).getCity())) {
+		}else if(!jpost.getCity().getId().equalsIgnoreCase(cityService.findById(jpost.getCity().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}else if(!jpost.getStartDate().equals(jobPostingService.findById(jpost.getId()).getStartDate())) {
 			throw new Exception("BK cannot change");

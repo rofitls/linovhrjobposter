@@ -41,4 +41,5 @@ public class ApplicantSalaryService {
 		List<ApplicantSalary> appl = applSalaryDao.findAll();
 		return appl;
 	}
+	
 }

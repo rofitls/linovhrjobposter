@@ -1,6 +1,5 @@
 package com.jobposter.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -50,16 +49,44 @@ public class ApplicationStateChangeDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public ApplicationStateChange findByBk(String Bk1, String Bk2, Date Bk3) {
+	public ApplicationStateChange findByBk(String Bk1) {
 		List<ApplicationStateChange> list = super.entityManager
-				.createQuery("from ApplicationStateChange where application.id =: bk1 and state.id =: bk2 and dateChanged =: bk3")
+				.createQuery("from ApplicationStateChange where application.id =: bk1")
 				.setParameter("bk1", Bk1)
-				.setParameter("bk2", Bk2)
-				.setParameter("bk3", Bk3)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (ApplicationStateChange)list.get(list.size()-1);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public ApplicationStateChange findByApplicationNotViewed(String id) {
+		List<ApplicationStateChange> list = super.entityManager
+				.createQuery("from ApplicationStateChange where application.id =: id and state.stateName =: state")
+				.setParameter("id", id)
+				.setParameter("state", "Not Viewed")
 				.getResultList();
 		if(list.size()==0)
 			return null;
 		else
 			return (ApplicationStateChange)list.get(0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Long findApplicationHire(String id) {
+		StringBuilder query = new StringBuilder();
+		query.append("select count(ap) from ApplicationStateChange ap where ap.application.jobPosting.id =: id and state.stateName =: state");
+		List<Long> list = super.entityManager
+				.createQuery(query.toString())
+				.setParameter("id", id)
+				.setParameter("state", "Hire")
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (Long)list.get(0);
 	}
 }

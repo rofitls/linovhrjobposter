@@ -61,7 +61,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
-				.authorizeRequests().antMatchers("/admin/role","/admin/role/{id}" ,"/admin/city/{id}","/admin/province/{id}", "/apl/register", "/admin/city", "/admin/province",  "/apl/login", "/apl/user/{id}", "/apl/user").permitAll().
+				.authorizeRequests().antMatchers("/admin/role","/admin/role/{id}" ,"/admin/city/{id}","/admin/province/{id}", "/apl/register", "/admin/city",
+						"/admin/province",  "/apl/login", "/apl/user/{id}", "/apl/user" , "/admin/apl-edu", "/admin/apl-edu/{id}", 
+						"/admin/apl-work-exp", "/admin/apl-work-exp/{id}", "/admin/apl-proj", "/admin/apl-proj/{id}",
+						"/admin/apl-skill", "/admin/apl-skill/{id}", "/admin/application", "/admin/application/{id}", 
+						"/admin/edu-level", "/admin/edu-level/{id}", "/admin/job-category", "/admin/job-category/{id}", 
+						"/admin/job-description", "/admin/job-description/{id}", "/admin/job-level", "/admin/job-level/{id}",
+						"/admin/job-position", "/admin/job-position/{id}", "/admin/job-posting", "/admin/job-posting/{id}",
+						"/admin/job-posting/filter" , "/admin/job-requirement", "/admin/job-requirement/{id}" , 
+						"/admin/skill-level", "/admin/skill-level/{id}").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to

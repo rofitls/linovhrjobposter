@@ -3,6 +3,7 @@ package com.jobposter.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.jobposter.service.UserService;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin("*")
 public class ApplicantProjectController {
 	
 	@Autowired
@@ -119,7 +121,7 @@ public class ApplicantProjectController {
 	}
 	
 	private Exception valBkNotChange(ApplicantProject appl) throws Exception{
-		if(!appl.getUser().equals(applService.findById(appl.getId()).getUser())) {
+		if(!appl.getUser().getId().equalsIgnoreCase(userService.findById(appl.getUser().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}else if(!appl.getProjectName().equalsIgnoreCase(applService.findById(appl.getId()).getProjectName())) {
 			throw new Exception("BK cannot change");

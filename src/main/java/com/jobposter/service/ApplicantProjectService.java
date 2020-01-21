@@ -41,4 +41,9 @@ public class ApplicantProjectService {
 		List<ApplicantProject> appl = applProjectDao.findAll();
 		return appl;
 	}
+	
+	public List<ApplicantProject> findAPUser(String id) throws ErrorException {
+		List<ApplicantProject> appl = applProjectDao.findAPUser(id);
+		return appl;
+	}
 }

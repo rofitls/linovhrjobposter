@@ -60,7 +60,7 @@ public class EmailService {
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
         mimeMessageHelper.addInline("logo.png", new ClassPathResource("classpath:/lwcn-logo.jpeg"));
 
-        Template template = emailConfig.getTemplate("emailtemplate.ftl");
+        Template template = emailConfig.getTemplate("passwordaccount.ftl");
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, mailModel.getModel());
 
         mimeMessageHelper.setTo(mailModel.getTo());

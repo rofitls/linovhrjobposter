@@ -49,6 +49,19 @@ public class ApplicantEducationDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<ApplicantEducation> findAEUser(String id){
+		List<ApplicantEducation> list = super.entityManager
+				.createQuery("from ApplicantEducation ae where ae.user.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<ApplicantEducation>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public ApplicantEducation findByBk(String Bk1, String Bk2, String Bk3) {
 		List<ApplicantEducation> list = super.entityManager
 				.createQuery("from ApplicantEducation where user.id =: bk1 and eduLevel.id =: bk2 and school =: bk3")

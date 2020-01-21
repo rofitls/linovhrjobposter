@@ -39,6 +39,10 @@ public class JobPostingService {
 		return jpost;
 	}
 	
+	public List<JobPosting> findJobByRecruiter(String id) throws ErrorException {
+		return jobPostingDao.findJobByRecruiter(id);
+	}
+	
 	public List<JobPosting> findAll()  throws ErrorException { 
 		List<JobPosting> jpost = jobPostingDao.findAll();
 		return jpost;

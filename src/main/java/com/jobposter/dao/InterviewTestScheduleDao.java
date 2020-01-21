@@ -46,4 +46,17 @@ public class InterviewTestScheduleDao extends CommonDao {
 		else
 			return (List<InterviewTestSchedule>)list;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public InterviewTestSchedule findScheduleByApplication(String id) {
+		List<InterviewTestSchedule> list = super.entityManager
+				.createQuery("from InterviewTestSchedule where application.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (InterviewTestSchedule)list.get(0);
+	}
 }

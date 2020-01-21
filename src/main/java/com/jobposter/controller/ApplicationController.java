@@ -1,8 +1,12 @@
 package com.jobposter.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,10 +17,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobposter.entity.Application;
+import com.jobposter.entity.ApplicationStateChange;
+import com.jobposter.entity.InterviewTestSchedule;
+import com.jobposter.entity.JobPosting;
+import com.jobposter.entity.Mail;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.ApplicationService;
+import com.jobposter.service.ApplicationStateChangeService;
+import com.jobposter.service.ApplicationStateService;
 import com.jobposter.service.DocumentService;
+import com.jobposter.service.DocumentTypeService;
+import com.jobposter.service.EmailService;
+import com.jobposter.service.InterviewTestScheduleService;
 import com.jobposter.service.JobPostingService;
+import com.jobposter.service.JobQuotaService;
 import com.jobposter.service.UserService;
 import com.jobposter.service.ApplicantEducationService;
 import com.jobposter.service.ApplicantSkillService;
@@ -25,10 +39,17 @@ import com.jobposter.service.ApplicantWorkExperienceService;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin("*")
 public class ApplicationController {
 	
 	@Autowired
 	private ApplicationService applService;
+	
+	@Autowired
+	private ApplicationStateChangeService applStateChangeService;
+	
+	@Autowired
+	private ApplicationStateService applStateService;
 	
 	@Autowired
 	private UserService userService;
@@ -48,6 +69,21 @@ public class ApplicationController {
 	@Autowired
 	private ApplicantSkillService applSkillService;
 	
+	@Autowired
+	private DocumentTypeService docTypeService;
+	
+	@Autowired
+	private DocumentService docService;
+	
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private InterviewTestScheduleService interviewTestScheduleService;
+	
+	@Autowired
+	private JobQuotaService jobQuotaService;
+	
 	@PostMapping("/application")
 	public ResponseEntity<?> insert(@RequestBody Application appl) throws ErrorException{
 		try {
@@ -56,7 +92,13 @@ public class ApplicationController {
 			valBkNotExist(appl);
 			authenticateAppl(appl);
 			//valNonBk(appl);
+			ApplicationStateChange state = new ApplicationStateChange();
+			state.setDateChanged(new Date());
+			state.setState(applStateService.findByStateName("Not Viewed"));
 			applService.insert(appl);
+			Application application = applService.findByBk(appl.getUser().getId(), appl.getJobPosting().getId());
+			state.setApplication(application);
+			applStateChangeService.insert(state);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -92,6 +134,93 @@ public class ApplicationController {
 	@GetMapping("/application/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
 		return ResponseEntity.ok(applService.findById(id));
+	}
+	
+	@GetMapping("/application/detail/{id}")
+	public ResponseEntity<?> detailApplicationApplicant(@PathVariable String id) throws ErrorException {
+		try {
+			valIdExist(id);
+			Application appl = applService.findById(id);
+			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
+			if(applStateChangeService.findByApplicantNotViewed(appl.getId())!=null) {
+				applStateChange.setState(applStateService.findByStateName("Viewed"));
+				applStateChangeService.update(applStateChange);
+			}
+			applStateChange = applStateChangeService.findByBk(appl.getId());
+			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("/application/interview/{id}/{date}")
+	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @PathVariable String date) throws ErrorException {
+		try {
+			valIdExist(id);
+			Mail mail = new Mail();
+			InterviewTestSchedule schedule = new InterviewTestSchedule();
+			Date interviewDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+			Application appl = applService.findById(id);
+			ApplicationStateChange applStateChange = new ApplicationStateChange();
+			applStateChange.setState(applStateService.findByStateName("Interview"));
+			applStateChange.setApplication(appl);
+			applStateChange.setDateChanged(new Date());
+			mail.setName(appl.getUser().getFirstName()+" "+appl.getUser().getLastName());
+		    mail.setSubject("Interview invitation " + appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName()); 
+		    mail.setContent(date);
+		    mail.setTo(appl.getUser().getUsername());
+		    schedule.setApplication(appl);
+		    schedule.setInterviewCode("INT-01");
+		    schedule.setInterviewDate(interviewDate);
+		    alreadySchedule(appl);
+		    interviewTestScheduleService.insert(schedule);
+			applStateChangeService.insert(applStateChange);
+			emailService.sendEmail(mail);
+			return ResponseEntity.status(HttpStatus.OK).body("Status changed");
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("/application/hire/{id}")
+	public ResponseEntity<?> hireApplicant(@PathVariable String id) throws ErrorException {
+		try {
+			valIdExist(id);
+			Application appl = applService.findById(id);
+			ApplicationStateChange applStateChange = new ApplicationStateChange();
+			applStateChange.setState(applStateService.findByStateName("Hire"));
+			applStateChange.setApplication(appl);
+			applStateChange.setDateChanged(new Date());
+			applStateChangeService.insert(applStateChange);
+			Long appHire = applStateChangeService.findApplicationHire(appl.getJobPosting().getId());
+			if(jobQuotaService.findJobQuota(appl.getJobPosting().getId()) == appHire.intValue()) {
+				JobPosting jpost = jobPostingService.findById(appl.getJobPosting().getId());
+				jpost.setActiveState(false);
+			}
+			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+			interviewTestScheduleService.delete(its.getId());
+			return ResponseEntity.status(HttpStatus.OK).body("Status changed");
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("/application/reject/{id}")
+	public ResponseEntity<?> rejectApplicant(@PathVariable String id) throws ErrorException {
+		try {
+			valIdExist(id);
+			Application appl = applService.findById(id);
+			ApplicationStateChange applStateChange = new ApplicationStateChange();
+			applStateChange.setState(applStateService.findByStateName("Reject"));
+			applStateChange.setApplication(appl);
+			applStateChange.setDateChanged(new Date());
+			applStateChangeService.insert(applStateChange);
+			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+			interviewTestScheduleService.delete(its.getId());
+			return ResponseEntity.status(HttpStatus.OK).body("Status changed");
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/application")
@@ -142,23 +271,39 @@ public class ApplicationController {
 	}
 	
 	private Exception valBkNotChange(Application appl) throws Exception{
-		if(!appl.getUser().equals(applService.findById(appl.getId()).getUser())) {
+		if(!appl.getUser().getId().equalsIgnoreCase(userService.findById(appl.getUser().getId()).getId())) {
 			throw new Exception("BK cannot change");
-		}else if(!appl.getJobPosting().equals(applService.findById(appl.getId()).getJobPosting())) {
+		}else if(!appl.getJobPosting().getId().equalsIgnoreCase(jobPostingService.findById(appl.getJobPosting().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}
 		return null;
 	}
 	
 	private Exception authenticateAppl(Application appl) throws Exception {
-		if(applWorkExpService.findById(appl.getUser().getId())==null) {
+		if(applWorkExpService.findAWEUser(appl.getUser().getId())==null) {
 			throw new Exception("Harus mengisi form work experience terlebih dahulu");
-		}else if(applEduService.findById(appl.getUser().getId())==null) {
+		}else if(applEduService.findAEUser(appl.getUser().getId())==null) {
 			throw new Exception("Harus mengisi form education terlebih dahulu");
-		}else if(applSkillService.findById(appl.getUser().getId())==null) {
+		}else if(applSkillService.findASUser(appl.getUser().getId())==null) {
 			throw new Exception("Harus mengisi form skill terlebih dahulu");
-		}else if(documentService.findById(appl.getUser().getId())==null) {
-			throw new Exception("Harus mengisi form skill terlebih dahulu");
+		}else {
+			if(documentService.findADUser(appl.getUser().getId())==null) {
+				throw new Exception("Harus mengisi dokumen terlebih dahulu");
+			}else {
+				Long docType = docTypeService.filterDoc();
+				Long docUser = docService.filterDoc(appl.getUser().getId());
+				if(docUser < docType) {
+					throw new Exception("Dokumen belum lengkap");
+				}
+			}
+		}
+			
+		return null;
+	}
+	
+	private Exception alreadySchedule(Application appl) throws Exception {
+		if(interviewTestScheduleService.findScheduleByApplication(appl.getId())!=null) {
+			throw new Exception("Schedule already exist");
 		}
 		return null;
 	}

@@ -42,4 +42,9 @@ public class ApplicantWorkExperienceService {
 		return appl;
 	}
 	
+	public List<ApplicantWorkExperience> findAWEUser(String id) throws ErrorException{
+		List<ApplicantWorkExperience> appl = applWorkExpDao.findAWEUser(id);
+		return appl;
+	}
+	
 }

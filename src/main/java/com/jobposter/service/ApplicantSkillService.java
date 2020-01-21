@@ -41,5 +41,10 @@ public class ApplicantSkillService {
 		List<ApplicantSkill> appl = applSkillDao.findAll();
 		return appl;
 	}
+	
+	public List<ApplicantSkill> findASUser(String id) throws ErrorException{
+		List<ApplicantSkill> appl = applSkillDao.findASUser(id);
+		return appl;
+	}
 
 }

@@ -3,6 +3,7 @@ package com.jobposter.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.jobposter.service.UserService;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin("*")
 public class ApplicantWorkExperienceController {
 	
 	@Autowired
@@ -134,13 +136,13 @@ public class ApplicantWorkExperienceController {
 	}
 	
 	private Exception valBkNotChange(ApplicantWorkExperience appl) throws Exception{
-		if(!appl.getUser().equals(applService.findById(appl.getId()).getUser())) {
+		if(!appl.getUser().getId().equalsIgnoreCase(userService.findById(appl.getUser().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}else if(!appl.getCompany().equalsIgnoreCase(applService.findById(appl.getId()).getCompany())) {
 			throw new Exception("BK cannot change");
-		}else if(!appl.getJobCategory().equals(applService.findById(appl.getId()).getJobCategory())) {
+		}else if(!appl.getJobCategory().getId().equalsIgnoreCase(jobCategoryService.findById(appl.getJobCategory().getId()).getId())) {
 			throw new Exception("BK cannot change");
-		}else if(!appl.getJobLevel().equals(applService.findById(appl.getId()).getJobLevel())) {
+		}else if(!appl.getJobLevel().getId().equalsIgnoreCase(jobLevelService.findById(appl.getJobLevel().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}
 		return null;

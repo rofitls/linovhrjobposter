@@ -49,6 +49,19 @@ public class ApplicationDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public Application findAppByApplicant(String id) {
+		List<Application> list = super.entityManager
+				.createQuery("from Application app where app.user.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (Application)list.get(0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public Application findByBk(String Bk1, String Bk2) {
 		List<Application> list = super.entityManager
 				.createQuery("from Application where user.id =: bk1 and jobPosting.id =: bk2")
