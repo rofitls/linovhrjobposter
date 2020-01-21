@@ -35,6 +35,7 @@ public class CityController {
 			valBkNotNull(city);
 			valBkNotExist(city);
 			valNonBk(city);
+			city.setActiveState(true);
 			cityService.insert(city);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

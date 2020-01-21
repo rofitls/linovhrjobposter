@@ -31,6 +31,7 @@ public class ProvinceController {
 			valBkNotNull(province);
 			valBkNotExist(province);
 			valNonBk(province);
+			province.setActiveState(true);
 			provinceService.insert(province);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

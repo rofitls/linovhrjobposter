@@ -35,6 +35,7 @@ public class JobPositionController {
 			valBkNotNull(jp);
 			valBkNotExist(jp);
 			valNonBk(jp);
+			jp.setActiveState(true);
 			jobPositionService.insert(jp);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

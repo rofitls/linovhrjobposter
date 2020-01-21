@@ -31,6 +31,7 @@ public class ApplicationStateController {
 			valBkNotNull(state);
 			valBkNotExist(state);
 			valNonBk(state);
+			state.setActiveState(true);
 			stateService.insert(state);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

@@ -72,4 +72,18 @@ public class JobRequirementDao extends CommonDao {
 		else
 			return (List<JobRequirement>)list;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Long countJobRequirement() {
+		StringBuilder query = new StringBuilder();
+		query.append("select count(jr) from JobRequirement jr");
+		List<Long> list = super.entityManager
+				.createQuery(query.toString())
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (Long)list.get(0);
+	}
 }

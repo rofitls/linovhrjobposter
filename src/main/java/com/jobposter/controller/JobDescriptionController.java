@@ -36,6 +36,8 @@ public class JobDescriptionController {
 			valBkNotNull(jdesc);
 			valBkNotExist(jdesc);
 			valNonBk(jdesc);
+			Integer count = jobDescriptionService.countJobDescription().intValue();
+			jdesc.setJobDescriptionCode("JDESC-"+count);
 			jobDescriptionService.insert(jdesc);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

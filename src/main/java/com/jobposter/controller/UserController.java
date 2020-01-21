@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +40,7 @@ import com.jobposter.entity.Register;
 import com.jobposter.config.JwtTokenUtil;
 
 @RestController
-@RequestMapping("/apl")
+//@RequestMapping("/apl")
 @CrossOrigin("*")
 public class UserController {
 	
@@ -78,7 +78,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("/user/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody Users authenticationRequest) throws Exception {
 		
 		try {
@@ -107,7 +107,7 @@ public class UserController {
 
 	}
 	
-	@PostMapping("/register")
+	@PostMapping("/user/register")
 	public ResponseEntity<?> saveUser(@RequestBody Register reg) throws Exception {
 		try {
 			Users appl = new Users();
@@ -185,7 +185,7 @@ public class UserController {
 		return ResponseEntity.ok(userService.findAll());
 	}
 	
-	@PutMapping("/upload/{id}")
+	@PutMapping("/user/upload/{id}")
 	public ResponseEntity<?> saveImage(@PathVariable String id, @RequestPart MultipartFile[] upload ) throws IOException {
 		try {
 			Users user = userService.findById(id);
@@ -198,7 +198,7 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping("/upload/{id}/{path}")
+	@PostMapping("/user/upload/{id}/{path}")
 	public ResponseEntity<?> uploadDocument(@RequestPart MultipartFile[] upload, @PathVariable String id, @PathVariable String path) {
 		try {
 			Users user = userService.findById(id);

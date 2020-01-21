@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobposter.entity.FilterJob;
@@ -25,7 +24,7 @@ import com.jobposter.service.JobQuotaService;
 import com.jobposter.service.UserService;
 
 @RestController
-@RequestMapping("/admin")
+//@RequestMapping("/admin")
 @CrossOrigin("*")
 public class JobPostingController {
 	
@@ -44,7 +43,7 @@ public class JobPostingController {
 	@Autowired
 	private JobQuotaService jobQuotaService;
 	
-	@PostMapping("/job-posting")
+	@PostMapping("/admin/job-posting")
 	public ResponseEntity<?> insert(@RequestBody JobPostingPojo jPostPojo) throws ErrorException{
 		try {
 			JobPosting jpost = new JobPosting();
@@ -73,7 +72,7 @@ public class JobPostingController {
 		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
 	}
 	
-	@PutMapping("/job-posting")
+	@PutMapping("/admin/job-posting")
 	public ResponseEntity<?> update(@RequestBody JobPosting jpost) throws ErrorException{
 		try {
 			valIdNotNull(jpost);
@@ -88,7 +87,7 @@ public class JobPostingController {
 		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
 	}
 	
-	@DeleteMapping("/job-posting/{id}")
+	@DeleteMapping("/admin/job-posting/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
@@ -99,7 +98,7 @@ public class JobPostingController {
 		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
 	}
 	
-	@GetMapping("/job-posting/id/{id}")
+	@GetMapping("/apl/job-posting/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
@@ -110,7 +109,7 @@ public class JobPostingController {
 		
 	}
 	
-	@GetMapping("/job-posting/list/{id}")
+	@GetMapping("/admin/job-posting/list/{id}")
 	public ResponseEntity<?> getJobByRecruiter(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
@@ -120,12 +119,12 @@ public class JobPostingController {
 		}
 	}
 	
-	@GetMapping("/job-posting")
+	@GetMapping("/apl/job-posting")
 	public ResponseEntity<?> getAll()  throws ErrorException{
 		return ResponseEntity.ok(jobPostingService.findAll());
 	}
 	
-	@GetMapping("/job-posting/filter")
+	@GetMapping("/apl/job-posting/filter")
 	public ResponseEntity<?> filterJob(@RequestBody FilterJob filter) throws ErrorException {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(jobPostingService.filterJob(filter.getCityName(), filter.getJobPositionName(),filter.getSalaryMin(),filter.getSalaryMax()));

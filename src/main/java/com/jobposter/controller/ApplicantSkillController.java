@@ -20,7 +20,7 @@ import com.jobposter.service.SkillLevelService;
 import com.jobposter.service.UserService;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/apl")
 @CrossOrigin("*")
 public class ApplicantSkillController {
 	

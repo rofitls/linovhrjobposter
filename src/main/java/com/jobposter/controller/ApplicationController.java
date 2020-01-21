@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobposter.entity.Application;
@@ -38,7 +37,7 @@ import com.jobposter.service.ApplicantWorkExperienceService;
 
 
 @RestController
-@RequestMapping("/admin")
+//@RequestMapping("")
 @CrossOrigin("*")
 public class ApplicationController {
 	
@@ -84,7 +83,7 @@ public class ApplicationController {
 	@Autowired
 	private JobQuotaService jobQuotaService;
 	
-	@PostMapping("/application")
+	@PostMapping("/apl/application")
 	public ResponseEntity<?> insert(@RequestBody Application appl) throws ErrorException{
 		try {
 			valIdNull(appl);
@@ -105,7 +104,7 @@ public class ApplicationController {
 		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
 	}
 	
-	@PutMapping("/application")
+	@PutMapping("/apl/application")
 	public ResponseEntity<?> update(@RequestBody Application appl) throws ErrorException{
 		try {
 			valIdNotNull(appl);
@@ -120,7 +119,7 @@ public class ApplicationController {
 		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
 	}
 	
-	@DeleteMapping("/application/{id}")
+	@DeleteMapping("/apl/application/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
@@ -131,29 +130,7 @@ public class ApplicationController {
 		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
 	}
 	
-	@GetMapping("/application/id/{id}")
-	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(applService.findById(id));
-	}
-	
-	@GetMapping("/application/detail/{id}")
-	public ResponseEntity<?> detailApplicationApplicant(@PathVariable String id) throws ErrorException {
-		try {
-			valIdExist(id);
-			Application appl = applService.findById(id);
-			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
-			if(applStateChangeService.findByApplicantNotViewed(appl.getId())!=null) {
-				applStateChange.setState(applStateService.findByStateName("Viewed"));
-				applStateChangeService.update(applStateChange);
-			}
-			applStateChange = applStateChangeService.findByBk(appl.getId());
-			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
-	}
-	
-	@PutMapping("/application/interview/{id}/{date}")
+	@PutMapping("/admin/application/interview/{id}/{date}")
 	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @PathVariable String date) throws ErrorException {
 		try {
 			valIdExist(id);
@@ -170,7 +147,8 @@ public class ApplicationController {
 		    mail.setContent(date);
 		    mail.setTo(appl.getUser().getUsername());
 		    schedule.setApplication(appl);
-		    schedule.setInterviewCode("INT-01");
+		    Integer count = interviewTestScheduleService.countSchedule().intValue();
+		    schedule.setInterviewCode("SCHEDULE-"+count);
 		    schedule.setInterviewDate(interviewDate);
 		    alreadySchedule(appl);
 		    interviewTestScheduleService.insert(schedule);
@@ -182,7 +160,7 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/application/hire/{id}")
+	@PutMapping("/admin/application/hire/{id}")
 	public ResponseEntity<?> hireApplicant(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
@@ -205,7 +183,7 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/application/reject/{id}")
+	@PutMapping("/admin/application/reject/{id}")
 	public ResponseEntity<?> rejectApplicant(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
@@ -223,14 +201,50 @@ public class ApplicationController {
 		}
 	}
 	
-	@GetMapping("/application")
+	@GetMapping("/apl/application/id/{id}")
+	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
+		return ResponseEntity.ok(applService.findById(id));
+	}
+	
+	@GetMapping("/admin/application/detail/{id}")
+	public ResponseEntity<?> detailApplicationApplicant(@PathVariable String id) throws ErrorException {
+		try {
+			valIdExist(id);
+			Application appl = applService.findById(id);
+			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
+			if(applStateChangeService.findByApplicantNotViewed(appl.getId())!=null) {
+				applStateChange.setState(applStateService.findByStateName("Viewed"));
+				applStateChangeService.update(applStateChange);
+			}
+			applStateChange = applStateChangeService.findByBk(appl.getId());
+			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+	
+	@GetMapping("/admin/application")
 	public ResponseEntity<?> getAll()  throws ErrorException{
 		return ResponseEntity.ok(applService.findAll());
 	}
 	
-	@GetMapping("/application/count/{id}")
+	@GetMapping("/admin/application/count/{id}")
 	public ResponseEntity<?> countApplicationByJobPosting(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(applService.countApplicationByJobPosting(id));
+		try {
+			return ResponseEntity.ok(applService.countApplicationByJobPosting(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
+	}
+	
+	@GetMapping("/apl/application/schedule/{id}")
+	public ResponseEntity<?> findApplicationInterview(@PathVariable String id) throws ErrorException {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(interviewTestScheduleService.findScheduleByApplication(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 

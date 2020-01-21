@@ -33,5 +33,9 @@ public class InterviewTestScheduleService {
 	public InterviewTestSchedule findScheduleByApplication(String id) throws ErrorException {
 		return scheduleDao.findScheduleByApplication(id);
 	}
+	
+	public Long countSchedule() {
+		return scheduleDao.countSchedule();
+	}
 }
 

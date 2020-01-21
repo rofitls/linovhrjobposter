@@ -31,6 +31,7 @@ public class RoleController {
 			valBkNotNull(role);
 			valBkNotExist(role);
 			valNonBk(role);
+			role.setActiveState(true);
 			roleService.insert(role);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

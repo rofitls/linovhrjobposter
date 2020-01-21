@@ -36,6 +36,8 @@ public class JobRequirementController {
 			valBkNotNull(jreq);
 			valBkNotExist(jreq);
 			valNonBk(jreq);
+			Integer count = jobRequirementService.countJobRequirement().intValue();
+			jreq.setJobRequirementCode("JREQ-"+count);
 			jobRequirementService.insert(jreq);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

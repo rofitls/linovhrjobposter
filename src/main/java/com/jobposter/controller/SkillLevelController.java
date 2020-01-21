@@ -31,6 +31,7 @@ public class SkillLevelController {
 			valBkNotNull(sl);
 			valBkNotExist(sl);
 			valNonBk(sl);
+			sl.setActiveState(true);
 			skillLevelService.insert(sl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

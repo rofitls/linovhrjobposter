@@ -71,7 +71,7 @@ a, a:hover {
 			<!-- Image text color should be opposite to background color. Set your url, image src, alt and title. Alt text should fit the image size. Real image size should be x2. URL format: http://domain.com/?utm_source={{Campaign-Source}}&utm_medium=email&utm_content=logo&utm_campaign={{Campaign-Name}} -->
 			<a target="_blank" style="text-decoration: none;"
 				href="https://github.com/konsav/email-templates/"><img border="0" vspace="0" hspace="0"
-				src="https://raw.githubusercontent.com/konsav/email-templates/master/images/logo-white.png"
+				src="https://github.com/rofitls/linovhrjobposter/tree/master/src/main/resources/templates/lwcn-logo.png"
 				width="100" height="30"
 				alt="Logo" title="Logo" style="
 				color: #000000;

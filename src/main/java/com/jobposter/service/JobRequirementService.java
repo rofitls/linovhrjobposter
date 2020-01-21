@@ -45,4 +45,8 @@ public class JobRequirementService {
 	public List<JobRequirement> findRequirementByJobPosting(String id) throws ErrorException {
 		return jobRequirementDao.findRequirementByJobPosting(id);
 	}
+	
+	public Long countJobRequirement() {
+		return jobRequirementDao.countJobRequirement();
+	}
 }

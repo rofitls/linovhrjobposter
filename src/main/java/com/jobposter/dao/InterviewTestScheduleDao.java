@@ -59,4 +59,18 @@ public class InterviewTestScheduleDao extends CommonDao {
 		else
 			return (InterviewTestSchedule)list.get(0);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Long countSchedule() {
+		StringBuilder query = new StringBuilder();
+		query.append("select count(schedule) from InterviewTestSchedule schedule");
+		List<Long> list = super.entityManager
+				.createQuery(query.toString())
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (Long)list.get(0);
+	}
 }

@@ -31,6 +31,7 @@ public class JobLevelController {
 			valBkNotNull(jl);
 			valBkNotExist(jl);
 			valNonBk(jl);
+			jl.setActiveState(true);
 			jobLevelService.insert(jl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

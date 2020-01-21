@@ -19,7 +19,7 @@ import com.jobposter.service.ApplicantProjectService;
 import com.jobposter.service.UserService;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/apl")
 @CrossOrigin("*")
 public class ApplicantProjectController {
 	

@@ -31,6 +31,7 @@ public class JobCategoryController {
 			valBkNotNull(jc);
 			valBkNotExist(jc);
 			valNonBk(jc);
+			jc.setActiveState(true);
 			jobCategoryService.insert(jc);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

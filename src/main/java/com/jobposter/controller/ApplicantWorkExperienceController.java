@@ -21,7 +21,7 @@ import com.jobposter.service.JobLevelService;
 import com.jobposter.service.UserService;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/apl")
 @CrossOrigin("*")
 public class ApplicantWorkExperienceController {
 	

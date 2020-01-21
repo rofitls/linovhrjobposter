@@ -31,6 +31,7 @@ public class EducationLevelController {
 			valBkNotNull(el);
 			valBkNotExist(el);
 			valNonBk(el);
+			el.setActiveState(true);
 			educationLevelService.insert(el);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

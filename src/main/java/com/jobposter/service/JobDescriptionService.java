@@ -45,4 +45,8 @@ public class JobDescriptionService {
 	public List<JobDescription> findDescriptionByJobPosting(String id) throws ErrorException {
 		return jobDescriptionDao.findDescriptionByJobPosting(id);
 	}
+	
+	public Long countJobDescription() {
+		return jobDescriptionDao.countJobDescription();
+	}
 }
