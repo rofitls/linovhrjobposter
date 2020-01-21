@@ -41,4 +41,8 @@ public class JobDescriptionService {
 		List<JobDescription> jdesc = jobDescriptionDao.findAll();
 		return jdesc;
 	}
+	
+	public List<JobDescription> findDescriptionByJobPosting(String id) throws ErrorException {
+		return jobDescriptionDao.findDescriptionByJobPosting(id);
+	}
 }

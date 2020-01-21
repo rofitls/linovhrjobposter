@@ -79,6 +79,11 @@ public class JobRequirementController {
 		return ResponseEntity.ok(jobRequirementService.findAll());
 	}
 	
+	@GetMapping("/job-requirement/list/{id}")
+	public ResponseEntity<?> getRequirementByJobPosting(@PathVariable String id) throws ErrorException {
+		return ResponseEntity.ok(jobRequirementService.findRequirementByJobPosting(id));
+	}
+	
 	private Exception valIdNull(JobRequirement jreq) throws Exception {
 		if(jreq.getId()!=null) {
 			throw new Exception("Insert Failed");

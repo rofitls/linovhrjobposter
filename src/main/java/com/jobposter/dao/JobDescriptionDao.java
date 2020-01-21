@@ -60,5 +60,17 @@ public class JobDescriptionDao extends CommonDao {
 			return (JobDescription)list.get(0);
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<JobDescription> findDescriptionByJobPosting(String id){
+		List<JobDescription> list = super.entityManager
+				.createQuery("from JobDescription where jobPosting.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<JobDescription>)list;
+	}
 	
 }

@@ -59,4 +59,17 @@ public class JobRequirementDao extends CommonDao {
 		else
 			return (JobRequirement)list.get(0);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<JobRequirement> findRequirementByJobPosting(String id){
+		List<JobRequirement> list = super.entityManager
+				.createQuery("from JobRequirement where jobPosting.id =: id")
+				.setParameter("id", "id")
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<JobRequirement>)list;
+	}
 }

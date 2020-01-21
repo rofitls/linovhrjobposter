@@ -41,4 +41,8 @@ public class JobRequirementService {
 		List<JobRequirement> jreq = jobRequirementDao.findAll();
 		return jreq;
 	}
+	
+	public List<JobRequirement> findRequirementByJobPosting(String id) throws ErrorException {
+		return jobRequirementDao.findRequirementByJobPosting(id);
+	}
 }

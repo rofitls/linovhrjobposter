@@ -79,6 +79,11 @@ public class JobDescriptionController {
 		return ResponseEntity.ok(jobDescriptionService.findAll());
 	}
 	
+	@GetMapping("/job-description/list/{id}")
+	public ResponseEntity<?> getDescriptionByJobPosting(@PathVariable String id) throws ErrorException {
+		return ResponseEntity.ok(jobDescriptionService.findDescriptionByJobPosting(id));
+	}
+	
 	private Exception valIdNull(JobDescription jdesc) throws Exception {
 		if(jdesc.getId()!=null) {
 			throw new Exception("Insert Failed");
