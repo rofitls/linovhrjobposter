@@ -228,6 +228,11 @@ public class ApplicationController {
 		return ResponseEntity.ok(applService.findAll());
 	}
 	
+	@GetMapping("/application/count")
+	public ResponseEntity<?> countApplicationByJobPosting(@PathVariable String id) throws ErrorException {
+		return ResponseEntity.ok(applService.countApplicationByJobPosting(id));
+	}
+	
 
 	private Exception valIdNull(Application appl) throws Exception {
 		if(appl.getId()!=null) {

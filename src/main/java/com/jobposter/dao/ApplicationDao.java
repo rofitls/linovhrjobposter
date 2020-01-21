@@ -73,5 +73,21 @@ public class ApplicationDao extends CommonDao {
 		else
 			return (Application)list.get(0);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Long countApplicationByJobPosting(String id) {
+		StringBuilder query = new StringBuilder();
+		query.append("select count(ap) from Application ap where ap.jobPosting.id =: id");
+		List<Long> list = super.entityManager
+				.createQuery(query.toString())
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (Long)list.get(0);
+				
+	}
 
 }

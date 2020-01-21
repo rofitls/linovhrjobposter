@@ -45,4 +45,8 @@ public class ApplicationService {
 	public Application findAppByApplicant(String id) throws ErrorException {
 		return applDao.findAppByApplicant(id);
 	}
+	
+	public Long countApplicationByJobPosting(String id) throws ErrorException {
+		return applDao.countApplicationByJobPosting(id);
+	}
 }
