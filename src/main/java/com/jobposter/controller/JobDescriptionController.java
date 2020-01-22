@@ -32,8 +32,7 @@ public class JobDescriptionController {
 	@PostMapping("/job-description")
 	public ResponseEntity<?> insert(@RequestBody JobDescription jdesc) throws ErrorException{
 		try {
-			Integer count = jobDescriptionService.countJobDescription().intValue();
-			jdesc.setJobDescriptionCode("JDESC-"+count);
+			jdesc.setJobDescriptionCode("jdesc"+jdesc.getId());
 			valIdNull(jdesc);
 			valBkNotNull(jdesc);
 			valBkNotExist(jdesc);

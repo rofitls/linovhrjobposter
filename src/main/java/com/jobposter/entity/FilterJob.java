@@ -2,22 +2,22 @@ package com.jobposter.entity;
 
 public class FilterJob {
 
-	private String cityName;
-	private String jobPositionName;
+	private String provinceName;
+	private String jobCategoryName;
 	private Double salaryMin;
 	private Double salaryMax;
 	
-	public String getCityName() {
-		return cityName;
+	public String getProvinceName() {
+		return provinceName;
 	}
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
 	}
-	public String getJobPositionName() {
-		return jobPositionName;
+	public String getJobCategoryName() {
+		return jobCategoryName;
 	}
-	public void setJobPositionName(String jobPositionName) {
-		this.jobPositionName = jobPositionName;
+	public void setJobCategoryName(String jobCategoryName) {
+		this.jobCategoryName = jobCategoryName;
 	}
 	public Double getSalaryMin() {
 		return salaryMin;

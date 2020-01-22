@@ -73,18 +73,4 @@ public class JobDescriptionDao extends CommonDao {
 			return (List<JobDescription>)list;
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public Long countJobDescription() {
-		StringBuilder query = new StringBuilder();
-		query.append("select count(jd) from JobDescription jd");
-		List<Long> list = super.entityManager
-				.createQuery(query.toString())
-				.getResultList();
-		if(list.size()==0)
-			return null;
-		else
-			return (Long)list.get(0);
-	}
-	
 }

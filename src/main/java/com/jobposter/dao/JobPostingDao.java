@@ -84,16 +84,16 @@ public class JobPostingDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<JobPostingPojo> filterJob(String city, String jobPosition, Double salaryMin, Double salaryMax){
+	public List<JobPostingPojo> filterJob(String province, String jobCategory, Double salaryMin, Double salaryMax){
 		
 		StringBuilder query = new StringBuilder();
 		//query.append("select jp.salary, jp.startDate, jp.endDate, jp.city.cityName, jp.jobPosition.jobPositionName from JobPosting jp where 1=1");
 		query.append("from JobPosting jp where 1=1");
-		if(city != null) {
-			query.append(" and lower(jp.city.cityName) like : field1");
+		if(province != null) {
+			query.append(" and lower(jp.city.province.provinceName) like : field1");
 		}
-		if(jobPosition != null) {
-			query.append(" and lower (jp.jobPosition.jobPositionName) like : field2");
+		if(jobCategory != null) {
+			query.append(" and lower (jp.jobPosition.jobCategory.jobCategoryName) like : field2");
 		}
 		if(salaryMin != null) {
 			query.append(" and salary >= field3");
@@ -105,11 +105,11 @@ public class JobPostingDao extends CommonDao {
 		
 		Query queryExecuted = super.entityManager.createQuery(query.toString());
 		
-		if(city != null) {
-			queryExecuted.setParameter("field1", "%" + city.toLowerCase() + "%");
+		if(province != null) {
+			queryExecuted.setParameter("field1", "%" + province.toLowerCase() + "%");
 		}
-		if(jobPosition != null) {
-			queryExecuted.setParameter("field2", "%" + jobPosition.toLowerCase() + "%");
+		if(jobCategory != null) {
+			queryExecuted.setParameter("field2", "%" + jobCategory.toLowerCase() + "%");
 		}
 		if(salaryMin != null) {
 			queryExecuted.setParameter("field3", salaryMin);

@@ -119,7 +119,7 @@ public class JobPostingController {
 		}
 	}
 	
-	@GetMapping("/apl/job-posting")
+	@PostMapping("/apl/job-posting")
 	public ResponseEntity<?> getAll()  throws ErrorException{
 		return ResponseEntity.ok(jobPostingService.findAll());
 	}
@@ -127,7 +127,7 @@ public class JobPostingController {
 	@GetMapping("/apl/job-posting/filter")
 	public ResponseEntity<?> filterJob(@RequestBody FilterJob filter) throws ErrorException {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(jobPostingService.filterJob(filter.getCityName(), filter.getJobPositionName(),filter.getSalaryMin(),filter.getSalaryMax()));
+			return ResponseEntity.status(HttpStatus.OK).body(jobPostingService.filterJob(filter.getProvinceName(), filter.getJobCategoryName(),filter.getSalaryMin(),filter.getSalaryMax()));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}

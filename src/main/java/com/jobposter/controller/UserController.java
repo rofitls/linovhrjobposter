@@ -1,7 +1,9 @@
 package com.jobposter.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -121,7 +123,6 @@ public class UserController {
 		      .limit(targetStringLength)
 		      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 		      .toString();
-		    
 		    appl.setFirstName(reg.getFirstName());
 		    appl.setLastName(reg.getLastName());
 		    appl.setUsername(reg.getEmail());
@@ -259,8 +260,6 @@ public class UserController {
 	private Exception valBkNotExist (Users user) throws Exception{
 		if(userService.findByBk(user.getUsername(), user.getPhone())!=null) {
 			throw new Exception("User already exists");
-		}else if(cityService.findById(user.getCity().getId())== null || cityService.findById(user.getCity().getId()).isActiveState()==false) {
-			throw new Exception("City doesn't exists");
 		}else if(roleService.findById(user.getRole().getId())==null || roleService.findById(user.getRole().getId()).isActiveState()==false) {
 			throw new Exception("Role doesn't exists");
 		}
