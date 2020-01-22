@@ -32,12 +32,12 @@ public class JobRequirementController {
 	@PostMapping("/job-requirement")
 	public ResponseEntity<?> insert(@RequestBody JobRequirement jreq) throws ErrorException{
 		try {
+			Integer count = jobRequirementService.countJobRequirement().intValue();
+			jreq.setJobRequirementCode("JREQ-"+count);
 			valIdNull(jreq);
 			valBkNotNull(jreq);
 			valBkNotExist(jreq);
 			valNonBk(jreq);
-			Integer count = jobRequirementService.countJobRequirement().intValue();
-			jreq.setJobRequirementCode("JREQ-"+count);
 			jobRequirementService.insert(jreq);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

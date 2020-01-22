@@ -275,7 +275,7 @@ public class UserController {
 	}
 	
 	private Exception valNonBk(Users user) throws Exception {
-		if(user.getFirstName() == null || user.getLastName() == null || user.getDateOfBirthday()==null || user.getGender() == null) {
+		if(user.getFirstName() == null || user.getLastName() == null || user.getDateOfBirthday()==null) {
 			throw new Exception("Please fill in the blanks");
 		}
 		return null;
