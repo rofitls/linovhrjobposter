@@ -96,10 +96,10 @@ public class JobPostingDao extends CommonDao {
 			query.append(" and lower (jp.jobPosition.jobCategory.jobCategoryName) like : field2");
 		}
 		if(salaryMin != null) {
-			query.append(" and jp.salary >= field3");
+			query.append(" and jp.salary >= : field3");
 		}
 		if(salaryMax != null) {
-			query.append(" and jp.salary <= field4");
+			query.append(" and jp.salary <= : field4");
 		}
 		
 		
