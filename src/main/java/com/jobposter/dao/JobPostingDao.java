@@ -84,7 +84,7 @@ public class JobPostingDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<JobPostingPojo> filterJob(String province, String jobCategory, Double salaryMin, Double salaryMax){
+	public List<JobPosting> filterJob(String province, String jobCategory, Double salaryMin, Double salaryMax){
 		
 		StringBuilder query = new StringBuilder();
 		//query.append("select jp.salary, jp.startDate, jp.endDate, jp.city.cityName, jp.jobPosition.jobPositionName from JobPosting jp where 1=1");
@@ -119,23 +119,23 @@ public class JobPostingDao extends CommonDao {
 		}
 		
 		List<JobPosting> list = queryExecuted.getResultList();
-		List<JobPostingPojo> jPostPojoList = new ArrayList<JobPostingPojo>();
-		for(JobPosting jp : list) {
-			JobPostingPojo jPostPojo = new JobPostingPojo();
-			jPostPojo.setId(jp.getId());
-			jPostPojo.setCityName(jp.getCity().getCityName());
-			jPostPojo.setSalary(jp.getSalary());
-			jPostPojo.setUsername(jp.getUser().getUsername());
-			jPostPojo.setStartDate(jp.getStartDate());
-			jPostPojo.setEndDate(jp.getEndDate());
-			jPostPojo.setJobTitleName(jp.getJobTitleName());
-			jPostPojo.setJobPosition(jp.getJobPosition().getJobPositionName());
-			jPostPojoList.add(jPostPojo);
-		}
-		if(jPostPojoList.size()==0)
+//		List<JobPostingPojo> jPostPojoList = new ArrayList<JobPostingPojo>();
+//		for(JobPosting jp : list) {
+//			JobPostingPojo jPostPojo = new JobPostingPojo();
+//			jPostPojo.setId(jp.getId());
+//			jPostPojo.setCityName(jp.getCity().getCityName());
+//			jPostPojo.setSalary(jp.getSalary());
+//			jPostPojo.setUsername(jp.getUser().getUsername());
+//			jPostPojo.setStartDate(jp.getStartDate());
+//			jPostPojo.setEndDate(jp.getEndDate());
+//			jPostPojo.setJobTitleName(jp.getJobTitleName());
+//			jPostPojo.setJobPosition(jp.getJobPosition().getJobPositionName());
+//			jPostPojoList.add(jPostPojo);
+//		}
+		if(list.size()==0)
 			return null;
 		else
-			return (List<JobPostingPojo>)jPostPojoList;
+			return (List<JobPosting>)list;
 	}
 
 }

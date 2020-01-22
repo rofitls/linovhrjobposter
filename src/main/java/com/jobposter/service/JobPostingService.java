@@ -48,8 +48,8 @@ public class JobPostingService {
 		return jpost;
 	}
 	
-	public List<JobPostingPojo> filterJob(String city, String jobPosition, Double salaryMin, Double salaryMax) throws ErrorException {
-		List<JobPostingPojo> jpost = jobPostingDao.filterJob(city, jobPosition, salaryMin, salaryMax);
+	public List<JobPosting> filterJob(String city, String jobPosition, Double salaryMin, Double salaryMax) throws ErrorException {
+		List<JobPosting> jpost = jobPostingDao.filterJob(city, jobPosition, salaryMin, salaryMax);
 		return jpost;
 	}
 
