@@ -82,7 +82,7 @@ public class ApplicantProjectController {
 	@GetMapping("/apl-proj/list/{id}")
 	public ResponseEntity<?> getApplicantProjectByApplicant(String id) throws ErrorException {
 		try {
-			return ResponseEntity.ok(applService.findAPUser(id));
+			return ResponseEntity.status(HttpStatus.OK).body(applService.findAPUser(id));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}

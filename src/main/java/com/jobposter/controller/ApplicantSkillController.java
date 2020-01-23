@@ -86,7 +86,7 @@ public class ApplicantSkillController {
 	@GetMapping("/apl-skill/list/{id}")
 	public ResponseEntity<?> getApplicantSkillByApplicant(String id) throws ErrorException {
 		try {
-			return ResponseEntity.ok(applService.findASUser(id));
+			return ResponseEntity.status(HttpStatus.OK).body(applService.findASUser(id));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}

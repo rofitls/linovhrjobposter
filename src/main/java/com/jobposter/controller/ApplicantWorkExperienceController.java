@@ -90,7 +90,7 @@ public class ApplicantWorkExperienceController {
 	@GetMapping("/apl-work-exp/list/{id}")
 	public ResponseEntity<?> getApplicantWorkExperienceByApplicant(String id) throws ErrorException {
 		try {
-			return ResponseEntity.ok(applService.findAWEUser(id));
+			return ResponseEntity.status(HttpStatus.OK).body(applService.findAWEUser(id));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}
