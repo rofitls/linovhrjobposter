@@ -51,7 +51,7 @@ public class ApplicantSkillDao extends CommonDao {
 	@Transactional
 	public List<ApplicantSkill> findASUser(String id){
 		List<ApplicantSkill> list = super.entityManager
-				.createQuery("from ApplicantSkill asu where asu.user.id =: id")
+				.createQuery("from ApplicantSkill where user.id =: id")
 				.setParameter("id", id)
 				.getResultList();
 		if(list.size()==0)
