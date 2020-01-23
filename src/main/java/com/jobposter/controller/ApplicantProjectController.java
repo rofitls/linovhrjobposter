@@ -79,6 +79,15 @@ public class ApplicantProjectController {
 		return ResponseEntity.ok(applService.findAll());
 	}
 	
+	@GetMapping("/apl-proj/list/{id}")
+	public ResponseEntity<?> getApplicantProjectByApplicant(String id) throws ErrorException {
+		try {
+			return ResponseEntity.ok(applService.findAPUser(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+		}
+	}
+	
 	private Exception valIdNull(ApplicantProject appl) throws Exception {
 		if(appl.getId()!=null) {
 			throw new Exception("Insert Failed");

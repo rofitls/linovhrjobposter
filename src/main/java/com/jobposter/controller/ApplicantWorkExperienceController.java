@@ -87,6 +87,14 @@ public class ApplicantWorkExperienceController {
 		return ResponseEntity.ok(applService.findAll());
 	}
 	
+	@GetMapping("/apl-work-exp/list/{id}")
+	public ResponseEntity<?> getApplicantWorkExperienceByApplicant(String id) throws ErrorException {
+		try {
+			return ResponseEntity.ok(applService.findAWEUser(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+		}
+	}
 
 	private Exception valIdNull(ApplicantWorkExperience appl) throws Exception {
 		if(appl.getId()!=null) {

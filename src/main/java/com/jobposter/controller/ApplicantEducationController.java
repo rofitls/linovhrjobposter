@@ -83,6 +83,15 @@ public class ApplicantEducationController {
 		return ResponseEntity.ok(applService.findAll());
 	}
 	
+	@GetMapping("/apl-edu/list/{id}")
+	public ResponseEntity<?> getApplicantEduByApplicant(String id) throws ErrorException {
+		try {
+			return ResponseEntity.ok(applService.findAEUser(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+		}
+	}
+	
 	private Exception valIdNull(ApplicantEducation appl) throws Exception {
 		if(appl.getId()!=null) {
 			throw new Exception("Insert Failed");
