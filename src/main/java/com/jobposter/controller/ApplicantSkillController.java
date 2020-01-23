@@ -77,6 +77,7 @@ public class ApplicantSkillController {
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
+			System.out.println(applService.findById(id));
 			return ResponseEntity.status(HttpStatus.OK).body(applService.findById(id));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
@@ -91,6 +92,7 @@ public class ApplicantSkillController {
 	@GetMapping("/apl-skill/list/{id}")
 	public ResponseEntity<?> getApplicantSkillByApplicant(String id) throws ErrorException {
 		try {
+			System.out.println(applService.findASUser(id));
 			return ResponseEntity.status(HttpStatus.OK).body(applService.findASUser(id));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
