@@ -84,7 +84,7 @@ public class ApplicantEducationController {
 	}
 	
 	@GetMapping("/apl-edu/list/{id}")
-	public ResponseEntity<?> getApplicantEduByApplicant(String id) throws ErrorException {
+	public ResponseEntity<?> getApplicantEduByApplicant(@PathVariable String id) throws ErrorException {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(applService.findAEUser(id));
 		}catch(Exception e) {

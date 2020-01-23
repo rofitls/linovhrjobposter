@@ -88,7 +88,7 @@ public class ApplicantWorkExperienceController {
 	}
 	
 	@GetMapping("/apl-work-exp/list/{id}")
-	public ResponseEntity<?> getApplicantWorkExperienceByApplicant(String id) throws ErrorException {
+	public ResponseEntity<?> getApplicantWorkExperienceByApplicant(@PathVariable String id) throws ErrorException {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(applService.findAWEUser(id));
 		}catch(Exception e) {

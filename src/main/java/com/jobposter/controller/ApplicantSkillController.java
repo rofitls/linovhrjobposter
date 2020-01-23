@@ -89,7 +89,7 @@ public class ApplicantSkillController {
 	}
 	
 	@GetMapping("/apl-skill/list/{id}")
-	public ResponseEntity<?> getApplicantSkillByApplicant(String id) throws ErrorException {
+	public ResponseEntity<?> getApplicantSkillByApplicant(@PathVariable String id) throws ErrorException {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(applService.findASUser(id));
 		}catch(Exception e) {
