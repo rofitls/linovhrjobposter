@@ -17,8 +17,7 @@ public class ApplicantEducationDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		ApplicantEducation appl = findById(id);
+	public void delete(ApplicantEducation appl) {
 		super.entityManager.remove(appl);
 	}
 	

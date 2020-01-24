@@ -66,9 +66,9 @@ public class ApplicantEducationController {
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			applService.delete(id);
-			Object obj = "Berhasil Delete";
-			return ResponseEntity.ok(obj);
+			ApplicantEducation appl = applService.findById(id);
+			applService.delete(appl);
+			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}

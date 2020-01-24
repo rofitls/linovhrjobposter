@@ -28,8 +28,8 @@ public class ApplicantEducationService {
 		applEducationDao.save(appl);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		applEducationDao.delete(id);
+	public void delete(ApplicantEducation appl) throws ErrorException{
+		applEducationDao.delete(appl);
 	}
 	
 	public ApplicantEducation findByBk(String Bk1, String Bk2, String Bk3)  throws ErrorException{
