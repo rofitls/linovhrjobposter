@@ -41,4 +41,8 @@ public class RoleService {
 		List<Role> role = roleDao.findAll();
 		return role;
 	}
+	
+	public Role findByName(String name) throws ErrorException {
+		return roleDao.findByName(name);
+	}
 }

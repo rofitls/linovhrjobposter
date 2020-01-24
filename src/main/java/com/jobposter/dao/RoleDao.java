@@ -60,5 +60,18 @@ public class RoleDao extends CommonDao {
 		else
 			return (Role)list.get(0);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Role findByName(String name) {
+		List<Role> list = super.entityManager
+				.createQuery("from Role where roleName =: name")
+				.setParameter("name", name)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (Role)list.get(0);
+	}
 
 }

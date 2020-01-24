@@ -82,6 +82,15 @@ public class RoleController {
 		return ResponseEntity.ok(roleService.findAll());
 	}
 	
+	@GetMapping("/role/name/{name}")
+	public ResponseEntity<?> getByName(@PathVariable String name) throws ErrorException {
+		try {
+			return ResponseEntity.ok(roleService.findByName(name));
+		}catch(Exception e ) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}	
+	}
+	
 	private Exception valIdNull(Role role) throws Exception {
 		if(role.getId()!=null) {
 			throw new Exception("Register Failed");

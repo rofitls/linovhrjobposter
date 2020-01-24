@@ -83,6 +83,40 @@ public class JobPostingDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public Long reportUploadJobPerRecruiter(String id, String month, String year) {
+		StringBuilder query = new StringBuilder();
+		query.append("select count(jp) from JobPosting jp where jp.user.id =: id");
+		if(month != null) {
+			query.append(" group by month(jp.)");
+		}
+		if(year != null) {
+			query.append(" ");
+		}
+		
+		Query queryExecuted = super.entityManager.createQuery(query.toString());
+		
+		queryExecuted.setParameter("id", id);
+		if(month != null) {
+			queryExecuted.setParameter("month", month);
+		}
+		if(year != null) {
+			queryExecuted.setParameter("year", year);
+		}
+				
+		List<Long> list = queryExecuted.getResultList();
+		
+		if(month == null && year == null) {
+			return null;
+		}else if(list.size() == 0) {
+			return null;
+		}else {
+			return (Long)list.get(0);
+		}
+				
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<JobPosting> filterJob(String province, String jobCategory, Double salaryMin, Double salaryMax){
 		
 		StringBuilder query = new StringBuilder();
