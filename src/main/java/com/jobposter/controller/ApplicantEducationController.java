@@ -67,7 +67,8 @@ public class ApplicantEducationController {
 		try {
 			valIdExist(id);
 			applService.delete(id);
-			return ResponseEntity.ok("Berhasil Delete");
+			Object obj = "Berhasil Delete";
+			return ResponseEntity.ok(obj);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
