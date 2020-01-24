@@ -26,8 +26,8 @@ public class InterviewTestScheduleService {
 		scheduleDao.save(schedule);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		scheduleDao.delete(id);
+	public void delete(InterviewTestSchedule schedule) throws ErrorException{
+		scheduleDao.delete(schedule);
 	}
 	
 	public InterviewTestSchedule findScheduleByApplication(String id) throws ErrorException {

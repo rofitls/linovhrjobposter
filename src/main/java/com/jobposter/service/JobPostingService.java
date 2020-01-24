@@ -30,8 +30,8 @@ public class JobPostingService {
 		jobPostingDao.save(jpost);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		jobPostingDao.delete(id);
+	public void delete(JobPosting jpost) throws ErrorException{
+		jobPostingDao.delete(jpost);
 	}
 	
 	public JobPosting findByBk(String Bk1, String Bk2, String Bk3, Date Bk4, Date Bk5)  throws ErrorException {

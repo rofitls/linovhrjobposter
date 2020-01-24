@@ -38,8 +38,8 @@ public class UserService implements UserDetailsService {
 		userDao.save(user);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		userDao.delete(id);
+	public void delete(Users user) throws ErrorException{
+		userDao.delete(user);
 	}
 	
 	public Users findByBk(String username, String phone)  throws ErrorException {

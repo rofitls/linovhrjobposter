@@ -36,7 +36,7 @@ public class JobLevelController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(jl);
 	}
 	
 	@PutMapping("/job-level")
@@ -51,7 +51,7 @@ public class JobLevelController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(jl);
 	}
 	
 	@PutMapping("/job-level/{id}")
@@ -61,10 +61,11 @@ public class JobLevelController {
 			JobLevel jl = jobLevelService.findById(id);
 			jl.setActiveState(false);
 			jobLevelService.update(jl);
+			return ResponseEntity.ok(jl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/job-level/id/{id}")

@@ -17,8 +17,7 @@ public class DocumentTypeDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		DocumentType dt = findById(id);
+	public void delete(DocumentType dt) {
 		super.entityManager.remove(dt);
 	}
 	

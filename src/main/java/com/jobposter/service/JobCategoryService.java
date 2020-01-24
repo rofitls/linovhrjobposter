@@ -28,8 +28,8 @@ public class JobCategoryService {
 		jobCategoryDao.save(jc);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		jobCategoryDao.delete(id);
+	public void delete(JobCategory jc) throws ErrorException{
+		jobCategoryDao.delete(jc);
 	}
 	
 	public JobCategory findByBk(String Bk) throws ErrorException {

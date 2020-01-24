@@ -16,8 +16,7 @@ public class JobQuotaDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		JobQuota jq = findById(id);
+	public void delete(JobQuota jq) {
 		super.entityManager.remove(jq);
 	}
 	

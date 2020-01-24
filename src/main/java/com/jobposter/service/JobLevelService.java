@@ -28,8 +28,8 @@ public class JobLevelService {
 		jobLevelDao.save(jl);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		jobLevelDao.delete(id);
+	public void delete(JobLevel jl) throws ErrorException{
+		jobLevelDao.delete(jl);
 	}
 	
 	public JobLevel findByBk(String Bk)  throws ErrorException {

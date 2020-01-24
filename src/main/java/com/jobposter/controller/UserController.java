@@ -77,7 +77,7 @@ public class UserController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(appl);
 	}
 	
 	@PostMapping("/user/login")
@@ -143,7 +143,7 @@ public class UserController {
 			valNonBk(appl);
 		    userService.insert(appl);
 		    emailService.sendEmail(mail);
-			return ResponseEntity.status(HttpStatus.OK).body("Berhasil register");
+			return ResponseEntity.status(HttpStatus.OK).body(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -162,18 +162,20 @@ public class UserController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(appl);
 	}
 	
 	@DeleteMapping("/user/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			userService.delete(id);
+			Users user = userService.findById(id);
+			userService.delete(user);
+			return ResponseEntity.ok(user);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/user/id/{id}")
@@ -193,7 +195,7 @@ public class UserController {
 			user.setImage(upload[0].getBytes());
 			user.setImageType(upload[0].getContentType());
 			userService.insert(user);
-			return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -211,7 +213,7 @@ public class UserController {
 			doc.setDocType(dt);
 			doc.setUser(user);
 			documentService.insert(doc);
-			return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+			return ResponseEntity.status(HttpStatus.OK).body(doc);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}

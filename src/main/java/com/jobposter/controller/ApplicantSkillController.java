@@ -44,7 +44,7 @@ public class ApplicantSkillController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(appl);
 	}
 	
 	@PutMapping("/apl-skill")
@@ -59,18 +59,19 @@ public class ApplicantSkillController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(appl);
 	}
 	
 	@DeleteMapping("/apl-skill/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			applService.delete(id);
+			ApplicantSkill appl = applService.findById(id);
+			applService.delete(appl);
+			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
 	}
 	
 	@GetMapping("/apl-skill/id/{id}")

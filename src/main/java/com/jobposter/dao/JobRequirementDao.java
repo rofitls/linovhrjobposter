@@ -17,8 +17,7 @@ public class JobRequirementDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		JobRequirement jreq = findById(id);
+	public void delete(JobRequirement jreq) {
 		super.entityManager.remove(jreq);
 	}
 	

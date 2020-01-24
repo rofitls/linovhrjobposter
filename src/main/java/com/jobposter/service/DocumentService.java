@@ -28,8 +28,8 @@ public class DocumentService {
 		documentDao.save(doc);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		documentDao.delete(id);
+	public void delete(Document doc) throws ErrorException{
+		documentDao.delete(doc);
 	}
 	
 	public Document findByBk(String Bk1, String Bk2) throws ErrorException {

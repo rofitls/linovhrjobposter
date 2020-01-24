@@ -40,7 +40,7 @@ public class DocumentController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(doc);
 	}
 	
 	@PutMapping("/docs")
@@ -55,18 +55,20 @@ public class DocumentController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(doc);
 	}
 	
 	@DeleteMapping("/docs/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			documentService.delete(id);
+			Document doc = documentService.findById(id);
+			documentService.delete(doc);
+			return ResponseEntity.ok(doc);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/docs/id/{id}")

@@ -28,8 +28,8 @@ public class ApplicantWorkExperienceService {
 		applWorkExpDao.save(appl);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		applWorkExpDao.delete(id);
+	public void delete(ApplicantWorkExperience appl) throws ErrorException{
+		applWorkExpDao.delete(appl);
 	}
 	
 	public ApplicantWorkExperience findByBk(String Bk1, String Bk2, String Bk3, String Bk4) throws ErrorException {

@@ -17,8 +17,7 @@ public class JobCategoryDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		JobCategory jc = findById(id);
+	public void delete(JobCategory jc) {
 		super.entityManager.remove(jc);
 	}
 	

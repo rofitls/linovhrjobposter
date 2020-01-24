@@ -17,8 +17,7 @@ public class SkillLevelDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		SkillLevel sl = findById(id);
+	public void delete(SkillLevel sl) {
 		super.entityManager.remove(sl);
 	}
 	

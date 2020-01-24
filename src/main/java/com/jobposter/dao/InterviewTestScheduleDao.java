@@ -17,8 +17,7 @@ public class InterviewTestScheduleDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		InterviewTestSchedule schedule = findById(id);
+	public void delete(InterviewTestSchedule schedule) {
 		super.entityManager.remove(schedule);
 	}
 	

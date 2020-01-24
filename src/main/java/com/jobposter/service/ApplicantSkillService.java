@@ -28,8 +28,8 @@ public class ApplicantSkillService {
 		applSkillDao.save(appl);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		applSkillDao.delete(id);
+	public void delete(ApplicantSkill appl) throws ErrorException{
+		applSkillDao.delete(appl);
 	}
 	
 	public ApplicantSkill findByBk(String Bk1, String Bk2, String Bk3) throws ErrorException {

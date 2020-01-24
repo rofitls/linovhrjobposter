@@ -18,8 +18,7 @@ public class CityDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		City city = findById(id);
+	public void delete(City city) {
 		super.entityManager.remove(city);
 	}
 	

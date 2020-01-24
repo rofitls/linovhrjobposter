@@ -66,10 +66,11 @@ public class JobPostingController {
 			jquota.setJobPosting(jobPosting);
 			jquota.setJobQuota(jPostPojo.getQuota());
 			jobQuotaService.insert(jquota);
+			return ResponseEntity.status(HttpStatus.CREATED).body(jpost);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		
 	}
 	
 	@PutMapping("/admin/job-posting")
@@ -84,18 +85,20 @@ public class JobPostingController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(jpost);
 	}
 	
 	@DeleteMapping("/admin/job-posting/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			jobPostingService.delete(id);
+			JobPosting jpost = jobPostingService.findById(id);
+			jobPostingService.delete(jpost);
+			return ResponseEntity.ok(jpost);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/apl/job-posting/id/{id}")

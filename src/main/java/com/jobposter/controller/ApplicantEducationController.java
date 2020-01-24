@@ -72,7 +72,6 @@ public class ApplicantEducationController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		
 	}
 	
 	@GetMapping("/apl-edu/id/{id}")

@@ -36,7 +36,7 @@ public class RoleController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(role);
 	}
 	
 	@PutMapping("/role")
@@ -51,7 +51,7 @@ public class RoleController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(role);
 	}
 	
 	@PutMapping("/role/{id}")
@@ -61,10 +61,11 @@ public class RoleController {
 			Role role = roleService.findById(id);
 			role.setActiveState(false);
 			roleService.update(role);
+			return ResponseEntity.ok(role);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		
 	}
 	
 	@GetMapping("/role/id/{id}")

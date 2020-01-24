@@ -17,8 +17,7 @@ public class UserDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		Users user = findById(id);
+	public void delete(Users user) {
 		super.entityManager.remove(user);
 	}
 	

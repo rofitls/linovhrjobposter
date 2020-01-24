@@ -28,8 +28,8 @@ public class CityService {
 		cityDao.save(city);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		cityDao.delete(id);
+	public void delete(City city) throws ErrorException{
+		cityDao.delete(city);
 	}
 	
 	public City findByBk(String BK) throws ErrorException {

@@ -28,8 +28,8 @@ public class JobDescriptionService {
 		jobDescriptionDao.save(jdesc);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		jobDescriptionDao.delete(id);
+	public void delete(JobDescription jdesc) throws ErrorException{
+		jobDescriptionDao.delete(jdesc);
 	}
 	
 	public JobDescription findByBk(String Bk) throws ErrorException {

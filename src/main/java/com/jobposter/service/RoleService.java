@@ -28,8 +28,8 @@ public class RoleService {
 		roleDao.save(role);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		roleDao.delete(id);
+	public void delete(Role role) throws ErrorException{
+		roleDao.delete(role);
 	}
 	
 	public Role findByBk(String BK)  throws ErrorException {

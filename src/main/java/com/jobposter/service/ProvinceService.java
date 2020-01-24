@@ -28,8 +28,8 @@ public class ProvinceService {
 		provinceDao.save(province);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		provinceDao.delete(id);
+	public void delete(Province province) throws ErrorException{
+		provinceDao.delete(province);
 	}
 	
 	public Province findByBk(String BK) throws ErrorException {

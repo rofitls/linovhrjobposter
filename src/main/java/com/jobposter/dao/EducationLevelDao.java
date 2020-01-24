@@ -17,8 +17,7 @@ public class EducationLevelDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		EducationLevel el = findById(id);
+	public void delete(EducationLevel el) {
 		super.entityManager.remove(el);
 	}
 	

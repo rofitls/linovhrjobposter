@@ -18,8 +18,7 @@ public class ApplicantWorkExperienceDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		ApplicantWorkExperience appl = findById(id);
+	public void delete(ApplicantWorkExperience appl) {
 		super.entityManager.remove(appl);
 	}
 	

@@ -28,8 +28,8 @@ public class JobRequirementService {
 		jobRequirementDao.save(jreq);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		jobRequirementDao.delete(id);
+	public void delete(JobRequirement jreq) throws ErrorException{
+		jobRequirementDao.delete(jreq);
 	}
 	
 	public JobRequirement findByBk(String Bk)  throws ErrorException {

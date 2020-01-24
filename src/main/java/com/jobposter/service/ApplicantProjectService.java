@@ -28,8 +28,8 @@ public class ApplicantProjectService {
 		applProjectDao.save(appl);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		applProjectDao.delete(id);
+	public void delete(ApplicantProject appl) throws ErrorException{
+		applProjectDao.delete(appl);
 	}
 	
 	public ApplicantProject findByBk(String Bk1, String Bk2, String Bk3)  throws ErrorException {

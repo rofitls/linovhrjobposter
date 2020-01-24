@@ -36,7 +36,7 @@ public class ApplicationStateController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(state);
 	}
 	
 	@PutMapping("/application-state")
@@ -51,7 +51,7 @@ public class ApplicationStateController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(state);
 	}
 	
 	@PutMapping("/application-state/{id}")
@@ -61,10 +61,10 @@ public class ApplicationStateController {
 			ApplicationState state = stateService.findById(id);
 			state.setActiveState(false);
 			stateService.update(state);
+			return ResponseEntity.ok(state);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
 	}
 	
 	@GetMapping("/application-state/id/{id}")

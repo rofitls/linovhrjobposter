@@ -36,7 +36,7 @@ public class JobCategoryController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(jc);
 	}
 	
 	@PutMapping("/job-category")
@@ -51,7 +51,7 @@ public class JobCategoryController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(jc);
 	}
 	
 	@PutMapping("/job-category/{id}")
@@ -61,10 +61,10 @@ public class JobCategoryController {
 			JobCategory jc = jobCategoryService.findById(id);
 			jc.setActiveState(false);
 			jobCategoryService.update(jc);
+			return ResponseEntity.ok(jc);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
 	}
 	
 	@GetMapping("/job-category/id/{id}")

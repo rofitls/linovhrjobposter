@@ -28,8 +28,8 @@ public class JobQuotaService {
 		jobQuotaDao.save(jq);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		jobQuotaDao.delete(id);
+	public void delete(JobQuota jq) throws ErrorException{
+		jobQuotaDao.delete(jq);
 	}
 	
 //	public JobPosting findByBk(String Bk1, String Bk2, String Bk3, Date Bk4, Date Bk5)  throws ErrorException {

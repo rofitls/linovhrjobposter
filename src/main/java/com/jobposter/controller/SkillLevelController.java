@@ -36,7 +36,7 @@ public class SkillLevelController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(sl);
 	}
 	
 	@PutMapping("/skill-level")
@@ -51,7 +51,7 @@ public class SkillLevelController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(sl);
 	}
 	
 	@PutMapping("/skill-level/{id}")
@@ -61,10 +61,11 @@ public class SkillLevelController {
 			SkillLevel sl = skillLevelService.findById(id);
 			sl.setActiveState(false);
 			skillLevelService.update(sl);
+			return ResponseEntity.ok(sl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/skill-level/id/{id}")

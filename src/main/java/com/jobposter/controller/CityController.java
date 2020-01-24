@@ -40,7 +40,7 @@ public class CityController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(city);
 	}
 	
 	@PutMapping("/city")
@@ -55,7 +55,7 @@ public class CityController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(city);
 	}
 	
 	@PutMapping("/city/{id}")
@@ -65,10 +65,11 @@ public class CityController {
 			City city = cityService.findById(id);
 			city.setActiveState(false);
 			cityService.update(city);
+			return ResponseEntity.ok(city);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/city/id/{id}")

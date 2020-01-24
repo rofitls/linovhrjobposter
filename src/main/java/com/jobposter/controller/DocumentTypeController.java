@@ -36,7 +36,7 @@ public class DocumentTypeController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(dt);
 	}
 	
 	@PutMapping("/doc-type")
@@ -51,18 +51,19 @@ public class DocumentTypeController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(dt);
 	}
 	
 	@DeleteMapping("/doc-type/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			documentTypeService.delete(id);
+			DocumentType dt = documentTypeService.findById(id);
+			documentTypeService.delete(dt);
+			return ResponseEntity.ok(dt);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
 	}
 	
 	@GetMapping("/doc-type/id/{id}")

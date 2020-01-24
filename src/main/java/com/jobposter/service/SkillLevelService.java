@@ -28,8 +28,8 @@ public class SkillLevelService {
 		skillLevelDao.save(sl);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		skillLevelDao.delete(id);
+	public void delete(SkillLevel sl) throws ErrorException{
+		skillLevelDao.delete(sl);
 	}
 	
 	public SkillLevel findByBk(String Bk)  throws ErrorException {

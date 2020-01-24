@@ -28,8 +28,8 @@ public class ApplicantSalaryService {
 		applSalaryDao.save(appl);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		applSalaryDao.delete(id);
+	public void delete(ApplicantSalary appl) throws ErrorException{
+		applSalaryDao.delete(appl);
 	}
 	
 	public ApplicantSalary findByBk(String Bk1) throws ErrorException {

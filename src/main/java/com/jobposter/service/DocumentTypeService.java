@@ -28,8 +28,8 @@ public class DocumentTypeService {
 		documentTypeDao.save(dt);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		documentTypeDao.delete(id);
+	public void delete(DocumentType dt) throws ErrorException{
+		documentTypeDao.delete(dt);
 	}
 	
 	public DocumentType findByBk(String Bk)  throws ErrorException {

@@ -17,8 +17,7 @@ public class JobDescriptionDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		JobDescription jdesc = findById(id);
+	public void delete(JobDescription jdesc) {
 		super.entityManager.remove(jdesc);
 	}
 	

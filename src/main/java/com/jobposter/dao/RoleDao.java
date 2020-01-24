@@ -18,8 +18,7 @@ public class RoleDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		Role role = findById(id);
+	public void delete(Role role) {
 		super.entityManager.remove(role);
 	}
 	

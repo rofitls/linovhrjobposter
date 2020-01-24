@@ -32,7 +32,7 @@ public class InterviewTestScheduleController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(schedule);
 	}
 	
 	@PutMapping("/schedule")
@@ -42,17 +42,19 @@ public class InterviewTestScheduleController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(schedule);
 	}
 	
 	@DeleteMapping("/schedule/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
-			scheduleService.delete(id);
+			InterviewTestSchedule schedule = scheduleService.findById(id);
+			scheduleService.delete(schedule);
+			return ResponseEntity.ok(schedule);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/schedule/id/{id}")

@@ -44,7 +44,7 @@ public class ApplicationStateChangeController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(state);
 	}
 	
 	@PutMapping("/application-state-change")
@@ -59,18 +59,20 @@ public class ApplicationStateChangeController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(state);
 	}
 	
 	@DeleteMapping("/application-state-change/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			appStateChangeService.delete(id);
+			ApplicationStateChange state = appStateChangeService.findById(id);
+			appStateChangeService.delete(state);
+			return ResponseEntity.ok(state);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/application-state-change/id/{id}")

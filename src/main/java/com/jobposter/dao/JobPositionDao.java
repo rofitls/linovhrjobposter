@@ -17,8 +17,7 @@ public class JobPositionDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		JobPosition jp = findById(id);
+	public void delete(JobPosition jp) {
 		super.entityManager.remove(jp);
 	}
 	

@@ -102,7 +102,7 @@ public class ApplicationController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(appl);
 	}
 	
 	@PutMapping("/apl/application")
@@ -117,18 +117,20 @@ public class ApplicationController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(appl);
 	}
 	
 	@DeleteMapping("/apl/application/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			applService.delete(id);
+			Application appl = applService.findById(id);
+			applService.delete(appl);
+			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@PutMapping("/admin/application/interview/{id}/{date}/{time}")
@@ -158,7 +160,7 @@ public class ApplicationController {
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.insert(applStateChange);
 			emailService.sendEmail(mail);
-			return ResponseEntity.status(HttpStatus.OK).body("Status changed");
+			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -180,8 +182,8 @@ public class ApplicationController {
 				jpost.setActiveState(false);
 			}
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-			interviewTestScheduleService.delete(its.getId());
-			return ResponseEntity.status(HttpStatus.OK).body("Status changed");
+			interviewTestScheduleService.delete(its);
+			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -198,8 +200,8 @@ public class ApplicationController {
 			applStateChange.setDateChanged(new Date());
 			applStateChangeService.insert(applStateChange);
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-			interviewTestScheduleService.delete(its.getId());
-			return ResponseEntity.status(HttpStatus.OK).body("Status changed");
+			interviewTestScheduleService.delete(its);
+			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}

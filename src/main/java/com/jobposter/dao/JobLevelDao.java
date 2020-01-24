@@ -18,8 +18,7 @@ public class JobLevelDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		JobLevel jl = findById(id);
+	public void delete(JobLevel jl) {
 		super.entityManager.remove(jl);
 	}
 	

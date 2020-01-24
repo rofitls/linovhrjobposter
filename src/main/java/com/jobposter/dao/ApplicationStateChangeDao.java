@@ -17,8 +17,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		ApplicationStateChange state = findById(id);
+	public void delete(ApplicationStateChange state) {
 		super.entityManager.remove(state);
 	}
 	

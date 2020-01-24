@@ -17,8 +17,7 @@ public class ApplicantSalaryDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		ApplicantSalary appl = findById(id);
+	public void delete(ApplicantSalary appl) {
 		super.entityManager.remove(appl);
 	}
 	

@@ -36,7 +36,7 @@ public class EducationLevelController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(el);
 	}
 	
 	@PutMapping("/edu-level")
@@ -51,7 +51,7 @@ public class EducationLevelController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(el);
 	}
 	
 	@PutMapping("/edu-level/{id}")
@@ -61,10 +61,10 @@ public class EducationLevelController {
 			EducationLevel el = educationLevelService.findById(id);
 			el.setActiveState(false);
 			educationLevelService.update(el);
+			return ResponseEntity.ok(el);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
 	}
 	
 	@GetMapping("/edu-level/id/{id}")

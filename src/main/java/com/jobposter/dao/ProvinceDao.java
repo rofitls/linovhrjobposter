@@ -17,8 +17,7 @@ public class ProvinceDao extends CommonDao {
 	}
 	
 	@Transactional
-	public void delete(String id) {
-		Province province = findById(id);
+	public void delete(Province province) {
 		super.entityManager.remove(province);
 	}
 	

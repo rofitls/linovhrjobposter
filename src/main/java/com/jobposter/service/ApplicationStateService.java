@@ -28,8 +28,8 @@ public class ApplicationStateService {
 		stateDao.save(state);
 	}
 	
-	public void delete(String id) throws ErrorException{
-		stateDao.delete(id);
+	public void delete(ApplicationState state) throws ErrorException{
+		stateDao.delete(state);
 	}
 	
 	public ApplicationState findByBk(String Bk) throws ErrorException {

@@ -41,7 +41,7 @@ public class JobDescriptionController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(jdesc);
 	}
 	
 	@PutMapping("/job-description")
@@ -56,18 +56,20 @@ public class JobDescriptionController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(jdesc);
 	}
 	
 	@DeleteMapping("/job-description/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			jobDescriptionService.delete(id);
+			JobDescription jdesc = jobDescriptionService.findById(id);
+			jobDescriptionService.delete(jdesc);
+			return ResponseEntity.ok(jdesc);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/job-description/id/{id}")
