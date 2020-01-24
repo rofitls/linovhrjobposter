@@ -87,10 +87,10 @@ public class JobPostingDao extends CommonDao {
 		StringBuilder query = new StringBuilder();
 		query.append("select count(jp) from JobPosting jp where jp.user.id =: id");
 		if(month != null) {
-			query.append(" group by month(jp.)");
+			query.append(" group by month(:month)");
 		}
 		if(year != null) {
-			query.append(" ");
+			query.append(" group by year(:year)");
 		}
 		
 		Query queryExecuted = super.entityManager.createQuery(query.toString());

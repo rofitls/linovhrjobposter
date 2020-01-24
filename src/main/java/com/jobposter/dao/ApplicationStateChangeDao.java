@@ -88,4 +88,20 @@ public class ApplicationStateChangeDao extends CommonDao {
 		else
 			return (Long)list.get(0);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Long reportTotalHirePerRecruiter(String id) {
+		StringBuilder query = new StringBuilder();
+		query.append("select count(appsc) from ApplicationStateChange appsc where appsc.application.jobPosting.user.id =: and appsc.state.stateName =: state");
+		List<Long> list = super.entityManager
+				.createQuery(query.toString())
+				.setParameter("id", id)
+				.setParameter("state", "Hire")
+				.getResultList();
+		if(list.size() == 0) 
+			return null;
+		else
+			return (Long)list.get(0);
+	}
 }

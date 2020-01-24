@@ -49,4 +49,8 @@ public class ApplicationStateChangeService {
 	public Long findApplicationHire(String id) throws Exception {
 		return stateDao.findApplicationHire(id);
 	}
+	
+	public Long reportTotalHirePerRecruiter(String id) throws Exception {
+		return stateDao.reportTotalHirePerRecruiter(id);
+	}
 }

@@ -39,6 +39,7 @@ import com.jobposter.entity.Document;
 import com.jobposter.entity.DocumentType;
 import com.jobposter.entity.Mail;
 import com.jobposter.entity.Register;
+import com.jobposter.entity.Role;
 import com.jobposter.config.JwtTokenUtil;
 
 @RestController
@@ -140,7 +141,7 @@ public class UserController {
 			valIdNull(appl);
 			valBkNotNull(appl);
 			valBkNotExist(appl);
-			valNonBk(appl);
+			valNonBk(appl, reg.getRole());
 		    userService.insert(appl);
 		    emailService.sendEmail(mail);
 			return ResponseEntity.status(HttpStatus.OK).body(appl);
@@ -157,7 +158,7 @@ public class UserController {
 			valIdExist(appl.getId());
 			valBkNotNull(appl);
 			valBkNotChange(appl);
-			valNonBk(appl);
+			valNonBk(appl, appl.getRole());
 			userService.update(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -275,9 +276,14 @@ public class UserController {
 		return null;
 	}
 	
-	private Exception valNonBk(Users user) throws Exception {
-		if(user.getFirstName() == null || user.getLastName() == null || user.getDateOfBirthday()==null) {
+	private Exception valNonBk(Users user, Role role) throws Exception {
+		if(user.getFirstName() == null || user.getLastName() == null) {
 			throw new Exception("Please fill in the blanks");
+		}
+		if(role.getRoleName().equalsIgnoreCase("Applicant")) {
+			if(user.getDateOfBirthday()==null || user.getGender() == null) {
+				throw new Exception("Please fill in the blanks");
+			}	
 		}
 		return null;
 	}
