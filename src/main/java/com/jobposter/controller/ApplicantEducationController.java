@@ -1,5 +1,8 @@
 package com.jobposter.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,16 +38,19 @@ public class ApplicantEducationController {
 	
 	@PostMapping("/apl-edu")
 	public ResponseEntity<?> insert(@RequestBody ApplicantEducation appl) throws ErrorException{
+		List<Object> objs = new ArrayList<Object>();
 		try {
 			valIdNull(appl);
 			valBkNotNull(appl);
 			valBkNotExist(appl);
 			valNonBk(appl);
 			applService.insert(appl);
+			objs.add(appl);
+			objs.add("Berhasil");
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("Model Berhasil Ditambah");
+		return ResponseEntity.status(HttpStatus.CREATED).body(objs);
 	}
 	
 	@PutMapping("/apl-edu")
