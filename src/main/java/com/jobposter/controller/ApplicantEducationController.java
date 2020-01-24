@@ -1,8 +1,5 @@
 package com.jobposter.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,19 +35,16 @@ public class ApplicantEducationController {
 	
 	@PostMapping("/apl-edu")
 	public ResponseEntity<?> insert(@RequestBody ApplicantEducation appl) throws ErrorException{
-		List<Object> objs = new ArrayList<Object>();
 		try {
 			valIdNull(appl);
 			valBkNotNull(appl);
 			valBkNotExist(appl);
 			valNonBk(appl);
 			applService.insert(appl);
-			objs.add(appl);
-			objs.add("Berhasil");
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(objs);
+		return ResponseEntity.status(HttpStatus.CREATED).body(appl);
 	}
 	
 	@PutMapping("/apl-edu")
@@ -65,18 +59,18 @@ public class ApplicantEducationController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Diperbarui");
+		return ResponseEntity.status(HttpStatus.OK).body(appl);
 	}
 	
 	@DeleteMapping("/apl-edu/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			applService.delete(id);
+			return ResponseEntity.ok("Berhasil Delete");
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Model Berhasil Dihapus");
+		
 	}
 	
 	@GetMapping("/apl-edu/id/{id}")
