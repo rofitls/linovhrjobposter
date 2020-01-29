@@ -51,7 +51,7 @@ public class ApplicantEducationController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(appl);
 	}
 	
-	@PutMapping("/apl-edu")
+	@PutMapping("/apl-edu")//tambah path id
 	public ResponseEntity<?> update(@RequestBody ApplicantEducation appl) throws ErrorException{
 		try {
 			valIdNotNull(appl);
@@ -73,7 +73,7 @@ public class ApplicantEducationController {
 			valIdExist(id);
 			ApplicantEducation appl = applService.findById(id);
 			applService.delete(appl);
-			appl.setUser(null);
+//			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
