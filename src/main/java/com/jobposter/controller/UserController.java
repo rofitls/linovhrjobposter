@@ -3,6 +3,11 @@ package com.jobposter.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -140,6 +145,12 @@ public class UserController {
 		    appl.setAddress(reg.getAddress());
 		    appl.setGender(reg.getGender());
 		    appl.setDateOfBirthday(reg.getDateOfBirthday());
+		    LocalDate now = LocalDate.now();
+		    LocalDate dob = Instant.ofEpochMilli(reg.getDateOfBirthday().getTime())
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate();
+		    Double age = dob.until(now, ChronoUnit.DAYS) / 365.2425d;
+		    appl.setAge(age);
 		    appl.setPhone(reg.getPhone());
 		    appl.setCity(reg.getCity());
 		    appl.setRole(reg.getRole());
