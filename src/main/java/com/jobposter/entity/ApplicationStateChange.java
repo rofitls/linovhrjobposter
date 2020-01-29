@@ -1,4 +1,4 @@
-package com.jobposter.entity;
+ package com.jobposter.entity;
 
 import java.util.Date;
 
@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
@@ -17,7 +18,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="tbl_m_application_state_change")
+@Table(name="tbl_m_application_state_change",  uniqueConstraints = @UniqueConstraint(columnNames = {"id_state, id_application"}))
 public class ApplicationStateChange {
 	
 	@Id

@@ -3,8 +3,11 @@ package com.jobposter.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.api.client.http.HttpTransport;
 import com.jobposter.entity.Application;
 import com.jobposter.entity.ApplicationStateChange;
 import com.jobposter.entity.InterviewTestSchedule;
@@ -36,11 +40,46 @@ import com.jobposter.service.ApplicantEducationService;
 import com.jobposter.service.ApplicantSkillService;
 import com.jobposter.service.ApplicantWorkExperienceService;
 
+import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets.Details;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.Calendar.Events;
+import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.Event;
+
 
 @RestController
 //@RequestMapping("")
 @CrossOrigin("*")
 public class ApplicationController {
+	
+//	private static final String APPLICATION_NAME = "GoogleCalendarJobPoster";
+//	private static HttpTransport httpTransport;
+//	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+//	private static com.google.api.services.calendar.Calendar client;
+//
+//	GoogleClientSecrets clientSecrets;
+//	GoogleAuthorizationCodeFlow flow;
+//	Credential credential;
+//
+//	@Value("${google.client.client-id}")
+//	private String clientId;
+//	@Value("${google.client.client-secret}")
+//	private String clientSecret;
+//	@Value("${google.client.redirectUri}")
+//	private String redirectURI;
+//
+//	private Set<Event> events = new HashSet<>();
+//
+//	final DateTime date1 = new DateTime("2017-05-05T16:30:00.000+05:30");
+//	final DateTime date2 = new DateTime(new Date());
 	
 	@Autowired
 	private ApplicationService applService;
@@ -105,6 +144,26 @@ public class ApplicationController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(appl);
 	}
 	
+//	public ResponseEntity<?> sendCalendar() throws ErrorException {
+//		com.google.api.services.calendar.model.Events eventList;
+//		String message;
+//		try {
+//			TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectURI).execute();
+//			credential = flow.createAndStoreCredential(response, "userID");
+//			client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
+//					.setApplicationName(APPLICATION_NAME).build();
+//			Events events = client.events();
+//			eventList = events.list("primary").setTimeMin(date1).setTimeMax(date2).execute();
+//			message = eventList.getItems().toString();
+//			System.out.println("My:" + eventList.getItems());
+//		} catch (Exception e) {
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//		}
+//
+//		System.out.println("cal message:" + message);
+//		return new ResponseEntity<>(message, HttpStatus.OK);
+//	}
+//	
 	@PutMapping("/apl/application")
 	public ResponseEntity<?> update(@RequestBody Application appl) throws ErrorException{
 		try {
@@ -133,8 +192,8 @@ public class ApplicationController {
 		
 	}
 	
-	@PutMapping("/admin/application/interview/{id}/{date}/{time}")
-	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @PathVariable String date, @PathVariable String time) throws ErrorException {
+	@PutMapping("/admin/application/interview/{id}/{date}")
+	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @PathVariable String date) throws ErrorException {
 		try {
 			valIdExist(id);
 			Mail mail = new Mail();
@@ -147,19 +206,21 @@ public class ApplicationController {
 			applStateChange.setDateChanged(new Date());
 			mail.setName(appl.getUser().getFirstName()+" "+appl.getUser().getLastName());
 		    mail.setSubject("Interview invitation " + appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName()); 
-		    mail.setContent(date);
+		    //mail.setContent(date);
 		    mail.setTo(appl.getUser().getUsername());
+		    mail.setPosition(appl.getJobPosting().getJobTitleName());
+		    mail.setDate(date);
 		    schedule.setApplication(appl);
-		    Integer count = interviewTestScheduleService.countSchedule().intValue();
-		    DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-		    Date times = sdf.parse(time);
-		    schedule.setInterviewCode("SCHEDULE-"+count);
+//		    Integer count = interviewTestScheduleService.countSchedule().intValue();
+//		    DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+//		    Date times = sdf.parse(time);
+		    schedule.setInterviewCode("SCHEDULE-"+id);
 		    schedule.setInterviewDate(interviewDate);
-		    schedule.setInterviewTime(times.getTime());
+//		    schedule.setInterviewTime(times.getTime());
 		    alreadySchedule(appl);
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.insert(applStateChange);
-			emailService.sendEmail(mail);
+			emailService.sendInterview(mail);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

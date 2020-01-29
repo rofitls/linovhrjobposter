@@ -33,8 +33,8 @@ public class InterviewTestSchedule {
 	@Column(name="interview_date")
 	private Date interviewDate;
 	
-	@Column(name="interview_time")
-	private long interviewTime;
+//	@Column(name="interview_time")
+//	private long interviewTime;
 	
 	@ManyToOne
 	@JoinColumn(name="id_application", referencedColumnName="id", nullable=false)
@@ -74,12 +74,12 @@ public class InterviewTestSchedule {
 		this.application = application;
 	}
 
-	public long getInterviewTime() {
-		return interviewTime;
-	}
-
-	public void setInterviewTime(long interviewTime) {
-		this.interviewTime = interviewTime;
-	}
+//	public long getInterviewTime() {
+//		return interviewTime;
+//	}
+//
+//	public void setInterviewTime(long interviewTime) {
+//		this.interviewTime = interviewTime;
+//	}
 	
 }

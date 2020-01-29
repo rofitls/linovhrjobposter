@@ -18,7 +18,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="tbl_m_applicant_education",  uniqueConstraints = @UniqueConstraint(columnNames = {"id_user","id_edu_level","school"}))
+@Table(name="tbl_m_applicant_education",  uniqueConstraints = @UniqueConstraint(columnNames = {"id_user","id_major","school"}))
 public class ApplicantEducation {
 
 	@Id
@@ -46,10 +46,10 @@ public class ApplicantEducation {
 	private Users user;
 	
 	@ManyToOne
-	@JoinColumn(name="id_edu_level", referencedColumnName="id", nullable=false)
+	@JoinColumn(name="id_major", referencedColumnName="id", nullable=false)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private EducationLevel eduLevel;
+	private Major major;
 
 	public String getId() {
 		return id;
@@ -99,12 +99,14 @@ public class ApplicantEducation {
 		this.user = user;
 	}
 
-	public EducationLevel getEduLevel() {
-		return eduLevel;
+	public Major getMajor() {
+		return major;
 	}
 
-	public void setEduLevel(EducationLevel eduLevel) {
-		this.eduLevel = eduLevel;
+	public void setMajor(Major major) {
+		this.major = major;
 	}
+
+	
 	
 }

@@ -63,7 +63,7 @@ public class ApplicantEducationDao extends CommonDao {
 	@Transactional
 	public ApplicantEducation findByBk(String Bk1, String Bk2, String Bk3) {
 		List<ApplicantEducation> list = super.entityManager
-				.createQuery("from ApplicantEducation where user.id =: bk1 and eduLevel.id =: bk2 and school =: bk3")
+				.createQuery("from ApplicantEducation where user.id =: bk1 and major.id =: bk2 and school =: bk3")
 				.setParameter("bk1", Bk1)
 				.setParameter("bk2", Bk2)
 				.setParameter("bk3", Bk3)

@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobposter.entity.ApplicationStateChange;
+import com.jobposter.entity.ReportPojo;
+import com.jobposter.entity.Users;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.ApplicationService;
 import com.jobposter.service.ApplicationStateChangeService;
 import com.jobposter.service.ApplicationStateService;
+import com.jobposter.service.UserService;
 
 @RestController
 @RequestMapping("/admin")
@@ -32,6 +35,9 @@ public class ApplicationStateChangeController {
 	
 	@Autowired
 	private ApplicationStateService appStateService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@PostMapping("/application-state-change")
 	public ResponseEntity<?> insert(@RequestBody ApplicationStateChange state) throws ErrorException{
@@ -83,6 +89,19 @@ public class ApplicationStateChangeController {
 	@GetMapping("/application-state-change")
 	public ResponseEntity<?> getAll()  throws ErrorException{
 		return ResponseEntity.ok(appStateChangeService.findAll());
+	}
+	
+	@GetMapping("/application-state-change/report/{id}")
+	public ResponseEntity<?> report(@PathVariable String id) throws ErrorException {
+		try {
+			Users user = userService.findById(id);
+			ReportPojo rp = appStateChangeService.reportTotalHirePerRecruiter(id);
+			rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+			return ResponseEntity.ok(rp);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+		
 	}
 	
 	private Exception valIdNull(ApplicationStateChange state) throws Exception {

@@ -1,12 +1,19 @@
 package com.jobposter.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
 import com.jobposter.entity.ApplicationStateChange;
+import com.jobposter.entity.JobPosting;
+import com.jobposter.entity.ReportPerJobPojo;
+import com.jobposter.entity.ReportPojo;
+import com.jobposter.entity.Users;
 
 @Repository
 public class ApplicationStateChangeDao extends CommonDao {
@@ -77,7 +84,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 	@Transactional
 	public Long findApplicationHire(String id) {
 		StringBuilder query = new StringBuilder();
-		query.append("select count(ap) from ApplicationStateChange ap where ap.application.jobPosting.id =: id and state.stateName =: state");
+		query.append("select count(ap) from ApplicationStateChange ap where ap.application.jobPosting.id =: id and ap.state.stateName =: state");
 		List<Long> list = super.entityManager
 				.createQuery(query.toString())
 				.setParameter("id", id)
@@ -91,17 +98,63 @@ public class ApplicationStateChangeDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public Long reportTotalHirePerRecruiter(String id) {
+	public ReportPojo reportTotalHirePerRecruiter(String id) {
 		StringBuilder query = new StringBuilder();
-		query.append("select count(appsc) from ApplicationStateChange appsc where appsc.application.jobPosting.user.id =: and appsc.state.stateName =: state");
-		List<Long> list = super.entityManager
+		query.append("select ap.application.jobPosting.jobTitleName from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
+		List<String> list = super.entityManager
 				.createQuery(query.toString())
 				.setParameter("id", id)
 				.setParameter("state", "Hire")
 				.getResultList();
+		StringBuilder query2 = new StringBuilder();
+		query2.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
+		List<Long> list2 = super.entityManager
+				.createQuery(query2.toString())
+				.setParameter("id", id)
+				.setParameter("state", "Hire")
+				.getResultList();
+		
+		StringBuilder query3 = new StringBuilder();
+		query3.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
+		List<Long> list3 = super.entityManager
+				.createQuery(query2.toString())
+				.setParameter("id", id)
+				.setParameter("state", "Interview")
+				.getResultList();
+		
+		StringBuilder query4 = new StringBuilder();
+		query4.append("select count(ap.jobPosting.jobTitleName) from Application ap where ap.jobPosting.user.id =: id group by ap.jobPosting.jobTitleName");
+		List<Long> list4 = super.entityManager
+				.createQuery(query4.toString())
+				.setParameter("id", id)
+				.getResultList();
+		
+		StringBuilder query5 = new StringBuilder();
+		query5.append("select count(jp) from JobPosting jp where jp.user.id =: id");
+		List<Long> list5 =  super.entityManager
+				.createQuery(query5.toString())
+				.setParameter("id", id)
+				.getResultList();
+		
+		ReportPojo reportPojo = new ReportPojo();
+		
+		List<ReportPerJobPojo> listRp = new ArrayList<ReportPerJobPojo>();
+		
+		for(int i = 0; i < list.size(); i++) {
+			ReportPerJobPojo rPojo = new ReportPerJobPojo();
+			rPojo.setJobPosting(list.get(i));
+			rPojo.setCountHire(list2.get(i));
+			rPojo.setCountInterview(list3.get(i));
+			rPojo.setCountApplicant(list4.get(i));
+			listRp.add(rPojo);
+		}
+		
+		reportPojo.setTotalUploadJob(list5.get(0));
+		reportPojo.setJobList	(listRp);
+
 		if(list.size() == 0) 
 			return null;
 		else
-			return (Long)list.get(0);
+			return (ReportPojo)reportPojo;
 	}
 }

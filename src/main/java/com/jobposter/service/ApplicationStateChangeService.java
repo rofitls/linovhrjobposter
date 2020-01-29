@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.jobposter.dao.ApplicationStateChangeDao;
 import com.jobposter.entity.ApplicationStateChange;
+import com.jobposter.entity.ReportPerJobPojo;
+import com.jobposter.entity.ReportPojo;
 import com.jobposter.exception.ErrorException;
 
 @Service("applicationStateChangeService")
@@ -50,7 +52,7 @@ public class ApplicationStateChangeService {
 		return stateDao.findApplicationHire(id);
 	}
 	
-	public Long reportTotalHirePerRecruiter(String id) throws Exception {
+	public ReportPojo reportTotalHirePerRecruiter(String id) throws Exception {
 		return stateDao.reportTotalHirePerRecruiter(id);
 	}
 }

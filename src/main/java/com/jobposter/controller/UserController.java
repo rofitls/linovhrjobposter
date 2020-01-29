@@ -1,5 +1,6 @@
 package com.jobposter.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jobposter.entity.Users;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.UserService;
+
+import net.sf.jasperreports.engine.JRException;
+
+import com.jobposter.service.ApplicationStateChangeService;
 import com.jobposter.service.CityService;
 import com.jobposter.service.DocumentService;
 import com.jobposter.service.DocumentTypeService;
@@ -39,6 +44,7 @@ import com.jobposter.entity.Document;
 import com.jobposter.entity.DocumentType;
 import com.jobposter.entity.Mail;
 import com.jobposter.entity.Register;
+import com.jobposter.entity.ReportPojo;
 import com.jobposter.entity.Role;
 import com.jobposter.config.JwtTokenUtil;
 
@@ -70,6 +76,9 @@ public class UserController {
 	
 	@Autowired
 	private DocumentService documentService;
+	
+	@Autowired
+	private ApplicationStateChangeService stateService;
 	
 	@PostMapping("/user")
 	public ResponseEntity<?> insert(@RequestBody Users appl) throws ErrorException{
@@ -187,6 +196,18 @@ public class UserController {
 	@GetMapping("/user")
 	public ResponseEntity<?> getAll()  throws ErrorException {
 		return ResponseEntity.ok(userService.findAll());
+	}
+	
+	@GetMapping("/user/report/{id}")
+	public ResponseEntity<?> exportReport(@PathVariable String id) throws FileNotFoundException, JRException{
+		try {
+			Users user = userService.findById(id);
+			ReportPojo rp = stateService.reportTotalHirePerRecruiter(id);
+			rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+			return ResponseEntity.ok(userService.exportReport(id,rp));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 	
 	@PutMapping("/user/upload/{id}")

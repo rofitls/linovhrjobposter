@@ -37,6 +37,7 @@ public class ApplicantSalaryController {
 			valBkNotExist(appl);
 			valNonBk(appl);
 			applService.insert(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -52,6 +53,7 @@ public class ApplicantSalaryController {
 			valBkNotChange(appl);
 			valNonBk(appl);
 			applService.update(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -64,6 +66,7 @@ public class ApplicantSalaryController {
 			valIdExist(id);
 			ApplicantSalary appl = applService.findById(id);
 			applService.delete(appl);
+			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -72,7 +75,9 @@ public class ApplicantSalaryController {
 	
 	@GetMapping("/apl-salary/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(applService.findById(id));
+		ApplicantSalary applSalary = applService.findById(id);
+		applSalary.setUser(null);
+		return ResponseEntity.ok(applSalary);
 	}
 	
 	@GetMapping("/apl-salary")

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_per_month" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d9585072-02ff-40b2-9d2f-d6d4927bc865">
+	<field name="recruiterName" class="java.lang.String">
+	</field>
+	<field name="jobList.jobPosting" class="java.lang.String">
+	</field>
+	<field name="jobList.countHire" class="java.lang.Long">
+	</field>
+	<field name="jobList.countInterview" class="java.lang.Long">
+	</field>
+	<field name="jobList.countApplicant" class="java.lang.Long">
+	</field>
+	<field name="totalUploadJob" class="java.lang.Long">
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="108" splitType="Stretch">
+			<image>
+				<reportElement x="158" y="10" width="238" height="50" uuid="5d749ec6-a8c9-471f-830d-dedc307ee8c5"/>
+				<imageExpression><![CDATA["https://raw.githubusercontent.com/rofitls/linovhrjobposter/master/src/main/resources/templates/lwcn-logo.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="-20" y="73" width="595" height="1" uuid="6171774d-52e0-4a72-bdbc-5068aff0c72e"/>
+			</line>
+			<line>
+				<reportElement x="-20" y="75" width="595" height="1" uuid="370040a1-fca4-4c32-83c4-f45d5b206806">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="5" width="110" height="30" uuid="598263dd-6208-4a81-835d-6eefd97ad847">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a8798e2f-d7ee-4e84-b6c1-905cfd35d3de"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<text><![CDATA[Recruiter Name   : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="5" width="95" height="30" uuid="392be096-0cf3-4640-a26c-a2a19660c578">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a8798e2f-d7ee-4e84-b6c1-905cfd35d3de"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recruiterName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="15" width="110" height="30" uuid="1ab2356e-92a0-412c-a791-c6e08c117d70">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1276d211-777a-4015-85af-cc771fb6be42"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<text><![CDATA[Total Upload Job :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="15" width="92" height="30" uuid="7acb2e89-5a68-42fc-8298-e6e71932ea49">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1276d211-777a-4015-85af-cc771fb6be42"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalUploadJob}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="86" y="40" width="92" height="30" uuid="88cfd4ec-b7fc-41e4-9b13-4f93282ccbf7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a2b0cdbb-4a59-4b74-8316-34390f833448"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jobList.jobPosting}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="178" y="40" width="92" height="30" uuid="98552a78-9415-4650-b52f-7508be4fe562">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3096f488-a4d7-4971-9edf-0301aed57e4d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jobList.countApplicant}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="40" width="92" height="30" uuid="9b8da583-8cb1-4bd5-9d4c-3621d72cbed7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26bb7b0e-4dbc-4629-a176-5c3c4a14185b"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jobList.countInterview}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="40" width="92" height="30" uuid="97d689f6-6689-4f2f-b7a5-01ff9040e8af">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0307d9b0-6f4c-4d6d-8c90-c23a1587c16b"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jobList.countHire}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="86" y="10" width="92" height="30" uuid="2c697c28-d1f5-4823-a200-f5591926b653">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a2b0cdbb-4a59-4b74-8316-34390f833448"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<text><![CDATA[Job Posting]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="178" y="10" width="92" height="30" uuid="0755753f-9d8a-47b0-b2d0-0b621fd05a7a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3096f488-a4d7-4971-9edf-0301aed57e4d"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<text><![CDATA[Total Applicant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="10" width="92" height="30" uuid="7fb3526d-83dd-47c5-bf42-e6a86df9f441">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26bb7b0e-4dbc-4629-a176-5c3c4a14185b"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<text><![CDATA[Total Interview]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="362" y="10" width="92" height="30" uuid="676426af-b5ad-4814-9574-6da61c7ffb95">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0307d9b0-6f4c-4d6d-8c90-c23a1587c16b"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<text><![CDATA[Total Hire]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

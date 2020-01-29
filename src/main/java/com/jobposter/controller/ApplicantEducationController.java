@@ -1,5 +1,7 @@
 package com.jobposter.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import com.jobposter.entity.ApplicantEducation;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.ApplicantEducationService;
 import com.jobposter.service.EducationLevelService;
+import com.jobposter.service.MajorService;
 import com.jobposter.service.UserService;
 
 @RestController
@@ -31,7 +34,7 @@ public class ApplicantEducationController {
 	private UserService userService;
 	
 	@Autowired
-	private EducationLevelService educationLevelService;
+	private MajorService majorService;
 	
 	@PostMapping("/apl-edu")
 	public ResponseEntity<?> insert(@RequestBody ApplicantEducation appl) throws ErrorException{
@@ -41,6 +44,7 @@ public class ApplicantEducationController {
 			valBkNotExist(appl);
 			valNonBk(appl);
 			applService.insert(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -56,6 +60,7 @@ public class ApplicantEducationController {
 			valBkNotChange(appl);
 			valNonBk(appl);
 			applService.update(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -68,6 +73,7 @@ public class ApplicantEducationController {
 			valIdExist(id);
 			ApplicantEducation appl = applService.findById(id);
 			applService.delete(appl);
+			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -76,7 +82,9 @@ public class ApplicantEducationController {
 	
 	@GetMapping("/apl-edu/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(applService.findById(id));
+		ApplicantEducation applEdu = applService.findById(id);
+		applEdu.setUser(null);
+		return ResponseEntity.ok(applEdu);
 	}
 	
 	@GetMapping("/apl-edu")
@@ -87,7 +95,11 @@ public class ApplicantEducationController {
 	@GetMapping("/apl-edu/list/{id}")
 	public ResponseEntity<?> getApplicantEduByApplicant(@PathVariable String id) throws ErrorException {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(applService.findAEUser(id));
+			List<ApplicantEducation> listApplEdu = applService.findAEUser(id);
+			for(ApplicantEducation ae : listApplEdu) {
+				ae.setUser(null);
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(listApplEdu);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}
@@ -119,19 +131,19 @@ public class ApplicantEducationController {
 			throw new Exception("User must be filled");
 		}else if(appl.getSchool()==null) {
 			throw new Exception("School must be filled");
-		}else if(appl.getEduLevel()==null) {
-			throw new Exception("Education Level must be filled");
+		}else if(appl.getMajor()==null) {
+			throw new Exception("Major must be filled");
 		}
 		return null;
 	}
 	
 	private Exception valBkNotExist (ApplicantEducation appl) throws Exception{
-		if(applService.findByBk(appl.getUser().getId(),appl.getEduLevel().getId(), appl.getSchool())!=null) {
+		if(applService.findByBk(appl.getUser().getId(),appl.getMajor().getId(), appl.getSchool())!=null) {
 			throw new Exception("Applicant education already exists");
 		}else if(userService.findById(appl.getUser().getId())==null) {
 			throw new Exception("User doesn't exist");
-		}else if(educationLevelService.findById(appl.getEduLevel().getId())==null || educationLevelService.findById(appl.getEduLevel().getId()).isActiveState()==false) {
-			throw new Exception("Education level doesn't exist");
+		}else if(majorService.findById(appl.getMajor().getId())==null || majorService.findById(appl.getMajor().getId()).isActiveState()==false) {
+			throw new Exception("Major doesn't exist");
 		}
 		return null;
 	}
@@ -141,7 +153,7 @@ public class ApplicantEducationController {
 			throw new Exception("BK cannot change");
 		}else if(!appl.getSchool().equalsIgnoreCase(applService.findById(appl.getId()).getSchool())) {
 			throw new Exception("BK cannot change");
-		}else if(!appl.getEduLevel().getId().equalsIgnoreCase(educationLevelService.findById(appl.getEduLevel().getId()).getId())) {
+		}else if(!appl.getMajor().getId().equalsIgnoreCase(majorService.findById(appl.getMajor().getId()).getId())) {
 			throw new Exception("BK cannot change");
 		}
 		return null;

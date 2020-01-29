@@ -38,6 +38,44 @@ public class EmailService {
 		
 	}
 	
+	public void sendInterview(Mail mailModel) throws MessagingException, IOException, TemplateException {
+
+        Map model = new HashMap();
+        model.put("name", mailModel.getName());
+        model.put("location", "Jakarta");
+        model.put("signature", "https://jobposterlinov.com");
+        model.put("content", mailModel.getContent());
+        model.put("position", mailModel.getPosition());
+        model.put("date", mailModel.getDate());
+        model.put("time", mailModel.getTime());
+        /**
+         * Add below line if you need to create a token to verification emails and uncomment line:32 in "email.ftl"
+         * model.put("token",UUID.randomUUID().toString());
+         */
+
+        mailModel.setModel(model);
+
+
+        //log.info("Sending Email to: " + mailModel.getTo());
+
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+        mimeMessageHelper.addInline("logo.png", new ClassPathResource("classpath:/lwcn-logo.jpeg"));
+
+        Template template = emailConfig.getTemplate("interview.ftl");
+        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, mailModel.getModel());
+
+        mimeMessageHelper.setTo(mailModel.getTo());
+        mimeMessageHelper.setText(html, true);
+        mimeMessageHelper.setSubject(mailModel.getSubject());
+        mimeMessageHelper.setFrom("no-reply@gmail.com");
+
+
+        javaMailSender.send(message);
+
+    }
+	
 	public void sendEmail(Mail mailModel) throws MessagingException, IOException, TemplateException {
 
         Map model = new HashMap();

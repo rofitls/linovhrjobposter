@@ -1,5 +1,7 @@
 package com.jobposter.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,7 @@ public class JobRequirementController {
 			valBkNotExist(jreq);
 			valNonBk(jreq);
 			jobRequirementService.insert(jreq);
+			jreq.getJobPosting().setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -53,6 +56,7 @@ public class JobRequirementController {
 			valBkNotChange(jreq);
 			valNonBk(jreq);
 			jobRequirementService.update(jreq);
+			jreq.getJobPosting().setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -65,6 +69,7 @@ public class JobRequirementController {
 			valIdExist(id);
 			JobRequirement jreq = jobRequirementService.findById(id);
 			jobRequirementService.delete(jreq);
+			jreq.getJobPosting().setUser(null);
 			return ResponseEntity.ok(jreq);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -74,7 +79,9 @@ public class JobRequirementController {
 	
 	@GetMapping("/job-requirement/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(jobRequirementService.findById(id));
+		JobRequirement jreq = jobRequirementService.findById(id);
+		jreq.getJobPosting().setUser(null);
+		return ResponseEntity.ok(jreq);
 	}
 	
 	@GetMapping("/job-requirement")
@@ -84,7 +91,11 @@ public class JobRequirementController {
 	
 	@GetMapping("/job-requirement/list/{id}")
 	public ResponseEntity<?> getRequirementByJobPosting(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(jobRequirementService.findRequirementByJobPosting(id));
+		List<JobRequirement> listJobRequirement = jobRequirementService.findRequirementByJobPosting(id);
+		for(JobRequirement jr : listJobRequirement) {
+			jr.getJobPosting().setUser(null);
+		}
+		return ResponseEntity.ok(listJobRequirement);
 	}
 	
 	private Exception valIdNull(JobRequirement jreq) throws Exception {

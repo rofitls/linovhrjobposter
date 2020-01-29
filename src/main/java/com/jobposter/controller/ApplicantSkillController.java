@@ -1,5 +1,7 @@
 package com.jobposter.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,7 @@ public class ApplicantSkillController {
 			valBkNotExist(appl);
 			//valNonBk(appl);
 			applService.insert(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -56,6 +59,7 @@ public class ApplicantSkillController {
 			valBkNotChange(appl);
 			//valNonBk(appl);
 			applService.update(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -68,6 +72,7 @@ public class ApplicantSkillController {
 			valIdExist(id);
 			ApplicantSkill appl = applService.findById(id);
 			applService.delete(appl);
+			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -78,7 +83,9 @@ public class ApplicantSkillController {
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			return ResponseEntity.status(HttpStatus.OK).body(applService.findById(id));
+			ApplicantSkill applSkill = applService.findById(id);
+			applSkill.setUser(null);
+			return ResponseEntity.status(HttpStatus.OK).body(applSkill);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}
@@ -92,7 +99,11 @@ public class ApplicantSkillController {
 	@GetMapping("/apl-skill/list/{id}")
 	public ResponseEntity<?> getApplicantSkillByApplicant(@PathVariable String id) throws ErrorException {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(applService.findASUser(id));
+			List<ApplicantSkill> listApplSkill = applService.findASUser(id);
+			for(ApplicantSkill as : listApplSkill) {
+				as.setUser(null);
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(listApplSkill);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}

@@ -1,5 +1,7 @@
 package com.jobposter.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,7 @@ public class ApplicantProjectController {
 			valBkNotExist(appl);
 			valNonBk(appl);
 			applService.insert(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -52,6 +55,7 @@ public class ApplicantProjectController {
 			valBkNotChange(appl);
 			valNonBk(appl);
 			applService.update(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -64,6 +68,7 @@ public class ApplicantProjectController {
 			valIdExist(id);
 			ApplicantProject appl = applService.findById(id);
 			applService.delete(appl);
+			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -73,7 +78,9 @@ public class ApplicantProjectController {
 	
 	@GetMapping("/apl-proj/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(applService.findById(id));
+		ApplicantProject applProject = applService.findById(id);
+		applProject.setUser(null);
+		return ResponseEntity.ok(applProject);
 	}
 	
 	@GetMapping("/apl-proj")
@@ -84,7 +91,11 @@ public class ApplicantProjectController {
 	@GetMapping("/apl-proj/list/{id}")
 	public ResponseEntity<?> getApplicantProjectByApplicant(@PathVariable String id) throws ErrorException {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(applService.findAPUser(id));
+			List<ApplicantProject> listApplProject = applService.findAPUser(id);
+			for(ApplicantProject ap : listApplProject) {
+				ap.setUser(null);
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(listApplProject);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}

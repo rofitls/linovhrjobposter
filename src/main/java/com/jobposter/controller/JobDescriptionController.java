@@ -1,5 +1,7 @@
 package com.jobposter.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,7 @@ public class JobDescriptionController {
 			valBkNotExist(jdesc);
 			valNonBk(jdesc);
 			jobDescriptionService.insert(jdesc);
+			jdesc.getJobPosting().setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -53,6 +56,7 @@ public class JobDescriptionController {
 			valBkNotChange(jdesc);
 			valNonBk(jdesc);
 			jobDescriptionService.update(jdesc);
+			jdesc.getJobPosting().setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -65,6 +69,7 @@ public class JobDescriptionController {
 			valIdExist(id);
 			JobDescription jdesc = jobDescriptionService.findById(id);
 			jobDescriptionService.delete(jdesc);
+			jdesc.getJobPosting().setUser(null);
 			return ResponseEntity.ok(jdesc);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -74,7 +79,9 @@ public class JobDescriptionController {
 	
 	@GetMapping("/job-description/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(jobDescriptionService.findById(id));
+		JobDescription jdesc = jobDescriptionService.findById(id);
+		jdesc.getJobPosting().setUser(null);
+		return ResponseEntity.ok(jdesc);
 	}
 	
 	@GetMapping("/job-description")
@@ -84,7 +91,11 @@ public class JobDescriptionController {
 	
 	@GetMapping("/job-description/list/{id}")
 	public ResponseEntity<?> getDescriptionByJobPosting(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(jobDescriptionService.findDescriptionByJobPosting(id));
+		List<JobDescription> listJobDescription = jobDescriptionService.findDescriptionByJobPosting(id);
+		for(JobDescription jd : listJobDescription) {
+			jd.getJobPosting().setUser(null);
+		}
+		return ResponseEntity.ok(listJobDescription);
 	}
 	
 	private Exception valIdNull(JobDescription jdesc) throws Exception {

@@ -1,5 +1,7 @@
 package com.jobposter.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,7 @@ public class ApplicantWorkExperienceController {
 			valBkNotExist(appl);
 			valNonBk(appl);
 			applService.insert(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -60,6 +63,7 @@ public class ApplicantWorkExperienceController {
 			valBkNotChange(appl);
 			valNonBk(appl);
 			applService.update(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -72,6 +76,7 @@ public class ApplicantWorkExperienceController {
 			valIdExist(id);
 			ApplicantWorkExperience appl = applService.findById(id);
 			applService.delete(appl);
+			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -81,7 +86,9 @@ public class ApplicantWorkExperienceController {
 	
 	@GetMapping("/apl-work-exp/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(applService.findById(id));
+		ApplicantWorkExperience applWorkExp = applService.findById(id);
+		applWorkExp.setUser(null);
+		return ResponseEntity.ok(applWorkExp);
 	}
 	
 	@GetMapping("/apl-work-exp")
@@ -92,7 +99,11 @@ public class ApplicantWorkExperienceController {
 	@GetMapping("/apl-work-exp/list/{id}")
 	public ResponseEntity<?> getApplicantWorkExperienceByApplicant(@PathVariable String id) throws ErrorException {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(applService.findAWEUser(id));
+			List<ApplicantWorkExperience> listApplWorkExp = applService.findAWEUser(id);
+			for(ApplicantWorkExperience awe : listApplWorkExp) {
+				awe.setUser(null);
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(listApplWorkExp);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}

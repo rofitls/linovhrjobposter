@@ -46,6 +46,9 @@ public class Users {
 	@Column(name="date_of_birthday")
 	private Date dateOfBirthday;
 	
+	@Column(name="age", nullable=true)
+	private Double age;
+	
 	@Column(name="gender")
 	private String gender;
 	
@@ -70,6 +73,18 @@ public class Users {
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private City city;
+	
+	@ManyToOne
+	@JoinColumn(name="id_religion", referencedColumnName="id", nullable=true)
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})	
+	private Religion religion;
+	
+	@ManyToOne
+	@JoinColumn(name="id_marital_status", referencedColumnName="id", nullable=true)
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private MaritalStatus ms;
 	
 	@ManyToOne
 	@JoinColumn(name="id_role", referencedColumnName="id", nullable=false)
@@ -189,7 +204,36 @@ public class Users {
 		this.role = role;
 	}
 
-	
+	public Double getAge() {
+		return age;
+	}
 
+	public void setAge(Double age) {
+		this.age = age;
+	}
+
+	public String getImageFileName() {
+		return imageFileName;
+	}
+
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+
+	public Religion getReligion() {
+		return religion;
+	}
+
+	public void setReligion(Religion religion) {
+		this.religion = religion;
+	}
+
+	public MaritalStatus getMs() {
+		return ms;
+	}
+
+	public void setMs(MaritalStatus ms) {
+		this.ms = ms;
+	}
 	
 }

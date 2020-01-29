@@ -16,6 +16,9 @@ public class Mail {
     private String name;
     private String subject;
     private Object content;
+    private Object date;
+    private Object time;
+    private String position;
     private Map<String, String> model;
     
     public Mail() {}
@@ -55,7 +58,24 @@ public class Mail {
 	public void setModel(Map<String, String> model) {
 		this.model = model;
 	}
-    
-    
+	public Object getDate() {
+		return date;
+	}
+	public void setDate(Object date) {
+		this.date = date;
+	}
+	public Object getTime() {
+		return time;
+	}
+	public void setTime(Object time) {
+		this.time = time;
+	}
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
+	}
+	
 }
 
