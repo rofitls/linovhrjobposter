@@ -73,7 +73,7 @@ public class ApplicantEducationController {
 			valIdExist(id);
 			ApplicantEducation appl = applService.findById(id);
 			applService.delete(appl);
-//			appl.setUser(null);
+			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -83,7 +83,7 @@ public class ApplicantEducationController {
 	@GetMapping("/apl-edu/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
 		ApplicantEducation applEdu = applService.findById(id);
-		applEdu.setUser(null);
+//		applEdu.setUser(null);
 		return ResponseEntity.ok(applEdu);
 	}
 	
