@@ -80,6 +80,13 @@ public class ApplicantSalaryController {
 		return ResponseEntity.ok(applSalary);
 	}
 	
+	@GetMapping("/apl-salary/{id}")
+	public ResponseEntity<?> getSalaryByApplicant(@PathVariable String id) throws ErrorException {
+		ApplicantSalary applSalary = applService.findByBk(id);
+		applSalary.setUser(null);
+		return ResponseEntity.ok(applSalary);
+	}
+	
 	@GetMapping("/apl-salary")
 	public ResponseEntity<?> getAll() throws ErrorException {
 		return ResponseEntity.ok(applService.findAll());
