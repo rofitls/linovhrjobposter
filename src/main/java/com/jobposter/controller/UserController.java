@@ -21,6 +21,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,6 +86,9 @@ public class UserController {
 	@Autowired
 	private ApplicationStateChangeService stateService;
 	
+	@Autowired
+	private PasswordEncoder bcryptEncoder;
+	
 	@PostMapping("/user")
 	public ResponseEntity<?> insert(@RequestBody Users appl) throws ErrorException{
 		try {
@@ -106,9 +110,6 @@ public class UserController {
 			objs.add(obj);
 			
 			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
-//			final UserDetails userDetails = userDetailsService
-//					.loadUserByUsername(authenticationRequest.getUsername());
 			
 			final UserDetails userDetails = userService
 					.loadUserByUsername(authenticationRequest.getUsername());
@@ -136,7 +137,6 @@ public class UserController {
 		    int rightLimit = 122; // letter 'z'
 		    int targetStringLength = 10;
 		    
-		 
 		    String generatedString = random.ints(leftLimit, rightLimit + 1)
 		      .limit(targetStringLength)
 		      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
@@ -234,6 +234,7 @@ public class UserController {
 			user.setImage(upload[0].getBytes());
 			user.setImageType(upload[0].getContentType());
 			user.setImageFileName(upload[0].getOriginalFilename());
+			System.out.println(user.getPassword());
 			userService.insert(user);
 			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}catch(Exception e) {
