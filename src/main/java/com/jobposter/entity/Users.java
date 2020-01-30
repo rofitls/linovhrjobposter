@@ -47,7 +47,7 @@ public class Users {
 	private Date dateOfBirthday;
 	
 	@Column(name="age", nullable=true)
-	private Double age;
+	private Integer age;
 	
 	@Column(name="gender")
 	private String gender;
@@ -204,11 +204,11 @@ public class Users {
 		this.role = role;
 	}
 
-	public Double getAge() {
+	public Integer getAge() {
 		return age;
 	}
 
-	public void setAge(Double age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 

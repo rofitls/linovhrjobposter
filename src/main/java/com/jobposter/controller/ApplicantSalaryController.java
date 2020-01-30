@@ -82,9 +82,14 @@ public class ApplicantSalaryController {
 	
 	@GetMapping("/apl-salary/{id}")
 	public ResponseEntity<?> getSalaryByApplicant(@PathVariable String id) throws ErrorException {
-		ApplicantSalary applSalary = applService.findByBk(id);
-		applSalary.setUser(null);
-		return ResponseEntity.ok(applSalary);
+		try {
+			ApplicantSalary applSalary = applService.findByBk(id);
+			applSalary.setUser(null);
+			return ResponseEntity.ok(applSalary);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/apl-salary")

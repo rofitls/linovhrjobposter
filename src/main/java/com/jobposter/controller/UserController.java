@@ -150,7 +150,7 @@ public class UserController {
             .atZone(ZoneId.systemDefault())
             .toLocalDate();
 		    Double age = dob.until(now, ChronoUnit.DAYS) / 365.2425d;
-		    appl.setAge(age);
+		    appl.setAge(age.intValue());
 		    appl.setPhone(reg.getPhone());
 		    appl.setCity(reg.getCity());
 		    appl.setRole(reg.getRole());
