@@ -73,4 +73,17 @@ public class ApplicantEducationDao extends CommonDao {
 		else
 			return (ApplicantEducation)list.get(0);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public ApplicantEducation findRecentEducationApplicant(String id) {
+		List<ApplicantEducation> list = super.entityManager
+				.createQuery("from ApplicantEducation where user.id =: id order by endDate")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (ApplicantEducation)list.get(list.size()-1);
+	}
 }

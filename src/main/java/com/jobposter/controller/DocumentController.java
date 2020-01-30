@@ -1,5 +1,7 @@
 package com.jobposter.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,7 @@ public class DocumentController {
 			valBkNotExist(doc);
 			//valNonBk(doc);
 			documentService.insert(doc);
+			doc.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -52,6 +55,7 @@ public class DocumentController {
 			valBkNotChange(doc);
 			//valNonBk(doc);
 			documentService.update(doc);
+			doc.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -64,6 +68,7 @@ public class DocumentController {
 			valIdExist(id);
 			Document doc = documentService.findById(id);
 			documentService.delete(doc);
+			doc.setUser(null);
 			return ResponseEntity.ok(doc);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -73,12 +78,37 @@ public class DocumentController {
 	
 	@GetMapping("/docs/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(documentService.findById(id));
+		try {
+			valIdExist(id);
+			Document doc = documentService.findById(id);
+			doc.getUser().setImage(null);
+			return ResponseEntity.ok(doc);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}	
+	}
+	
+	@GetMapping("/docs/list/{id}")
+	public ResponseEntity<?> getDocumentByApplicant(@PathVariable String id) throws ErrorException {
+		try {
+			List<Document> docs = documentService.findADUser(id);
+			for(Document doc : docs) {
+				doc.setUser(null);
+			}
+			return ResponseEntity.ok(docs);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/docs")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(documentService.findAll());
+		try {
+			return ResponseEntity.ok(documentService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	private Exception valIdNull(Document doc) throws Exception {

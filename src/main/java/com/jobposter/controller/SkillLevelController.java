@@ -70,12 +70,23 @@ public class SkillLevelController {
 	
 	@GetMapping("/skill-level/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(skillLevelService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(skillLevelService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/skill-level")
 	public ResponseEntity<?> getAll()  throws ErrorException {
-		return ResponseEntity.ok(skillLevelService.findAll());
+		try {
+			return ResponseEntity.ok(skillLevelService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	private Exception valIdNull(SkillLevel sl) throws Exception {

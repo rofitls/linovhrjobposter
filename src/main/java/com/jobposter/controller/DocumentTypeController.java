@@ -68,13 +68,22 @@ public class DocumentTypeController {
 	
 	@GetMapping("/doc-type/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(documentTypeService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(documentTypeService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/doc-type")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		System.out.println(documentTypeService.filterDoc());
-		return ResponseEntity.ok(documentTypeService.findAll());
+		try {
+			return ResponseEntity.ok(documentTypeService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	private Exception valIdNull(DocumentType dt) throws Exception {
@@ -86,21 +95,21 @@ public class DocumentTypeController {
 	
 	private Exception valIdNotNull(DocumentType dt) throws Exception{
 		if(dt.getId()==null) {
-			throw new Exception("Applicant education doesn't exist");
+			throw new Exception("Document type doesn't exist");
 		}
 		return null;
 	}
 	
 	private Exception valIdExist(String id) throws Exception{
 		if(documentTypeService.findById(id)==null) {
-			throw new Exception("Document type doesn't exists");
+			throw new Exception("Document type already exists");
 		}
 		return null;
 	}
 	
 	private Exception valBkNotNull(DocumentType dt) throws Exception{
 		if(dt.getDocTypeCode()==null) {
-			throw new Exception("Document Type must be filled");
+			throw new Exception("Document type must be filled");
 		}
 		return null;
 	}
@@ -121,7 +130,7 @@ public class DocumentTypeController {
 	
 	private Exception valNonBk(DocumentType dt) throws Exception {
 		if(dt.getDocTypeName() == null) {
-			throw new Exception("Document Type Name must be filled");
+			throw new Exception("Document type name must be filled");
 		}
 		return null;
 	}

@@ -71,12 +71,22 @@ public class MaritalStatusController {
 	
 	@GetMapping("/marital-status/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(maritalStatusService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(maritalStatusService.findById(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/marital-status")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(maritalStatusService.findAll());
+		try {
+			return ResponseEntity.ok(maritalStatusService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());	
+		}
 	}
 	
 	private Exception valIdNull(MaritalStatus ms) throws Exception {

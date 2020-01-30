@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobposter.entity.Major;
-import com.jobposter.entity.MaritalStatus;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.EducationLevelService;
 import com.jobposter.service.MajorService;
-import com.jobposter.service.MaritalStatusService;
 
 @RestController
 @RequestMapping("/admin")
@@ -76,17 +74,33 @@ public class MajorController {
 	
 	@GetMapping("/major/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(majorService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(majorService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/major")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(majorService.findAll());
+		try {
+			return ResponseEntity.ok(majorService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/major/edu-level/{id}")
 	public ResponseEntity<?> getMajorByEduLevel(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(majorService.findByEduLevel(id));
+		try {
+			return ResponseEntity.ok(majorService.findByEduLevel(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	private Exception valIdNull(Major major) throws Exception {

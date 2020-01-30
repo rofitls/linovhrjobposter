@@ -32,19 +32,21 @@ public class JobDescriptionController {
 	private JobPostingService jobPostingService;
 	
 	@PostMapping("/job-description")
-	public ResponseEntity<?> insert(@RequestBody JobDescription jdesc) throws ErrorException{
+	public ResponseEntity<?> insert(@RequestBody List<JobDescription> jdescs) throws ErrorException{
 		try {
-			jdesc.setJobDescriptionCode("jdesc"+jdesc.getId());
-			valIdNull(jdesc);
-			valBkNotNull(jdesc);
-			valBkNotExist(jdesc);
-			valNonBk(jdesc);
-			jobDescriptionService.insert(jdesc);
-			jdesc.getJobPosting().setUser(null);
+			for(JobDescription jdesc : jdescs) {
+				jdesc.setJobDescriptionCode("jdesc"+jdesc.getId());
+				valIdNull(jdesc);
+				valBkNotNull(jdesc);
+				valBkNotExist(jdesc);
+				valNonBk(jdesc);
+				jobDescriptionService.insert(jdesc);
+				jdesc.getJobPosting().setUser(null);
+			}
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(jdesc);
+		return ResponseEntity.status(HttpStatus.CREATED).body(jdescs);
 	}
 	
 	@PutMapping("/job-description")
@@ -79,23 +81,39 @@ public class JobDescriptionController {
 	
 	@GetMapping("/job-description/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		JobDescription jdesc = jobDescriptionService.findById(id);
-		jdesc.getJobPosting().setUser(null);
-		return ResponseEntity.ok(jdesc);
+		try {
+			valIdExist(id);
+			JobDescription jdesc = jobDescriptionService.findById(id);
+			jdesc.getJobPosting().getUser().setImage(null);
+			return ResponseEntity.ok(jdesc);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/job-description")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(jobDescriptionService.findAll());
+		try {
+			return ResponseEntity.ok(jobDescriptionService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/job-description/list/{id}")
 	public ResponseEntity<?> getDescriptionByJobPosting(@PathVariable String id) throws ErrorException {
-		List<JobDescription> listJobDescription = jobDescriptionService.findDescriptionByJobPosting(id);
-		for(JobDescription jd : listJobDescription) {
-			jd.getJobPosting().setUser(null);
+		try {
+			List<JobDescription> listJobDescription = jobDescriptionService.findDescriptionByJobPosting(id);
+			for(JobDescription jd : listJobDescription) {
+				jd.getJobPosting().setUser(null);
+			}
+			return ResponseEntity.ok(listJobDescription);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.ok(listJobDescription);
+		
 	}
 	
 	private Exception valIdNull(JobDescription jdesc) throws Exception {

@@ -70,12 +70,23 @@ public class JobLevelController {
 	
 	@GetMapping("/job-level/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(jobLevelService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(jobLevelService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/job-level")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(jobLevelService.findAll());
+		try {
+			return ResponseEntity.ok(jobLevelService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	private Exception valIdNull(JobLevel jl) throws Exception {

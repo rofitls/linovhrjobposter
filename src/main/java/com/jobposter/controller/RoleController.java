@@ -71,7 +71,8 @@ public class RoleController {
 	@GetMapping("/role/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
 		try {
-		return ResponseEntity.ok(roleService.findById(id));
+			valIdExist(id);
+			return ResponseEntity.ok(roleService.findById(id));
 		}catch(Exception e ) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}	
@@ -79,7 +80,12 @@ public class RoleController {
 	
 	@GetMapping("/role")
 	public ResponseEntity<?> getAll()  throws ErrorException {
-		return ResponseEntity.ok(roleService.findAll());
+		try {
+			return ResponseEntity.ok(roleService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/role/name/{name}")

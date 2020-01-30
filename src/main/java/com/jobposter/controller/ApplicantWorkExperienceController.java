@@ -86,14 +86,24 @@ public class ApplicantWorkExperienceController {
 	
 	@GetMapping("/apl-work-exp/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		ApplicantWorkExperience applWorkExp = applService.findById(id);
-		applWorkExp.setUser(null);
-		return ResponseEntity.ok(applWorkExp);
+		try {
+			valIdExist(id);
+			ApplicantWorkExperience applWorkExp = applService.findById(id);
+			applWorkExp.getUser().setImage(null);
+			return ResponseEntity.ok(applWorkExp);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/apl-work-exp")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(applService.findAll());
+		try {
+			return ResponseEntity.ok(applService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/apl-work-exp/list/{id}")

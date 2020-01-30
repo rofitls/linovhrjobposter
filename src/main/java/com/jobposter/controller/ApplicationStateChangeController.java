@@ -47,6 +47,7 @@ public class ApplicationStateChangeController {
 			valBkNotExist(state);
 			//valNonBk(state);
 			appStateChangeService.insert(state);
+			state.getApplication().setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -62,6 +63,7 @@ public class ApplicationStateChangeController {
 			valBkNotChange(state);
 			//valNonBk(state);
 			appStateChangeService.update(state);
+			state.getApplication().setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -74,6 +76,7 @@ public class ApplicationStateChangeController {
 			valIdExist(id);
 			ApplicationStateChange state = appStateChangeService.findById(id);
 			appStateChangeService.delete(state);
+			state.getApplication().setUser(null);
 			return ResponseEntity.ok(state);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -83,12 +86,25 @@ public class ApplicationStateChangeController {
 	
 	@GetMapping("/application-state-change/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(appStateChangeService.findById(id));
+		try {
+			valIdExist(id);
+			ApplicationStateChange asc = appStateChangeService.findById(id);
+			asc.getApplication().getUser().setImage(null);
+			return ResponseEntity.ok(asc);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/application-state-change")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(appStateChangeService.findAll());
+		try {
+			return ResponseEntity.ok(appStateChangeService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/application-state-change/report/{id}")

@@ -46,5 +46,9 @@ public class ApplicantEducationService {
 		List<ApplicantEducation> appl = applEducationDao.findAEUser(id);
 		return appl;
 	}
+	
+	public ApplicantEducation findRecentEducationApplicant(String id) throws ErrorException {
+		return applEducationDao.findRecentEducationApplicant(id);
+	}
 
 }

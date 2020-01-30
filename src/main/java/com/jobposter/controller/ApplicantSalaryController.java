@@ -75,16 +75,21 @@ public class ApplicantSalaryController {
 	
 	@GetMapping("/apl-salary/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		ApplicantSalary applSalary = applService.findById(id);
-		applSalary.setUser(null);
-		return ResponseEntity.ok(applSalary);
+		try {
+			valIdExist(id);
+			ApplicantSalary applSalary = applService.findById(id);
+			applSalary.getUser().setImage(null);
+			return ResponseEntity.ok(applSalary);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/apl-salary/{id}")
 	public ResponseEntity<?> getSalaryByApplicant(@PathVariable String id) throws ErrorException {
 		try {
 			ApplicantSalary applSalary = applService.findByBk(id);
-			applSalary.setUser(null);
+			applSalary.getUser().setImage(null);
 			return ResponseEntity.ok(applSalary);	
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -94,7 +99,11 @@ public class ApplicantSalaryController {
 	
 	@GetMapping("/apl-salary")
 	public ResponseEntity<?> getAll() throws ErrorException {
-		return ResponseEntity.ok(applService.findAll());
+		try {
+			return ResponseEntity.ok(applService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 

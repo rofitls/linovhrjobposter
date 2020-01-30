@@ -1,5 +1,7 @@
 package com.jobposter.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +68,7 @@ public class JobPostingController {
 			jquota.setJobPosting(jobPosting);
 			jquota.setJobQuota(jPostPojo.getQuota());
 			jobQuotaService.insert(jquota);
+			jpost.setUser(null);
 			return ResponseEntity.status(HttpStatus.CREATED).body(jpost);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -82,6 +85,7 @@ public class JobPostingController {
 			valBkNotChange(jpost);
 			valNonBk(jpost);
 			jobPostingService.update(jpost);
+			jpost.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -94,6 +98,7 @@ public class JobPostingController {
 			valIdExist(id);
 			JobPosting jpost = jobPostingService.findById(id);
 			jobPostingService.delete(jpost);
+			jpost.setUser(null);
 			return ResponseEntity.ok(jpost);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -105,9 +110,11 @@ public class JobPostingController {
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
-			return ResponseEntity.ok(jobPostingService.findById(id));
+			JobPosting jpost = jobPostingService.findById(id);
+			jpost.getUser().setImage(null);
+			return ResponseEntity.ok(jpost);
 		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 		
 	}
@@ -115,22 +122,38 @@ public class JobPostingController {
 	@GetMapping("/admin/job-posting/list/{id}")
 	public ResponseEntity<?> getJobByRecruiter(@PathVariable String id) throws ErrorException {
 		try {
-			//valIdExist(id);
-			return ResponseEntity.ok(jobPostingService.findJobByRecruiter(id));
+			List<JobPosting> jposts = jobPostingService.findJobByRecruiter(id);
+			for(JobPosting jpost : jposts) {
+				jpost.getUser().setImage(null);
+			}
+			return ResponseEntity.ok(jposts);
 		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
 	
 	@GetMapping("/apl/job-posting")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(jobPostingService.findAll());
+		try {
+			List<JobPosting> jposts = jobPostingService.findAll();
+			for(JobPosting jpost : jposts) {
+				jpost.getUser().setImage(null);
+			}
+			return ResponseEntity.ok(jposts);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@PostMapping("/apl/job-posting/filter")
 	public ResponseEntity<?> filterJob(@RequestBody FilterJob filter) throws ErrorException {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(jobPostingService.filterJob(filter.getProvinceName(), filter.getJobCategoryName(),filter.getSalaryMin(),filter.getSalaryMax()));
+			List<JobPosting> jposts = jobPostingService.filterJob(filter.getProvinceName(), filter.getJobCategoryName(),filter.getSalaryMin(),filter.getSalaryMax());
+			for(JobPosting jpost : jposts) {
+				jpost.getUser().setImage(null);
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(jposts);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}

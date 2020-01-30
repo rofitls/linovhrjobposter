@@ -71,12 +71,23 @@ public class ReligionController {
 	
 	@GetMapping("/religion/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(religionService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(religionService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/religion")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(religionService.findAll());
+		try {
+			return ResponseEntity.ok(religionService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	private Exception valIdNull(Religion religion) throws Exception {

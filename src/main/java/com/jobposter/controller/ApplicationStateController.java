@@ -69,14 +69,24 @@ public class ApplicationStateController {
 	
 	@GetMapping("/application-state/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(stateService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(stateService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/application-state")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(stateService.findAll());
+		try {
+			return ResponseEntity.ok(stateService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
-	
 
 	private Exception valIdNull(ApplicationState state) throws Exception {
 		if(state.getId()!=null) {

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jobposter.entity.ApplicantEducation;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.ApplicantEducationService;
-import com.jobposter.service.EducationLevelService;
 import com.jobposter.service.MajorService;
 import com.jobposter.service.UserService;
 
@@ -82,14 +81,35 @@ public class ApplicantEducationController {
 	
 	@GetMapping("/apl-edu/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		ApplicantEducation applEdu = applService.findById(id);
-//		applEdu.setUser(null);
-		return ResponseEntity.ok(applEdu);
+		try {
+			valIdExist(id);
+			ApplicantEducation applEdu = applService.findById(id);
+			applEdu.getUser().setImage(null);
+			return ResponseEntity.ok(applEdu);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/apl-edu")
 	public ResponseEntity<?> getAll() throws ErrorException {
-		return ResponseEntity.ok(applService.findAll());
+		try {
+			return ResponseEntity.ok(applService.findAll());
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+	
+	@GetMapping("/apl-edu/recent/{id}")
+	public ResponseEntity<?> getRecentEducationApplicant(@PathVariable String id) throws ErrorException {
+		try {
+			ApplicantEducation appl = applService.findRecentEducationApplicant(id);
+			appl.setUser(null);
+			return ResponseEntity.ok(appl);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/apl-edu/list/{id}")

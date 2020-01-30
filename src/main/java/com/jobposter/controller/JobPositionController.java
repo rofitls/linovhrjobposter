@@ -73,12 +73,23 @@ public class JobPositionController {
 	
 	@GetMapping("/job-position/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(jobPositionService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(jobPositionService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/job-position")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(jobPositionService.findAll());
+		try {
+			return ResponseEntity.ok(jobPositionService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	private Exception valIdNull(JobPosition jp) throws Exception {

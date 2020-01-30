@@ -78,14 +78,25 @@ public class ApplicantProjectController {
 	
 	@GetMapping("/apl-proj/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		ApplicantProject applProject = applService.findById(id);
-		applProject.setUser(null);
-		return ResponseEntity.ok(applProject);
+		try {
+			valIdExist(id);
+			ApplicantProject applProject = applService.findById(id);
+			applProject.getUser().setImage(null);
+			return ResponseEntity.ok(applProject);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/apl-proj")
 	public ResponseEntity<?> getAll() throws ErrorException {
-		return ResponseEntity.ok(applService.findAll());
+		try {
+			return ResponseEntity.ok(applService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/apl-proj/list/{id}")

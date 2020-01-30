@@ -32,19 +32,21 @@ public class JobRequirementController {
 	private JobPostingService jobPostingService;
 	
 	@PostMapping("/job-requirement")
-	public ResponseEntity<?> insert(@RequestBody JobRequirement jreq) throws ErrorException{
+	public ResponseEntity<?> insert(@RequestBody List<JobRequirement> jreqs) throws ErrorException{
 		try {
-			jreq.setJobRequirementCode("jreq"+jreq.getId());
-			valIdNull(jreq);
-			valBkNotNull(jreq);
-			valBkNotExist(jreq);
-			valNonBk(jreq);
-			jobRequirementService.insert(jreq);
-			jreq.getJobPosting().setUser(null);
+			for(JobRequirement jreq : jreqs) {
+				jreq.setJobRequirementCode("jreq"+jreq.getId());
+				valIdNull(jreq);
+				valBkNotNull(jreq);
+				valBkNotExist(jreq);
+				valNonBk(jreq);
+				jobRequirementService.insert(jreq);
+				jreq.getJobPosting().setUser(null);	
+			}
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(jreq);
+		return ResponseEntity.status(HttpStatus.CREATED).body(jreqs);
 	}
 	
 	@PutMapping("/job-requirement")
@@ -79,23 +81,39 @@ public class JobRequirementController {
 	
 	@GetMapping("/job-requirement/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		JobRequirement jreq = jobRequirementService.findById(id);
-		jreq.getJobPosting().setUser(null);
-		return ResponseEntity.ok(jreq);
+		try {
+			valIdExist(id);
+			JobRequirement jreq = jobRequirementService.findById(id);
+			jreq.getJobPosting().getUser().setImage(null);
+			return ResponseEntity.ok(jreq);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/job-requirement")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(jobRequirementService.findAll());
+		try {
+			return ResponseEntity.ok(jobRequirementService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/job-requirement/list/{id}")
 	public ResponseEntity<?> getRequirementByJobPosting(@PathVariable String id) throws ErrorException {
-		List<JobRequirement> listJobRequirement = jobRequirementService.findRequirementByJobPosting(id);
-		for(JobRequirement jr : listJobRequirement) {
-			jr.getJobPosting().setUser(null);
+		try {
+			List<JobRequirement> listJobRequirement = jobRequirementService.findRequirementByJobPosting(id);
+			for(JobRequirement jr : listJobRequirement) {
+				jr.getJobPosting().setUser(null);
+			}
+			return ResponseEntity.ok(listJobRequirement);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return ResponseEntity.ok(listJobRequirement);
+		
 	}
 	
 	private Exception valIdNull(JobRequirement jreq) throws Exception {

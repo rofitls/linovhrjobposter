@@ -69,17 +69,26 @@ public class CityController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		
 	}
 	
 	@GetMapping("/city/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(cityService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(cityService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/city")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(cityService.findAll());
+		try {
+			return ResponseEntity.ok(cityService.findAll());
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	private Exception valIdNull(City city) throws Exception {

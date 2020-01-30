@@ -69,12 +69,22 @@ public class JobCategoryController {
 	
 	@GetMapping("/job-category/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(jobCategoryService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(jobCategoryService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/job-category")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(jobCategoryService.findAll());
+		try {
+			return ResponseEntity.ok(jobCategoryService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	private Exception valIdNull(JobCategory jc) throws Exception {
 		if(jc.getId()!=null) {

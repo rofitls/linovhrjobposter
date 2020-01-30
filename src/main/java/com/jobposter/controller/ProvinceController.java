@@ -71,12 +71,22 @@ public class ProvinceController {
 	
 	@GetMapping("/province/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(provinceService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(provinceService.findById(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/province")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(provinceService.findAll());
+		try {
+			return ResponseEntity.ok(provinceService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	private Exception valIdNull(Province prov) throws Exception {

@@ -84,7 +84,7 @@ public class ApplicantSkillController {
 		try {
 			valIdExist(id);
 			ApplicantSkill applSkill = applService.findById(id);
-			applSkill.setUser(null);
+			applSkill.getUser().setImage(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applSkill);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -93,7 +93,12 @@ public class ApplicantSkillController {
 	
 	@GetMapping("/apl-skill")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(applService.findAll());
+		try {
+			return ResponseEntity.ok(applService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/apl-skill/list/{id}")

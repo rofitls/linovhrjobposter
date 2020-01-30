@@ -186,6 +186,7 @@ public class UserController {
 			valBkNotChange(appl);
 			valNonBk(appl, appl.getRole());
 			userService.update(appl);
+			appl.setImage(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -198,6 +199,7 @@ public class UserController {
 			valIdExist(id);
 			Users user = userService.findById(id);
 			userService.delete(user);
+			user.setImage(null);
 			return ResponseEntity.ok(user);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -207,12 +209,23 @@ public class UserController {
 	
 	@GetMapping("/user/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(userService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(userService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/user")
 	public ResponseEntity<?> getAll()  throws ErrorException {
-		return ResponseEntity.ok(userService.findAll());
+		try {
+			return ResponseEntity.ok(userService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/user/report/{id}")

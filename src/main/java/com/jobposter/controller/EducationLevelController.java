@@ -69,12 +69,23 @@ public class EducationLevelController {
 	
 	@GetMapping("/edu-level/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(educationLevelService.findById(id));
+		try {
+			valIdExist(id);
+			return ResponseEntity.ok(educationLevelService.findById(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/edu-level")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(educationLevelService.findAll());
+		try {
+			return ResponseEntity.ok(educationLevelService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	private Exception valIdNull(EducationLevel el) throws Exception {

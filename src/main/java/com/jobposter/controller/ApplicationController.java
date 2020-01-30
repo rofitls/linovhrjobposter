@@ -1,13 +1,10 @@
 package com.jobposter.controller;
 
-import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.api.client.http.HttpTransport;
 import com.jobposter.entity.Application;
 import com.jobposter.entity.ApplicationStateChange;
 import com.jobposter.entity.InterviewTestSchedule;
@@ -138,6 +134,7 @@ public class ApplicationController {
 			Application application = applService.findByBk(appl.getUser().getId(), appl.getJobPosting().getId());
 			state.setApplication(application);
 			applStateChangeService.insert(state);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -173,6 +170,7 @@ public class ApplicationController {
 			valBkNotChange(appl);
 			//valNonBk(appl);
 			applService.update(appl);
+			appl.setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -185,6 +183,7 @@ public class ApplicationController {
 			valIdExist(id);
 			Application appl = applService.findById(id);
 			applService.delete(appl);
+			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -211,9 +210,6 @@ public class ApplicationController {
 		    mail.setPosition(appl.getJobPosting().getJobTitleName());
 		    mail.setDate(date);
 		    schedule.setApplication(appl);
-//		    Integer count = interviewTestScheduleService.countSchedule().intValue();
-//		    DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-//		    Date times = sdf.parse(time);
 		    schedule.setInterviewCode("SCHEDULE-"+id);
 		    schedule.setInterviewDate(interviewDate);
 //		    schedule.setInterviewTime(times.getTime());
@@ -221,6 +217,7 @@ public class ApplicationController {
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.insert(applStateChange);
 			emailService.sendInterview(mail);
+			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -244,6 +241,7 @@ public class ApplicationController {
 			}
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			interviewTestScheduleService.delete(its);
+			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -262,6 +260,7 @@ public class ApplicationController {
 			applStateChangeService.insert(applStateChange);
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			interviewTestScheduleService.delete(its);
+			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -270,7 +269,15 @@ public class ApplicationController {
 	
 	@GetMapping("/apl/application/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(applService.findById(id));
+		try {
+			valIdExist(id);
+			Application appl = applService.findById(id);
+			appl.getUser().setImage(null);
+			return ResponseEntity.ok(appl);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/admin/application/detail/{id}")
@@ -284,6 +291,7 @@ public class ApplicationController {
 				applStateChangeService.update(applStateChange);
 			}
 			applStateChange = applStateChangeService.findByBk(appl.getId());
+			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -292,7 +300,12 @@ public class ApplicationController {
 	
 	@GetMapping("/admin/application")
 	public ResponseEntity<?> getAll()  throws ErrorException{
-		return ResponseEntity.ok(applService.findAll());
+		try {
+			return ResponseEntity.ok(applService.findAll());	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 	
 	@GetMapping("/admin/application/count/{id}")
@@ -308,7 +321,10 @@ public class ApplicationController {
 	@GetMapping("/apl/application/schedule/{id}")
 	public ResponseEntity<?> findApplicationInterview(@PathVariable String id) throws ErrorException {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(interviewTestScheduleService.findScheduleByApplication(id));
+			valIdExist(id);
+			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(id);
+			its.getApplication().setUser(null);
+			return ResponseEntity.status(HttpStatus.OK).body(its);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
