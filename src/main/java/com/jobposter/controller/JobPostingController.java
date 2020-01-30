@@ -115,7 +115,7 @@ public class JobPostingController {
 	@GetMapping("/admin/job-posting/list/{id}")
 	public ResponseEntity<?> getJobByRecruiter(@PathVariable String id) throws ErrorException {
 		try {
-			valIdExist(id);
+			//valIdExist(id);
 			return ResponseEntity.ok(jobPostingService.findJobByRecruiter(id));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
