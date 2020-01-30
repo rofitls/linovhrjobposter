@@ -61,7 +61,7 @@ public class JobPostingController {
 			valNonBk(jpost);
 			jpost.setActiveState(true);
 			jobPostingService.insert(jpost);
-			JobPosting jobPosting = jobPostingService.findByBk(jpost.getUser().getId(), jpost.getJobPosition().getId(), jpost.getCity().getId(), jpost.getStartDate(), jpost.getEndDate());
+			JobPosting jobPosting = jobPostingService.findByBk(jpost.getUser().getId(), jpost.getJobPosition().getId(), jpost.getCity().getId(), jpost.getStartDate(), jpost.getEndDate(), jpost.getCompany());
 			JobQuota jquota = new JobQuota();
 			jquota.setJobPosting(jobPosting);
 			jquota.setJobQuota(jPostPojo.getQuota());
@@ -168,12 +168,14 @@ public class JobPostingController {
 			throw new Exception("Start date must be filled");
 		}else if(jpost.getEndDate()==null) {
 			throw new Exception("End date must be filled");
+		}else if(jpost.getCompany()==null) {
+			throw new Exception("Company must be filled");
 		}
 		return null;
 	}
 	
 	private Exception valBkNotExist (JobPosting jpost) throws Exception{
-		if(jobPostingService.findByBk(jpost.getUser().getId(),jpost.getJobPosition().getId(),jpost.getCity().getId(), jpost.getStartDate(), jpost.getEndDate())!=null) {
+		if(jobPostingService.findByBk(jpost.getUser().getId(),jpost.getJobPosition().getId(),jpost.getCity().getId(), jpost.getStartDate(), jpost.getEndDate(), jpost.getCompany())!=null) {
 			throw new Exception("Job Posting already exists");
 		}else if(userService.findById(jpost.getUser().getId())==null) {
 			throw new Exception("User doesn't exist");
@@ -195,6 +197,8 @@ public class JobPostingController {
 		}else if(!jpost.getStartDate().equals(jobPostingService.findById(jpost.getId()).getStartDate())) {
 			throw new Exception("BK cannot change");
 		}else if(!jpost.getEndDate().equals(jobPostingService.findById(jpost.getId()).getEndDate())) {
+			throw new Exception("BK cannot change");
+		}else if(!jpost.getCompany().equalsIgnoreCase(jobPostingService.findById(jpost.getId()).getCompany())) {
 			throw new Exception("BK cannot change");
 		}
 		return null;

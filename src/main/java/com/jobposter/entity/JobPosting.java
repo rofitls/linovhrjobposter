@@ -18,7 +18,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="tbl_m_job_posting", uniqueConstraints = @UniqueConstraint(columnNames = {"id_user","id_jobp","id_city","start_date","end_date"}))
+@Table(name="tbl_m_job_posting", uniqueConstraints = @UniqueConstraint(columnNames = {"id_user","id_jobp","id_city","start_date","end_date","company"}))
 public class JobPosting {
 
 	@Id
@@ -29,6 +29,9 @@ public class JobPosting {
 	
 	@Column(name="job_title_name")
 	private String jobTitleName;
+	
+	@Column(name="company")
+	private String company;
 	
 	@Column(name="salary_excepted")
 	private Double salary;
@@ -141,6 +144,14 @@ public class JobPosting {
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
 	}
 
 }

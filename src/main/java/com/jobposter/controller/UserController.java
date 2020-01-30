@@ -2,14 +2,11 @@ package com.jobposter.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +18,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,17 +37,19 @@ import com.jobposter.service.UserService;
 import net.sf.jasperreports.engine.JRException;
 
 import com.jobposter.service.ApplicationStateChangeService;
-import com.jobposter.service.CityService;
 import com.jobposter.service.DocumentService;
 import com.jobposter.service.DocumentTypeService;
 import com.jobposter.service.EmailService;
 import com.jobposter.service.RoleService;
+import com.jobposter.service.UserPasswordService;
 import com.jobposter.entity.Document;
 import com.jobposter.entity.DocumentType;
 import com.jobposter.entity.Mail;
 import com.jobposter.entity.Register;
 import com.jobposter.entity.ReportPojo;
 import com.jobposter.entity.Role;
+import com.jobposter.entity.UserPassword;
+import com.jobposter.entity.UserPojo;
 import com.jobposter.config.JwtTokenUtil;
 
 @RestController
@@ -72,9 +70,6 @@ public class UserController {
 	private EmailService emailService;
 	
 	@Autowired
-	private CityService cityService;
-	
-	@Autowired
 	private RoleService roleService;
 	
 	@Autowired
@@ -87,7 +82,7 @@ public class UserController {
 	private ApplicationStateChangeService stateService;
 	
 	@Autowired
-	private PasswordEncoder bcryptEncoder;
+	private UserPasswordService userPasswordService;
 	
 	@PostMapping("/user")
 	public ResponseEntity<?> insert(@RequestBody Users appl) throws ErrorException{
@@ -100,7 +95,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/login")
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody Users authenticationRequest) throws Exception {
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody UserPojo authenticationRequest) throws Exception {
 		
 		try {
 		
@@ -130,6 +125,7 @@ public class UserController {
 		try {
 			
 			Users appl = new Users();
+			UserPassword up = new UserPassword();
 			Mail mail = new Mail();
 			Random random = new Random();
 			
@@ -145,7 +141,7 @@ public class UserController {
 		    appl.setFirstName(reg.getFirstName());
 		    appl.setLastName(reg.getLastName());
 		    appl.setUsername(reg.getEmail());
-		    appl.setPassword(generatedString);
+//		    appl.setPassword(generatedString);
 		    	
 		    if(reg.getRole().getId().equalsIgnoreCase(roleService.findByName("Applicant").getId())) {
 		    	appl.setGender(reg.getGender());
@@ -170,6 +166,10 @@ public class UserController {
 			valNonBk(appl, reg.getRole());
 		    userService.insert(appl);
 		    emailService.sendEmail(mail);
+		    appl = userService.findByUsername(reg.getEmail());
+		    up.setUser(appl);
+		    up.setPassword(generatedString);
+		    userPasswordService.insert(up);
 			return ResponseEntity.status(HttpStatus.OK).body(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -234,7 +234,6 @@ public class UserController {
 			user.setImage(upload[0].getBytes());
 			user.setImageType(upload[0].getContentType());
 			user.setImageFileName(upload[0].getOriginalFilename());
-			user.setPassword(user.getPassword());
 			userService.insert(user);
 			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}catch(Exception e) {

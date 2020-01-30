@@ -19,9 +19,11 @@ import org.springframework.util.ResourceUtils;
 
 import com.jobposter.dao.ApplicationStateChangeDao;
 import com.jobposter.dao.UserDao;
+import com.jobposter.dao.UserPasswordDao;
 import com.jobposter.entity.ReportInput;
 import com.jobposter.entity.ReportPerJobPojo;
 import com.jobposter.entity.ReportPojo;
+import com.jobposter.entity.UserPassword;
 import com.jobposter.entity.Users;
 import com.jobposter.exception.ErrorException;
 import com.lowagie.text.pdf.PdfObject;
@@ -42,7 +44,10 @@ public class UserService implements UserDetailsService {
 	private UserDao userDao;
 	
 	@Autowired
-	private PasswordEncoder bcryptEncoder;
+	private UserPasswordDao userPasswordDao;
+	
+//	@Autowired
+//	private PasswordEncoder bcryptEncoder;
 
 	public Users findById(String id) {
 		Users user = userDao.findById(id);
@@ -50,7 +55,7 @@ public class UserService implements UserDetailsService {
 	}
 	
 	public void insert(Users user) throws ErrorException{
-		user.setPassword(bcryptEncoder.encode(user.getPassword()));
+//		user.setPassword(bcryptEncoder.encode(user.getPassword()));
 		userDao.save(user);
 	}
 	
@@ -82,10 +87,13 @@ public class UserService implements UserDetailsService {
 		// TODO Auto-generated method stub
 //		Users user = userDao.findByUsername(email);
 		Users user = findByUsername(email);
-		if(user == null) {
-			throw new UsernameNotFoundException("User not found with email: " + email);
-		}
-		return new User(user.getUsername(), user.getPassword(),
+		UserPassword up = userPasswordDao.findById(user.getId());
+		
+//		if(user == null) {
+//			throw new UsernameNotFoundException("User not found with email: " + email);
+//		}
+		
+		return new User(user.getUsername(), up.getPassword(),
 				new ArrayList<>());
 	}
 	

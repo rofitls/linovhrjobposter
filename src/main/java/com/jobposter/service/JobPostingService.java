@@ -34,8 +34,8 @@ public class JobPostingService {
 		jobPostingDao.delete(jpost);
 	}
 	
-	public JobPosting findByBk(String Bk1, String Bk2, String Bk3, Date Bk4, Date Bk5)  throws ErrorException {
-		JobPosting jpost = jobPostingDao.findByBk(Bk1, Bk2, Bk3, Bk4, Bk5);
+	public JobPosting findByBk(String Bk1, String Bk2, String Bk3, Date Bk4, Date Bk5, String Bk6)  throws ErrorException {
+		JobPosting jpost = jobPostingDao.findByBk(Bk1, Bk2, Bk3, Bk4, Bk5, Bk6);
 		return jpost;
 	}
 	

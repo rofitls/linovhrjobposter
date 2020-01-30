@@ -53,14 +53,15 @@ public class JobPostingDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public JobPosting findByBk(String Bk1, String Bk2, String Bk3, Date Bk4, Date Bk5) {
+	public JobPosting findByBk(String Bk1, String Bk2, String Bk3, Date Bk4, Date Bk5, String Bk6) {
 		List<JobPosting> list = super.entityManager
-				.createQuery("from JobPosting where user.id =: bk1 and jobPosition.id =: bk2 and city.id =: bk3 and startDate =: bk4 and endDate =: bk5")
+				.createQuery("from JobPosting where user.id =: bk1 and jobPosition.id =: bk2 and city.id =: bk3 and startDate =: bk4 and endDate =: bk5 and company =: bk6")
 				.setParameter("bk1", Bk1)
 				.setParameter("bk2", Bk2)
 				.setParameter("bk3", Bk3)
 				.setParameter("bk4", Bk4)
 				.setParameter("bk5", Bk5)
+				.setParameter("bk6", Bk6)
 				.getResultList();
 		if(list.size()==0)
 			return null;
