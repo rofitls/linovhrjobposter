@@ -227,12 +227,13 @@ public class UserController {
 		}
 	}
 	
-	@PutMapping("/user/upload/{id}")
+	@PostMapping("/user/upload/{id}")
 	public ResponseEntity<?> saveImage(@PathVariable String id, @RequestPart MultipartFile[] upload ) throws IOException {
 		try {
 			Users user = userService.findById(id);
 			user.setImage(upload[0].getBytes());
 			user.setImageType(upload[0].getContentType());
+			user.setImageFileName(upload[0].getOriginalFilename());
 			userService.insert(user);
 			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}catch(Exception e) {
