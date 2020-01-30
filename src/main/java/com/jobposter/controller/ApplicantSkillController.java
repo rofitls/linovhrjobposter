@@ -87,7 +87,7 @@ public class ApplicantSkillController {
 			applSkill.setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applSkill);
 		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
 	
@@ -105,7 +105,7 @@ public class ApplicantSkillController {
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(listApplSkill);
 		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
 

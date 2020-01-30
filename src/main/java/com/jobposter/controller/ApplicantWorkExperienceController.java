@@ -105,7 +105,7 @@ public class ApplicantWorkExperienceController {
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(listApplWorkExp);
 		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
 
