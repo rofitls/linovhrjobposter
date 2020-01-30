@@ -127,32 +127,38 @@ public class UserController {
 	@PostMapping("/user/register")
 	public ResponseEntity<?> saveUser(@RequestBody Register reg) throws Exception {
 		try {
+			
 			Users appl = new Users();
 			Mail mail = new Mail();
+			Random random = new Random();
+			
 			int leftLimit = 97; // letter 'a'
 		    int rightLimit = 122; // letter 'z'
 		    int targetStringLength = 10;
-		    Random random = new Random();
+		    
 		 
 		    String generatedString = random.ints(leftLimit, rightLimit + 1)
 		      .limit(targetStringLength)
 		      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 		      .toString();
+		    
 		    appl.setFirstName(reg.getFirstName());
 		    appl.setLastName(reg.getLastName());
 		    appl.setUsername(reg.getEmail());
 		    appl.setPassword(generatedString);
-		    appl.setAddress(reg.getAddress());
-		    appl.setGender(reg.getGender());
-		    appl.setDateOfBirthday(reg.getDateOfBirthday());
-		    LocalDate now = LocalDate.now();
-		    LocalDate dob = Instant.ofEpochMilli(reg.getDateOfBirthday().getTime())
-            .atZone(ZoneId.systemDefault())
-            .toLocalDate();
-		    Double age = dob.until(now, ChronoUnit.DAYS) / 365.2425d;
-		    appl.setAge(age.intValue());
+		    	
+		    if(reg.getRole().getId().equalsIgnoreCase(roleService.findByName("Applicant").getId())) {
+		    	appl.setGender(reg.getGender());
+			    appl.setDateOfBirthday(reg.getDateOfBirthday());
+			    LocalDate now = LocalDate.now();
+			    LocalDate dob = Instant.ofEpochMilli(reg.getDateOfBirthday().getTime())
+	            .atZone(ZoneId.systemDefault())
+	            .toLocalDate();
+			    Double age = dob.until(now, ChronoUnit.DAYS) / 365.2425d;
+			    appl.setAge(age.intValue());	
+		    }
+		    
 		    appl.setPhone(reg.getPhone());
-		    appl.setCity(reg.getCity());
 		    appl.setRole(reg.getRole());
 		    mail.setName(reg.getFirstName()+" "+reg.getLastName());
 		    mail.setSubject("Linov HR Job Poster Password Account");
