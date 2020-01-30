@@ -234,7 +234,7 @@ public class UserController {
 			user.setImage(upload[0].getBytes());
 			user.setImageType(upload[0].getContentType());
 			user.setImageFileName(upload[0].getOriginalFilename());
-			System.out.println(user.getPassword());
+			user.setPassword(user.getPassword());
 			userService.insert(user);
 			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}catch(Exception e) {
