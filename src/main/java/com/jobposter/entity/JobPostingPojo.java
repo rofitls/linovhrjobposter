@@ -14,6 +14,16 @@ public class JobPostingPojo {
 	
 	private String jobTitleName;
 	
+	private String company;
+	
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
 	private Double salary;
 	
 	private Date startDate;

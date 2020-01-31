@@ -54,6 +54,7 @@ public class JobPostingController {
 			jpost.setStartDate(jPostPojo.getStartDate());
 			jpost.setEndDate(jPostPojo.getEndDate());
 			jpost.setAddress(jPostPojo.getAddress());
+			jpost.setCompany(jPostPojo.getCompany());
 			jpost.setCity(cityService.findById(jPostPojo.getIdCity()));
 			jpost.setJobPosition(jobPositionService.findById(jPostPojo.getIdJobPosition()));
 			jpost.setUser(userService.findById(jPostPojo.getIdUser()));
