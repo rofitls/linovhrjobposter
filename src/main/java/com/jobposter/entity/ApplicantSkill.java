@@ -16,7 +16,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="tbl_m_applicant_skill",  uniqueConstraints = @UniqueConstraint(columnNames = {"id_user","id_skill_level","skill_name"}))
+@Table(name="tbl_m_applicant_skill",  uniqueConstraints = @UniqueConstraint(columnNames = {"id_user","skill_level","skill_name"}))
 public class ApplicantSkill {
 
 	@Id
@@ -27,18 +27,16 @@ public class ApplicantSkill {
 	
 	@Column(name="skill_name")
 	private String skillName;
+
+	@Column(name="skill_level")
+	private String skillLevel;
 	
 	@ManyToOne
 	@JoinColumn(name="id_user", referencedColumnName="id", nullable=false)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Users user;
-	
-	@ManyToOne
-	@JoinColumn(name="id_skill_level", referencedColumnName="id", nullable=false)
-	@OnDelete(action = OnDeleteAction.NO_ACTION)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private SkillLevel skillLevel;
+
 
 	public String getId() {
 		return id;
@@ -64,12 +62,14 @@ public class ApplicantSkill {
 		this.user = user;
 	}
 
-	public SkillLevel getSkillLevel() {
+	public String getSkillLevel() {
 		return skillLevel;
 	}
 
-	public void setSkillLevel(SkillLevel skillLevel) {
+	public void setSkillLevel(String skillLevel) {
 		this.skillLevel = skillLevel;
 	}
+
+	
 	
 }

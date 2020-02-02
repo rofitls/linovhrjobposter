@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jobposter.entity.ApplicantSkill;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.ApplicantSkillService;
-import com.jobposter.service.SkillLevelService;
 import com.jobposter.service.UserService;
 
 @RestController
@@ -29,8 +28,6 @@ public class ApplicantSkillController {
 	@Autowired
 	private ApplicantSkillService applService;
 	
-	@Autowired
-	private SkillLevelService skillLevelService;
 	
 	@Autowired
 	private UserService userService;
@@ -147,12 +144,10 @@ public class ApplicantSkillController {
 	}
 	
 	private Exception valBkNotExist (ApplicantSkill appl) throws Exception{
-		if(applService.findByBk(appl.getUser().getId(),appl.getSkillLevel().getId(), appl.getSkillName())!=null) {
+		if(applService.findByBk(appl.getUser().getId(),appl.getSkillLevel(), appl.getSkillName())!=null) {
 			throw new Exception("Applicant skill already exists");
 		}else if(userService.findById(appl.getUser().getId())==null) {
 			throw new Exception("User doesn't exist");
-		}else if(skillLevelService.findById(appl.getSkillLevel().getId())==null || skillLevelService.findById(appl.getSkillLevel().getId()).isActiveState()==false) {
-			throw new Exception("Skill level doesn't exist");
 		}
 		return null;
 	}
@@ -163,9 +158,6 @@ public class ApplicantSkillController {
 		}else if(!appl.getSkillName().equalsIgnoreCase(applService.findById(appl.getId()).getSkillName())) {
 			throw new Exception("BK cannot change");
 		}
-//		else if(!appl.getSkillLevel().getId().equalsIgnoreCase(skillLevelService.findById(appl.getId()).getId())) {
-//			throw new Exception("BK cannot change");
-//		}
 		return null;
 	}
 	
