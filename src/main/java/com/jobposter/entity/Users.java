@@ -68,23 +68,17 @@ public class Users {
 	@Column(name="image_file_name")
 	private String imageFileName;
 	
+	@Column(name="marital_status")
+	private String maritalStatus;
+	
+	@Column(name="religion")
+	private String religion;
+	
 	@ManyToOne
 	@JoinColumn(name="id_city", referencedColumnName="id", nullable=true)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private City city;
-	
-	@ManyToOne
-	@JoinColumn(name="id_religion", referencedColumnName="id", nullable=true)
-	@OnDelete(action = OnDeleteAction.NO_ACTION)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})	
-	private Religion religion;
-	
-	@ManyToOne
-	@JoinColumn(name="id_marital_status", referencedColumnName="id", nullable=true)
-	@OnDelete(action = OnDeleteAction.NO_ACTION)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private MaritalStatus ms;
 	
 	@ManyToOne
 	@JoinColumn(name="id_role", referencedColumnName="id", nullable=false)
@@ -115,14 +109,6 @@ public class Users {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-//	public String getPassword() {
-//		return password;
-//	}
-//
-//	public void setPassword(String password) {
-//		this.password = password;
-//	}
 
 	public String getUsername() {
 		return username;
@@ -220,20 +206,20 @@ public class Users {
 		this.imageFileName = imageFileName;
 	}
 
-	public Religion getReligion() {
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+
+	public String getReligion() {
 		return religion;
 	}
 
-	public void setReligion(Religion religion) {
+	public void setReligion(String religion) {
 		this.religion = religion;
 	}
 
-	public MaritalStatus getMs() {
-		return ms;
-	}
-
-	public void setMs(MaritalStatus ms) {
-		this.ms = ms;
-	}
-	
 }
