@@ -191,7 +191,7 @@ public class ApplicationController {
 		}	
 	}
 	
-	@PutMapping("/admin/application/interview/{id}/{date}")
+	@PutMapping("/admin/application/interview/{id}")
 	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @RequestBody InterviewTestSchedule schedule) throws ErrorException {
 		try {
 			valIdExist(id);
