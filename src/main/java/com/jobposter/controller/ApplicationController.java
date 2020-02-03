@@ -127,6 +127,7 @@ public class ApplicationController {
 			valBkNotExist(appl);
 			authenticateAppl(appl);
 			//valNonBk(appl);
+			appl.setDateOfApplication(new Date());
 			ApplicationStateChange state = new ApplicationStateChange();
 			state.setDateChanged(new Date());
 			state.setState(applStateService.findByStateName("Not Viewed"));
