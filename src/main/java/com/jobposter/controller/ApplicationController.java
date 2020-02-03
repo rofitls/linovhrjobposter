@@ -197,16 +197,17 @@ public class ApplicationController {
 		try {
 			valIdExist(id);
 			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+			DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 		    String strDate = dateFormat.format(schedule.getInterviewDate());
-			String strTime = dateFormat.format(schedule.getInterviewTime());
+			String strTime = timeFormat.format(schedule.getInterviewTime());
 		    
 			Mail mail = new Mail();
 			Application appl = applService.findById(id);
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
 			applStateChange.setState(applStateService.findByStateName("Interview"));
 			applStateChange.setDateChanged(new Date());
-			mail.setName(appl.getUser().getFirstName()+" "+appl.getUser().getLastName());
+			mail.setName(appl.getJobPosting().getCompany());
 		    mail.setSubject("Interview invitation " + appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName()); 
 		    //mail.setContent(date);
 		    mail.setTo(appl.getUser().getUsername());
