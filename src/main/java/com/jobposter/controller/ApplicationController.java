@@ -216,7 +216,7 @@ public class ApplicationController {
 //		    schedule.setInterviewTime(times.getTime());
 		    alreadySchedule(appl);
 		    interviewTestScheduleService.insert(schedule);
-			applStateChangeService.insert(applStateChange);
+			applStateChangeService.update(applStateChange);
 			emailService.sendInterview(mail);
 			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
@@ -234,14 +234,14 @@ public class ApplicationController {
 			applStateChange.setState(applStateService.findByStateName("Hire"));
 			applStateChange.setApplication(appl);
 			applStateChange.setDateChanged(new Date());
-			applStateChangeService.insert(applStateChange);
+			applStateChangeService.update(applStateChange);
 			Long appHire = applStateChangeService.findApplicationHire(appl.getJobPosting().getId());
 			if(jobQuotaService.findJobQuota(appl.getJobPosting().getId()) == appHire.intValue()) {
 				JobPosting jpost = jobPostingService.findById(appl.getJobPosting().getId());
 				jpost.setActiveState(false);
 			}
-			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-			interviewTestScheduleService.delete(its);
+//			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+//			interviewTestScheduleService.delete(its);
 			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
