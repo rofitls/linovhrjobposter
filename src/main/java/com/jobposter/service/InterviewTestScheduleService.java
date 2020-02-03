@@ -48,6 +48,10 @@ public class InterviewTestScheduleService {
 		return scheduleDao.findRescheduleByJob(id);
 	}
 	
+	public List<InterviewTestSchedule> findScheduleByApplicant(String id) throws ErrorException {
+		return scheduleDao.findScheduleByApplicant(id);
+	}
+	
 	
 }
 

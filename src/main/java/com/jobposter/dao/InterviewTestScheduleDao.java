@@ -75,6 +75,19 @@ public class InterviewTestScheduleDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<InterviewTestSchedule> findScheduleByApplicant(String id){
+		List<InterviewTestSchedule> list = super.entityManager
+				.createQuery("from InterviewTestSchedule where application.user.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<InterviewTestSchedule>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<InterviewTestSchedule> findRescheduleByJob(String id) {
 		List<InterviewTestSchedule> list = super.entityManager
 				.createQuery("from InterviewTestSchedule where application.jobPosting.id =: id and reschedule =: schedule")
