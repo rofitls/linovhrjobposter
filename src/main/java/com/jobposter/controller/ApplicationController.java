@@ -207,8 +207,8 @@ public class ApplicationController {
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
 			applStateChange.setState(applStateService.findByStateName("Interview"));
 			applStateChange.setDateChanged(new Date());
-			mail.setName(appl.getJobPosting().getCompany());
-		    mail.setSubject("Interview invitation " + appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName()); 
+			mail.setName(appl.getUser().getFirstName()+" "+appl.getUser().getLastName());
+		    mail.setSubject("Interview invitation " + appl.getJobPosting().getCompany()); 
 		    //mail.setContent(date);
 		    mail.setTo(appl.getUser().getUsername());
 		    mail.setPosition(appl.getJobPosting().getJobTitleName());
