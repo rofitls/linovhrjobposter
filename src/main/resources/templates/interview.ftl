@@ -137,6 +137,7 @@ a, a:hover {
 			color: #FFFFFF;
 			font-family: sans-serif;" class="paragraph">
 				Date  : ${date} <br>
+				Time  : ${time} <br>
 				Place : 5 Floor Wisma Staco, Menteng Dalam, Tebet, South Jakarta
 		</td>
 	</tr>

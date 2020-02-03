@@ -1,6 +1,7 @@
 package com.jobposter.controller;
 
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -195,6 +196,11 @@ public class ApplicationController {
 	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @RequestBody InterviewTestSchedule schedule) throws ErrorException {
 		try {
 			valIdExist(id);
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+		    String strDate = dateFormat.format(schedule.getInterviewDate());
+			String strTime = dateFormat.format(schedule.getInterviewTime());
+		    
 			Mail mail = new Mail();
 			Application appl = applService.findById(id);
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
@@ -205,7 +211,8 @@ public class ApplicationController {
 		    //mail.setContent(date);
 		    mail.setTo(appl.getUser().getUsername());
 		    mail.setPosition(appl.getJobPosting().getJobTitleName());
-		    mail.setDate(schedule.getInterviewDate());
+		    mail.setDate(strDate);
+		    mail.setTime(strTime);
 		    schedule.setApplication(appl);
 		    schedule.setInterviewCode("SCHEDULE-"+id);
 		    schedule.setInterviewDate(schedule.getInterviewDate());
@@ -263,9 +270,8 @@ public class ApplicationController {
 			Application appl = applService.findById(id);
 			ApplicationStateChange applStateChange = new ApplicationStateChange();
 			applStateChange.setState(applStateService.findByStateName("Reject"));
-			applStateChange.setApplication(appl);
 			applStateChange.setDateChanged(new Date());
-			applStateChangeService.insert(applStateChange);
+			applStateChangeService.update(applStateChange);
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			interviewTestScheduleService.delete(its);
 			applStateChange.getApplication().setUser(null);
