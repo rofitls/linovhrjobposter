@@ -1,5 +1,6 @@
 package com.jobposter.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,8 @@ public class JobPostingController {
 			JobPosting jpost = new JobPosting();
 			jpost.setJobTitleName(jPostPojo.getJobTitleName());
 			jpost.setSalary(jPostPojo.getSalary());
-			jpost.setStartDate(jPostPojo.getStartDate());
+//			jpost.setStartDate(jPostPojo.getStartDate());
+			jpost.setStartDate(new Date());
 			jpost.setEndDate(jPostPojo.getEndDate());
 			jpost.setAddress(jPostPojo.getAddress());
 			jpost.setCompany(jPostPojo.getCompany());
