@@ -37,14 +37,23 @@ public class InterviewTestSchedule {
 	@Column(name="interview_time")
 	private Time interviewTime;
 	
-	@Column(name="interview_state", nullable=true)
-	private String interviewState;
-	
 	@Column(name="interview_result", nullable=true)
 	private String interviewResult;
 	
+	@Column(name="is_attend", nullable=true)
+	private boolean attend;
+	
 	@Column(name="is_reschedule", nullable=true)
 	private boolean reschedule;
+	
+	@Column(name="is_reject", nullable=true)
+	private boolean reject;
+	
+	@Column(name="reschedule_reason", nullable=true)
+	private String rescheduleReason;
+	
+	@Column(name="reject_reason", nullable=true)
+	private String rejectReason;
 	
 	@ManyToOne
 	@JoinColumn(name="id_application", referencedColumnName="id", nullable=false)
@@ -92,14 +101,6 @@ public class InterviewTestSchedule {
 		this.interviewTime = interviewTime;
 	}
 
-	public String getInterviewState() {
-		return interviewState;
-	}
-
-	public void setInterviewState(String interviewState) {
-		this.interviewState = interviewState;
-	}
-
 	public String getInterviewResult() {
 		return interviewResult;
 	}
@@ -115,5 +116,39 @@ public class InterviewTestSchedule {
 	public void setReschedule(boolean reschedule) {
 		this.reschedule = reschedule;
 	}
+
+	public String getRescheduleReason() {
+		return rescheduleReason;
+	}
+
+	public void setRescheduleReason(String rescheduleReason) {
+		this.rescheduleReason = rescheduleReason;
+	}
+
+	public String getRejectReason() {
+		return rejectReason;
+	}
+
+	public void setRejectReason(String rejectReason) {
+		this.rejectReason = rejectReason;
+	}
+
+	public boolean isAttend() {
+		return attend;
+	}
+
+	public void setAttend(boolean attend) {
+		this.attend = attend;
+	}
+
+	public boolean isReject() {
+		return reject;
+	}
+
+	public void setReject(boolean reject) {
+		this.reject = reject;
+	}
+	
+	
 
 }
