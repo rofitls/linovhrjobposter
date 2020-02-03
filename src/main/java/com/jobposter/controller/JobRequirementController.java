@@ -145,9 +145,7 @@ public class JobRequirementController {
 	}
 	
 	private Exception valBkNotExist (JobRequirement jreq) throws Exception{
-		if(jobRequirementService.findByBk(jreq.getJobRequirementCode())!=null) {
-			throw new Exception("Job Requirement already exists");
-		}else if(jobPostingService.findById(jreq.getJobPosting().getId())== null || jobPostingService.findById(jreq.getJobPosting().getId()).isActiveState()==false) {
+		if(jobPostingService.findById(jreq.getJobPosting().getId())== null || jobPostingService.findById(jreq.getJobPosting().getId()).isActiveState()==false) {
 			throw new Exception("Job Posting doesn't exists");
 		}
 		return null;

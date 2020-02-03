@@ -145,9 +145,7 @@ public class JobBenefitController {
 	}
 	
 	private Exception valBkNotExist (JobBenefit jBenefit) throws Exception{
-		if(jobBenefitService.findByBk(jBenefit.getJobBenefitCode())!=null) {
-			throw new Exception("Job Benefit already exists");
-		}else if(jobPostingService.findById(jBenefit.getJobPosting().getId())== null || jobPostingService.findById(jBenefit.getJobPosting().getId()).isActiveState()==false) {
+		if(jobPostingService.findById(jBenefit.getJobPosting().getId())== null || jobPostingService.findById(jBenefit.getJobPosting().getId()).isActiveState()==false) {
 			throw new Exception("Job Posting doesn't exists");
 		}
 		return null;

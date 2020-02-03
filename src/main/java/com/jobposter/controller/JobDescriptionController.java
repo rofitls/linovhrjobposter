@@ -145,9 +145,7 @@ public class JobDescriptionController {
 	}
 	
 	private Exception valBkNotExist (JobDescription jdesc) throws Exception{
-		if(jobDescriptionService.findByBk(jdesc.getJobDescriptionCode())!=null) {
-			throw new Exception("Job Description already exists");
-		}else if(jobPostingService.findById(jdesc.getJobPosting().getId())== null || jobPostingService.findById(jdesc.getJobPosting().getId()).isActiveState()==false) {
+		if(jobPostingService.findById(jdesc.getJobPosting().getId())== null || jobPostingService.findById(jdesc.getJobPosting().getId()).isActiveState()==false) {
 			throw new Exception("Job Posting doesn't exists");
 		}
 		return null;
