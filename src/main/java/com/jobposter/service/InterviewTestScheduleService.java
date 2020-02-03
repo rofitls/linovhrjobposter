@@ -1,5 +1,7 @@
 package com.jobposter.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,10 @@ public class InterviewTestScheduleService {
 		scheduleDao.delete(schedule);
 	}
 	
+	public InterviewTestSchedule findByBk(String Bk1) throws ErrorException {
+		return scheduleDao.findByBk(Bk1);
+	}
+	
 	public InterviewTestSchedule findScheduleByApplication(String id) throws ErrorException {
 		return scheduleDao.findScheduleByApplication(id);
 	}
@@ -37,5 +43,11 @@ public class InterviewTestScheduleService {
 	public Long countSchedule() {
 		return scheduleDao.countSchedule();
 	}
+	
+	public List<InterviewTestSchedule> findRescheduleByJob(String id) throws ErrorException {
+		return scheduleDao.findRescheduleByJob(id);
+	}
+	
+	
 }
 

@@ -28,7 +28,12 @@ public class InterviewTestScheduleController {
 	@PostMapping("/schedule")
 	public ResponseEntity<?> insert(@RequestBody InterviewTestSchedule schedule) throws ErrorException{
 		try {
+			valIdNull(schedule);
+			valBkNotNull(schedule);
+			valBkNotExist(schedule);
+			valNonBk(schedule);
 			scheduleService.insert(schedule);
+			schedule.getApplication().setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -38,7 +43,13 @@ public class InterviewTestScheduleController {
 	@PutMapping("/schedule")
 	public ResponseEntity<?> update(@RequestBody InterviewTestSchedule schedule) throws ErrorException{
 		try {
+			valIdNotNull(schedule);
+			valIdExist(schedule.getId());
+			valBkNotNull(schedule);
+			valBkNotChange(schedule);
+			valNonBk(schedule);
 			scheduleService.update(schedule);
+			schedule.getApplication().setUser(null);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -48,8 +59,10 @@ public class InterviewTestScheduleController {
 	@DeleteMapping("/schedule/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
+			valIdExist(id);
 			InterviewTestSchedule schedule = scheduleService.findById(id);
 			scheduleService.delete(schedule);
+			schedule.getApplication().setUser(null);
 			return ResponseEntity.ok(schedule);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -59,7 +72,75 @@ public class InterviewTestScheduleController {
 	
 	@GetMapping("/schedule/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
-		return ResponseEntity.ok(scheduleService.findById(id));
+		try {
+			valIdExist(id);
+			InterviewTestSchedule schedule = scheduleService.findById(id);
+			schedule.getApplication().setUser(null);
+			return ResponseEntity.ok(schedule);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
+	
+	@GetMapping("/schedule/reschedule-list-per-job/{id}")
+	public ResponseEntity<?> getRescheduleByJob(@PathVariable String id) throws ErrorException {
+		try {
+			return ResponseEntity.ok(scheduleService.findRescheduleByJob(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+	
+	private Exception valIdNull(InterviewTestSchedule schedule) throws Exception {
+		if(schedule.getId()!=null) {
+			throw new Exception("Insert Failed");
+		}
+		return null;
+	}
+	
+	private Exception valIdNotNull(InterviewTestSchedule schedule) throws Exception{
+		if(schedule.getId()==null) {
+			throw new Exception("Education Level doesn't exist");
+		}
+		return null;
+	}
+	
+	private Exception valIdExist(String id) throws Exception{
+		if(scheduleService.findById(id)==null) {
+			throw new Exception("Schedule doesn't exists");
+		}
+		return null;
+	}
+	
+	private Exception valBkNotNull(InterviewTestSchedule schedule) throws Exception{
+		if(schedule.getInterviewCode()==null) {
+			throw new Exception("Schedule code must be filled");
+		}
+		return null;
+	}
+	
+	private Exception valBkNotExist (InterviewTestSchedule schedule) throws Exception{
+		if(scheduleService.findByBk(schedule.getInterviewCode())!=null) {
+			throw new Exception("Education Level already exists");
+		}
+		return null;
+	}
+	
+	private Exception valBkNotChange(InterviewTestSchedule schedule) throws Exception{
+		if(!schedule.getInterviewCode().equalsIgnoreCase(scheduleService.findById(schedule.getId()).getInterviewCode())) {
+			throw new Exception("BK cannot change");
+		}
+		return null;
+	}
+	
+	private Exception valNonBk(InterviewTestSchedule schedule) throws Exception {
+		if(schedule.getInterviewDate()== null) {
+			throw new Exception("Interview date must be filled");
+		}else if(schedule.getInterviewTime()==null) {
+			throw new Exception("Interview time must be filled");
+		}
+		return null;
+	}
+	
 }
 

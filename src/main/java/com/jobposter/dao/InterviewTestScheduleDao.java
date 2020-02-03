@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
+import com.jobposter.entity.Application;
 import com.jobposter.entity.InterviewTestSchedule;
 
 @Repository
@@ -48,6 +49,19 @@ public class InterviewTestScheduleDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public InterviewTestSchedule findByBk(String Bk1) {
+		List<InterviewTestSchedule> list = super.entityManager
+				.createQuery("from InterviewTestSchedule where interviewCode =: bk1")
+				.setParameter("bk1", Bk1)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (InterviewTestSchedule)list.get(0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public InterviewTestSchedule findScheduleByApplication(String id) {
 		List<InterviewTestSchedule> list = super.entityManager
 				.createQuery("from InterviewTestSchedule where application.id =: id")
@@ -57,6 +71,19 @@ public class InterviewTestScheduleDao extends CommonDao {
 			return null;
 		else
 			return (InterviewTestSchedule)list.get(0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<InterviewTestSchedule> findRescheduleByJob(String id) {
+		List<InterviewTestSchedule> list = super.entityManager
+				.createQuery("from InterviewTestSchedule where application.jobPosting.id =: id and reschedule =: schedule")
+				.setParameter("schedule", true)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<InterviewTestSchedule>)list;
 	}
 	
 	@SuppressWarnings("unchecked")

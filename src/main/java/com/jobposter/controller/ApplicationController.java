@@ -188,17 +188,14 @@ public class ApplicationController {
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
-		
+		}	
 	}
 	
 	@PutMapping("/admin/application/interview/{id}/{date}")
-	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @PathVariable String date) throws ErrorException {
+	public ResponseEntity<?> interviewApplicant(@PathVariable String id, @RequestBody InterviewTestSchedule schedule) throws ErrorException {
 		try {
 			valIdExist(id);
 			Mail mail = new Mail();
-			InterviewTestSchedule schedule = new InterviewTestSchedule();
-			Date interviewDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
 			Application appl = applService.findById(id);
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
 			applStateChange.setState(applStateService.findByStateName("Interview"));
@@ -208,17 +205,31 @@ public class ApplicationController {
 		    //mail.setContent(date);
 		    mail.setTo(appl.getUser().getUsername());
 		    mail.setPosition(appl.getJobPosting().getJobTitleName());
-		    mail.setDate(date);
+		    mail.setDate(schedule.getInterviewDate());
 		    schedule.setApplication(appl);
 		    schedule.setInterviewCode("SCHEDULE-"+id);
-		    schedule.setInterviewDate(interviewDate);
-//		    schedule.setInterviewTime(times.getTime());
-		    alreadySchedule(appl);
+		    schedule.setInterviewDate(schedule.getInterviewDate());
+		    schedule.setInterviewTime(schedule.getInterviewTime());
+		    //alreadySchedule(appl); //cek udah ada schedule sebelumnya belom
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.update(applStateChange);
 			emailService.sendInterview(mail);
 			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("/admin/application/applicant-request-reschedule/{id}")
+	public ResponseEntity<?> applicantRequestRescheduleInterview(@PathVariable String id) throws ErrorException {
+		try {
+			valIdExist(id);
+			Application appl = applService.findById(id);
+			InterviewTestSchedule schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+			schedule.setReschedule(true);
+			appl.setUser(null);
+			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -238,8 +249,6 @@ public class ApplicationController {
 				JobPosting jpost = jobPostingService.findById(appl.getJobPosting().getId());
 				jpost.setActiveState(false);
 			}
-//			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-//			interviewTestScheduleService.delete(its);
 			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {

@@ -1,5 +1,6 @@
 package com.jobposter.entity;
 
+import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -33,8 +34,17 @@ public class InterviewTestSchedule {
 	@Column(name="interview_date")
 	private Date interviewDate;
 	
-//	@Column(name="interview_time")
-//	private long interviewTime;
+	@Column(name="interview_time")
+	private Time interviewTime;
+	
+	@Column(name="interview_state", nullable=true)
+	private String interviewState;
+	
+	@Column(name="interview_result", nullable=true)
+	private String interviewResult;
+	
+	@Column(name="is_reschedule", nullable=true)
+	private boolean reschedule;
 	
 	@ManyToOne
 	@JoinColumn(name="id_application", referencedColumnName="id", nullable=false)
@@ -74,12 +84,36 @@ public class InterviewTestSchedule {
 		this.application = application;
 	}
 
-//	public long getInterviewTime() {
-//		return interviewTime;
-//	}
-//
-//	public void setInterviewTime(long interviewTime) {
-//		this.interviewTime = interviewTime;
-//	}
-	
+	public Time getInterviewTime() {
+		return interviewTime;
+	}
+
+	public void setInterviewTime(Time interviewTime) {
+		this.interviewTime = interviewTime;
+	}
+
+	public String getInterviewState() {
+		return interviewState;
+	}
+
+	public void setInterviewState(String interviewState) {
+		this.interviewState = interviewState;
+	}
+
+	public String getInterviewResult() {
+		return interviewResult;
+	}
+
+	public void setInterviewResult(String interviewResult) {
+		this.interviewResult = interviewResult;
+	}
+
+	public boolean isReschedule() {
+		return reschedule;
+	}
+
+	public void setReschedule(boolean reschedule) {
+		this.reschedule = reschedule;
+	}
+
 }
