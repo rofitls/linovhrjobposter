@@ -48,6 +48,10 @@ public class ApplicationStateChangeService {
 		return stateDao.listApplicationByUser(id);
 	}
 	
+	public List<ApplicationStateChange> listApplicationByJob(String id)throws ErrorException {
+		return stateDao.listApplicationByJob(id);
+	}
+	
 	public ApplicationStateChange findByApplicantNotViewed(String id) throws Exception {
 		return stateDao.findByApplicationNotViewed(id);
 	}

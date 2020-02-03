@@ -129,6 +129,15 @@ public class ApplicationStateChangeController {
 		}
 	}
 	
+	@GetMapping("/application-state-change/list-by-job/{id}")
+	public ResponseEntity<?> listApplicationByJob(@PathVariable String id)throws ErrorException {
+		try {
+			return ResponseEntity.ok(appStateChangeService.listApplicationByJob(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+	
 	private Exception valIdNull(ApplicationStateChange state) throws Exception {
 		if(state.getId()!=null) {
 			throw new Exception("Insert Failed");

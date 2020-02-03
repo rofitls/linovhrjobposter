@@ -81,6 +81,19 @@ public class ApplicationStateChangeDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<ApplicationStateChange> listApplicationByJob(String id){
+		List<ApplicationStateChange> list = super.entityManager
+				.createQuery("from ApplicationStateChange where application.jobPosting.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<ApplicationStateChange>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public ApplicationStateChange findByApplicationNotViewed(String id) {
 		List<ApplicationStateChange> list = super.entityManager
 				.createQuery("from ApplicationStateChange where application.id =: id and state.stateName =: state")
