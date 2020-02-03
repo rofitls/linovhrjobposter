@@ -31,7 +31,7 @@ public class JobBenefitController {
 	@Autowired
 	private JobPostingService jobPostingService;
 	
-	@PostMapping("/job-description")
+	@PostMapping("/job-benefit")
 	public ResponseEntity<?> insert(@RequestBody List<JobBenefit> jBenefits) throws ErrorException{
 		try {
 			for(JobBenefit jBenefit : jBenefits) {
@@ -49,7 +49,7 @@ public class JobBenefitController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(jBenefits);
 	}
 	
-	@PutMapping("/job-description")
+	@PutMapping("/job-benefit")
 	public ResponseEntity<?> update(@RequestBody JobBenefit jBenefits) throws ErrorException{
 		try {
 			valIdNotNull(jBenefits);
@@ -65,7 +65,7 @@ public class JobBenefitController {
 		return ResponseEntity.status(HttpStatus.OK).body(jBenefits);
 	}
 	
-	@DeleteMapping("/job-description/{id}")
+	@DeleteMapping("/job-benefit/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
@@ -79,7 +79,7 @@ public class JobBenefitController {
 		
 	}
 	
-	@GetMapping("/job-description/id/{id}")
+	@GetMapping("/job-benefit/id/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws ErrorException {
 		try {
 			valIdExist(id);
@@ -92,7 +92,7 @@ public class JobBenefitController {
 		
 	}
 	
-	@GetMapping("/job-description")
+	@GetMapping("/job-benefit")
 	public ResponseEntity<?> getAll()  throws ErrorException{
 		try {
 			return ResponseEntity.ok(jobBenefitService.findAll());	
@@ -102,7 +102,7 @@ public class JobBenefitController {
 		
 	}
 	
-	@GetMapping("/job-description/list/{id}")
+	@GetMapping("/job-benefit/list/{id}")
 	public ResponseEntity<?> getDescriptionByJobPosting(@PathVariable String id) throws ErrorException {
 		try {
 			List<JobBenefit> listJobBenefit = jobBenefitService.findBenefitByJobPosting(id);
