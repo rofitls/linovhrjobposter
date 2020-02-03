@@ -15,8 +15,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="tbl_m_job_description")
-public class JobDescription {
+@Table(name="tbl_m_job_benefit")
+public class JobBenefit {
 
 	@Id
 	@Column(name="id")
@@ -24,11 +24,11 @@ public class JobDescription {
 	@GenericGenerator(name="UUID", strategy="org.hibernate.id.UUIDGenerator")
 	private String id;
 	
-	@Column(name="job_description_code")
-	private String jobDescriptionCode;
+	@Column(name="job_benefit_code")
+	private String jobBenefitCode;
 	
-	@Column(name="job_description_name")
-	private String jobDescriptionName;
+	@Column(name="job_benefit_name")
+	private String jobBenefitName;
 	
 	@ManyToOne
 	@JoinColumn(name="id_jobp", referencedColumnName="id", nullable=false)
@@ -44,20 +44,20 @@ public class JobDescription {
 		this.id = id;
 	}
 
-	public String getJobDescriptionCode() {
-		return jobDescriptionCode;
+	public String getJobBenefitCode() {
+		return jobBenefitCode;
 	}
 
-	public void setJobDescriptionCode(String jobDescriptionCode) {
-		this.jobDescriptionCode = jobDescriptionCode;
+	public void setJobBenefitCode(String jobBenefitCode) {
+		this.jobBenefitCode = jobBenefitCode;
 	}
 
-	public String getJobDescriptionName() {
-		return jobDescriptionName;
+	public String getJobBenefitName() {
+		return jobBenefitName;
 	}
 
-	public void setJobDescriptionName(String jobDescriptionName) {
-		this.jobDescriptionName = jobDescriptionName;
+	public void setJobBenefitName(String jobBenefitName) {
+		this.jobBenefitName = jobBenefitName;
 	}
 
 	public JobPosting getJobPosting() {
@@ -67,5 +67,6 @@ public class JobDescription {
 	public void setJobPosting(JobPosting jobPosting) {
 		this.jobPosting = jobPosting;
 	}
+	
 	
 }

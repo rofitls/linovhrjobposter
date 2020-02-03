@@ -35,7 +35,7 @@ public class JobRequirementController {
 	public ResponseEntity<?> insert(@RequestBody List<JobRequirement> jreqs) throws ErrorException{
 		try {
 			for(JobRequirement jreq : jreqs) {
-				jreq.setJobRequirementCode("jreq"+jreq.getId());
+				jreq.setJobRequirementCode("jreq"+jreq.getJobPosting().getId());
 				valIdNull(jreq);
 				valBkNotNull(jreq);
 				valBkNotExist(jreq);

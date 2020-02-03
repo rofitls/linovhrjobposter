@@ -35,7 +35,7 @@ public class JobDescriptionController {
 	public ResponseEntity<?> insert(@RequestBody List<JobDescription> jdescs) throws ErrorException{
 		try {
 			for(JobDescription jdesc : jdescs) {
-				jdesc.setJobDescriptionCode("jdesc"+jdesc.getId());
+				jdesc.setJobDescriptionCode("jdesc"+jdesc.getJobPosting().getId());
 				valIdNull(jdesc);
 				valBkNotNull(jdesc);
 				valBkNotExist(jdesc);
