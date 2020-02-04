@@ -40,15 +40,15 @@ a, a:hover {
 <!-- BODY -->
 <!-- Set message background color (twice) and text color (twice) -->
 <body topmargin="0" rightmargin="40%" bottommargin="0" leftmargin="40%" marginwidth="0" marginheight="0" width="100%" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%; height: 100%; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%;
-	background-color: #00eaff;
+	background-color: #f9fcfb;
 	color: #000000;"
-	bgcolor="#00eaff"
+	bgcolor="#f9fcfb"
 	text="#000000">
 
 <!-- SECTION / BACKGROUND -->
 <!-- Set message background color one again -->
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%;" class="background"><tr><td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;"
-	bgcolor="#00eaff">
+	bgcolor="#f9fcfb">
 
 <!-- WRAPPER -->
 <!-- Set wrapper width (twice) -->
@@ -125,7 +125,7 @@ a, a:hover {
 			padding-top: 15px; 
 			color: #192965;
 			font-family: sans-serif;" class="paragraph">
-				Based on the application that you are applying for the ${position} position, we invite you to interview at,
+				Based on the application that you are applying for the <strong> ${position} </strong> position, we invite you to interview at,
 		</td>
 	</tr>
 	
@@ -136,9 +136,9 @@ a, a:hover {
 			padding-top: 15px; 
 			color: #192965;
 			font-family: sans-serif;" class="paragraph">
-				Date  : ${date} <br>
-				Time  : ${time} <br>
-				Place : ${address}
+				Date  : <strong> ${date} </strong> <br>
+				Time  : <strong> ${time} </strong> <br>
+				Place : <strong> ${address} </strong>
 		</td>
 	</tr>
 

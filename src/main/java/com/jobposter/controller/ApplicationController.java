@@ -197,7 +197,7 @@ public class ApplicationController {
 		try {
 			valIdExist(id);
 			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 			DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 		    String strDate = dateFormat.format(schedule.getInterviewDate());
 			String strTime = timeFormat.format(schedule.getInterviewTime());
@@ -235,8 +235,27 @@ public class ApplicationController {
 		try {
 			valIdExist(id);
 			Application appl = applService.findById(id);
+			Mail mail = new Mail();
 			InterviewTestSchedule schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+			
+			mail.setName(appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName());
+			mail.setTo(appl.getJobPosting().getUser().getUsername());
+			mail.setPosition(appl.getJobPosting().getJobTitleName());
+			
+			
+			
 			schedule.setReschedule(true);
+			interviewTestScheduleService.update(schedule);
+			
+			schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+			
+			mail.setReasonReschedule(schedule.getRescheduleReason());
+			mail.setDate(schedule.getInterviewDate());
+			mail.setTime(schedule.getInterviewTime());
+			mail.setAddress(schedule.getApplication().getJobPosting().getAddress());
+			
+			emailService.sendReschedule(mail);
+			
 			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
