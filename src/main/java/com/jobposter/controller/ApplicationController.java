@@ -282,7 +282,7 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/admin/application/reject/{id}")
+	@PutMapping("/admin/application/reject")
 	public ResponseEntity<?> rejectApplicant(@RequestBody Application appl) throws ErrorException {
 		try {
 			valIdExist(appl.getId());
