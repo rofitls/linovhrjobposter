@@ -191,7 +191,6 @@ public class UserController {
 			valBkNotChange(appl);
 			valNonBk(appl, appl.getRole());
 			userService.update(appl);
-			appl.setImage(null);
 			return ResponseEntity.status(HttpStatus.OK).body(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
