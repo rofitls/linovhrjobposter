@@ -19,6 +19,9 @@ public class Mail {
     private Object date;
     private Object time;
     private String position;
+    private String address;
+    private String reasonReschedule;
+    private String reasonRejected;
     private Map<String, String> model;
     
     public Mail() {}
@@ -75,6 +78,24 @@ public class Mail {
 	}
 	public void setPosition(String position) {
 		this.position = position;
+	}
+	public String getReasonReschedule() {
+		return reasonReschedule;
+	}
+	public void setReasonReschedule(String reasonReschedule) {
+		this.reasonReschedule = reasonReschedule;
+	}
+	public String getReasonRejected() {
+		return reasonRejected;
+	}
+	public void setReasonRejected(String reasonRejected) {
+		this.reasonRejected = reasonRejected;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 }

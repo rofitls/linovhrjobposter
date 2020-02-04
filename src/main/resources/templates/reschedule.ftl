@@ -42,7 +42,7 @@ a, a:hover {
 <body topmargin="0" rightmargin="40%" bottommargin="0" leftmargin="40%" marginwidth="0" marginheight="0" width="100%" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%; height: 100%; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%;
 	background-color: #FFFFFF;
 	color: #000000;"
-	bgcolor="#00eaff"
+	bgcolor="f9fcfb"
 	text="#000000">
 
 <!-- SECTION / BACKGROUND -->
@@ -64,7 +64,7 @@ a, a:hover {
 			<!-- PREHEADER -->
 			<!-- Set text color to background color -->
 			<div style="display: none; visibility: hidden; overflow: hidden; opacity: 0; font-size: 1px; line-height: 1px; height: 0; max-height: 0; max-width: 0;
-				color: #192965;" class="preheader">
+				color: #FFFFFF;" class="preheader">
 				Available on&nbsp;GitHub and&nbsp;CodePen. Highly compatible. Designer friendly. More than 50%&nbsp;of&nbsp;total email opens occurred on&nbsp;a&nbsp;mobile device&nbsp;— a&nbsp;mobile-friendly design is&nbsp;a&nbsp;must for&nbsp;email campaigns.</div>
 
 			<!-- LOGO -->
@@ -101,7 +101,7 @@ a, a:hover {
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 14px; font-weight: 400; line-height: 150%; letter-spacing: 2px;
 			padding-top: 27px;
 			padding-bottom: 0;
-			color: #192965;
+			color: #FFFFFF;
 			font-family: sans-serif;" class="supheader">
 				Job Poster
 		</td>
@@ -112,7 +112,7 @@ a, a:hover {
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;  padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 24px; font-weight: bold; line-height: 130%;
 			padding-top: 5px;
-			color: #192965;
+			color: #FFFFFF;
 			font-family: sans-serif;" class="header">
 				Dear, ${name}
 		</td>
@@ -123,7 +123,7 @@ a, a:hover {
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
 			padding-top: 15px; 
-			color: #192965;
+			color: #FFFFFF;
 			font-family: sans-serif;" class="paragraph">
 				Based on the application that you are applying for the ${position} position, we invite you to interview at,
 		</td>
@@ -134,11 +134,11 @@ a, a:hover {
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
 			padding-top: 15px; 
-			color: #192965;
+			color: #FFFFFF;
 			font-family: sans-serif;" class="paragraph">
 				Date  : ${date} <br>
 				Time  : ${time} <br>
-				Place : ${address}
+				Place : 5 Floor Wisma Staco, Menteng Dalam, Tebet, South Jakarta
 		</td>
 	</tr>
 
@@ -147,7 +147,7 @@ a, a:hover {
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
 			padding-top: 30px;" class="line"><hr
-			color: "#211717" align="center" width="100%" size="1" noshade style="margin: 0; padding: 0;" />
+			color: "#FFFFFF" align="center" width="100%" size="1" noshade style="margin: 0; padding: 0;" />
 		</td>
 	</tr>
 
@@ -157,10 +157,10 @@ a, a:hover {
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 13px; font-weight: 400; line-height: 150%;
 			padding-top: 10px;
 			padding-bottom: 20px;
-			color: #192965;
+			color: #FFFFFF;
 			font-family: sans-serif;" class="footer">
 
-				This email template was sent to&nbsp;you becouse we&nbsp;want to&nbsp;make the&nbsp;world a&nbsp;better place. You&nbsp;could change your <a href="https://github.com/konsav/email-templates/" target="_blank" style="text-decoration: underline; color: #192965; font-family: sans-serif; font-size: 13px; font-weight: 400; line-height: 150%;">subscription settings</a> anytime.
+				This email template was sent to&nbsp;you becouse we&nbsp;want to&nbsp;make the&nbsp;world a&nbsp;better place. You&nbsp;could change your <a href="https://github.com/konsav/email-templates/" target="_blank" style="text-decoration: underline; color: #828999; font-family: sans-serif; font-size: 13px; font-weight: 400; line-height: 150%;">subscription settings</a> anytime.
 
 				<!-- ANALYTICS -->
 				<!-- http://www.google-analytics.com/collect?v=1&tid={{UA-Tracking-ID}}&cid={{Client-ID}}&t=event&ec=email&ea=open&cs={{Campaign-Source}}&cm=email&cn={{Campaign-Name}} -->

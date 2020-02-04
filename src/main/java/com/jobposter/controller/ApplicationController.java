@@ -214,6 +214,7 @@ public class ApplicationController {
 		    mail.setPosition(appl.getJobPosting().getJobTitleName());
 		    mail.setDate(strDate);
 		    mail.setTime(strTime);
+		    mail.setAddress(appl.getJobPosting().getCompany() + " " + appl.getJobPosting().getUser().getAddress());
 		    schedule.setApplication(appl);
 		    schedule.setInterviewCode("SCHEDULE-"+id);
 		    schedule.setInterviewDate(schedule.getInterviewDate());
