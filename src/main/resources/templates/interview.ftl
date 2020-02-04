@@ -40,7 +40,7 @@ a, a:hover {
 <!-- BODY -->
 <!-- Set message background color (twice) and text color (twice) -->
 <body topmargin="0" rightmargin="40%" bottommargin="0" leftmargin="40%" marginwidth="0" marginheight="0" width="100%" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%; height: 100%; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%;
-	background-color: #FFFFFF;
+	background-color: #00eaff;
 	color: #000000;"
 	bgcolor="#00eaff"
 	text="#000000">
