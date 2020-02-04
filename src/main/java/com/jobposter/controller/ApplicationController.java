@@ -269,6 +269,7 @@ public class ApplicationController {
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
 			applStateChange.setState(applStateService.findByStateName("Hire"));
 			applStateChange.setDateChanged(new Date());
+			applStateChange.setApplication(appl);
 			applStateChangeService.update(applStateChange);
 			Long appHire = applStateChangeService.findApplicationHire(appl.getJobPosting().getId());
 			if(jobQuotaService.findJobQuota(appl.getJobPosting().getId()) == appHire.intValue()) {
@@ -289,6 +290,7 @@ public class ApplicationController {
 			ApplicationStateChange applStateChange = new ApplicationStateChange();
 			applStateChange.setState(applStateService.findByStateName("Reject"));
 			applStateChange.setDateChanged(new Date());
+			applStateChange.setApplication(appl);
 			applStateChangeService.update(applStateChange);
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			interviewTestScheduleService.delete(its);
