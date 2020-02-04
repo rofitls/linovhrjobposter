@@ -231,10 +231,9 @@ public class ApplicationController {
 	}
 	
 	@PutMapping("/admin/application/applicant-request-reschedule/{id}")
-	public ResponseEntity<?> applicantRequestRescheduleInterview(@PathVariable String id) throws ErrorException {
+	public ResponseEntity<?> applicantRequestRescheduleInterview(@RequestBody Application appl) throws ErrorException {
 		try {
-			valIdExist(id);
-			Application appl = applService.findById(id);
+			valIdExist(appl.getId());
 			Mail mail = new Mail();
 			InterviewTestSchedule schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			
@@ -264,10 +263,9 @@ public class ApplicationController {
 	}
 	
 	@PutMapping("/admin/application/hire/{id}")
-	public ResponseEntity<?> hireApplicant(@PathVariable String id) throws ErrorException {
+	public ResponseEntity<?> hireApplicant(@RequestBody Application appl) throws ErrorException {
 		try {
-			valIdExist(id);
-			Application appl = applService.findById(id);
+			valIdExist(appl.getId());
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
 			applStateChange.setState(applStateService.findByStateName("Hire"));
 			applStateChange.setDateChanged(new Date());
@@ -285,10 +283,9 @@ public class ApplicationController {
 	}
 	
 	@PutMapping("/admin/application/reject/{id}")
-	public ResponseEntity<?> rejectApplicant(@PathVariable String id) throws ErrorException {
+	public ResponseEntity<?> rejectApplicant(@RequestBody Application appl) throws ErrorException {
 		try {
-			valIdExist(id);
-			Application appl = applService.findById(id);
+			valIdExist(appl.getId());
 			ApplicationStateChange applStateChange = new ApplicationStateChange();
 			applStateChange.setState(applStateService.findByStateName("Reject"));
 			applStateChange.setDateChanged(new Date());
