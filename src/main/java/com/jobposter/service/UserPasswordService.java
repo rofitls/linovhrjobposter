@@ -28,6 +28,7 @@ public class UserPasswordService {
 	}
 	
 	public void update(UserPassword user) throws ErrorException{
+		user.setPassword(bcryptEncoder.encode(user.getPassword()));
 		userPasswordDao.save(user);
 	}
 	

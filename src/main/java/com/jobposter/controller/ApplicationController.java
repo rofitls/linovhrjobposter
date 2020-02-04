@@ -197,7 +197,7 @@ public class ApplicationController {
 		try {
 			valIdExist(id);
 			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 		    String strDate = dateFormat.format(schedule.getInterviewDate());
 			String strTime = timeFormat.format(schedule.getInterviewTime());

@@ -18,6 +18,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,7 @@ import com.jobposter.service.UserPasswordService;
 import com.jobposter.entity.Document;
 import com.jobposter.entity.DocumentType;
 import com.jobposter.entity.Mail;
+import com.jobposter.entity.PasswordPojo;
 import com.jobposter.entity.Register;
 import com.jobposter.entity.ReportPojo;
 import com.jobposter.entity.Role;
@@ -56,6 +58,9 @@ import com.jobposter.config.JwtTokenUtil;
 //@RequestMapping("/apl")
 @CrossOrigin("*")
 public class UserController {
+	
+	@Autowired
+	private PasswordEncoder bcryptEncoder;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -191,7 +196,22 @@ public class UserController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		
+	}
+	
+	@PutMapping("/user/change-password")
+	public ResponseEntity<?> changePassword(@RequestBody PasswordPojo pas) throws ErrorException {
+		try {
+			UserPassword userPas = userPasswordService.findById(pas.getId());
+			valIdExist(userPas.getUser().getId());
+			valPasswordMatch(pas.getOldPas(), pas.getNewPas(), userPas);
+			userPas.setPassword(pas.getNewPas());
+			userPasswordService.update(userPas);
+			Users user = userService.findById(pas.getId());
+			user.setImage(null);
+			return ResponseEntity.status(HttpStatus.OK).body(user);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/user/{id}")
@@ -270,6 +290,13 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body(doc);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	private void valPasswordMatch(String oldPw, String newPw, UserPassword user) throws Exception {
+		boolean flag = bcryptEncoder.matches(oldPw, user.getPassword());
+		if(!flag) {
+			throw new Exception("Password not match");
 		}
 	}
 	
