@@ -327,44 +327,6 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/report/coba/{id}")
-	public ResponseEntity<?> coba(@PathVariable String id) throws FileNotFoundException, JRException{
-		try {
-			return ResponseEntity.ok(stateService.coba(id));	
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
-	}
-	
-	@GetMapping("/user/report/coba2/{id}")
-	public ResponseEntity<?> coba2(@PathVariable String id) throws FileNotFoundException, JRException{
-		try {
-			return ResponseEntity.ok(stateService.coba2(id));	
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
-	}
-	
-	@GetMapping("/user/report/cob3/{id}")
-	public ResponseEntity<?> coba3(@PathVariable String id) throws FileNotFoundException, JRException{
-		try {
-			return ResponseEntity.ok(stateService.coba3(id));	
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
-	}
-	
-	@GetMapping("/user/report/coba4/{id}")
-	public ResponseEntity<?> coba4(@PathVariable String id) throws FileNotFoundException, JRException{
-		try {
-			return ResponseEntity.ok(stateService.coba4(id));	
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
-	}
-	
-	
-	
 	@PostMapping("/user/upload/{id}")
 	public ResponseEntity<?> saveImage(@PathVariable String id, @RequestPart MultipartFile[] upload ) throws IOException {
 		try {

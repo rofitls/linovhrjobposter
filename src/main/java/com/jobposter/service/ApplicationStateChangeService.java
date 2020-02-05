@@ -68,19 +68,4 @@ public class ApplicationStateChangeService {
 		return stateDao.reportPerJob(id);
 	}
 	
-	public List<String> coba(String id) throws ErrorException {
-		return stateDao.coba(id);
-	}
-	
-	public List<Long> coba2(String id) throws ErrorException {
-		return stateDao.coba2(id);
-	}
-	
-	public List<Long> coba3(String id) throws ErrorException {
-		return stateDao.coba3(id);
-	}
-	
-	public List<Long> coba4(String id) throws ErrorException {
-		return stateDao.coba4(id);
-	}
 }
