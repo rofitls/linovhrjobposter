@@ -1,6 +1,7 @@
 package com.jobposter.controller;
 
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -205,6 +206,7 @@ public class ApplicationController {
 			Mail mail = new Mail();
 			Application appl = applService.findById(id);
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
+			
 			applStateChange.setState(applStateService.findByStateName("Interview"));
 			applStateChange.setDateChanged(new Date());
 			mail.setName(appl.getUser().getFirstName()+" "+appl.getUser().getLastName());
@@ -215,11 +217,13 @@ public class ApplicationController {
 		    mail.setDate(strDate);
 		    mail.setTime(strTime);
 		    mail.setAddress(appl.getJobPosting().getCompany() + " " + appl.getJobPosting().getUser().getAddress());
+		    
 		    schedule.setApplication(appl);
 		    schedule.setInterviewCode("SCHEDULE-"+id);
 		    schedule.setInterviewDate(schedule.getInterviewDate());
 		    schedule.setInterviewTime(schedule.getInterviewTime());
 		    //alreadySchedule(appl); //cek udah ada schedule sebelumnya belom
+		    
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.update(applStateChange);
 			emailService.sendInterview(mail);
@@ -236,12 +240,11 @@ public class ApplicationController {
 			valIdExist(appl.getId());
 			Mail mail = new Mail();
 			InterviewTestSchedule schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+			valRescheduleInterview(schedule);
 			
 			mail.setName(appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName());
 			mail.setTo(appl.getJobPosting().getUser().getUsername());
 			mail.setPosition(appl.getJobPosting().getJobTitleName());
-			
-			
 			
 			schedule.setReschedule(true);
 			interviewTestScheduleService.update(schedule);
@@ -262,22 +265,55 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/admin/application/hire/{id}")
-	public ResponseEntity<?> hireApplicant(@RequestBody Application appl) throws ErrorException {
+	@PutMapping("/admin/application/hire/{date}/{time}/{location}")
+	public ResponseEntity<?> hireApplicant(@RequestBody Application appl, @PathVariable Date date, @PathVariable Time time, @PathVariable String location) throws ErrorException {
 		try {
 			valIdExist(appl.getId());
+			
+			Mail mail = new Mail();
+			
+			mail.setName(appl.getUser().getFirstName() + " " + appl.getUser().getLastName());
+			mail.setTo(appl.getUser().getUsername());
+			mail.setPosition(appl.getJobPosting().getJobTitleName());
+			mail.setDate(date);
+			mail.setTime(time);
+			mail.setAddress(location);
+			
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
 			applStateChange.setState(applStateService.findByStateName("Hire"));
 			applStateChange.setDateChanged(new Date());
 			applStateChange.setApplication(appl);
+			
 			applStateChangeService.update(applStateChange);
+			
 			Long appHire = applStateChangeService.findApplicationHire(appl.getJobPosting().getId());
 			if(jobQuotaService.findJobQuota(appl.getJobPosting().getId()) == appHire.intValue()) {
 				JobPosting jpost = jobPostingService.findById(appl.getJobPosting().getId());
 				jpost.setActiveState(false);
 			}
+			
+			emailService.sendHire(mail);
+			
 			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("/admin/application/applicant-reject")
+	public ResponseEntity<?> applicantRejectApplication(@RequestBody Application appl) throws ErrorException {
+		try {
+			valIdExist(appl.getId());
+			
+			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+			interviewTestScheduleService.delete(its);
+			
+			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
+			applStateChangeService.delete(applStateChange);
+			
+			applService.delete(appl);
+			return ResponseEntity.status(HttpStatus.OK).body(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -287,13 +323,18 @@ public class ApplicationController {
 	public ResponseEntity<?> rejectApplicant(@RequestBody Application appl) throws ErrorException {
 		try {
 			valIdExist(appl.getId());
+			
 			ApplicationStateChange applStateChange = new ApplicationStateChange();
+			
 			applStateChange.setState(applStateService.findByStateName("Reject"));
 			applStateChange.setDateChanged(new Date());
 			applStateChange.setApplication(appl);
+			
 			applStateChangeService.update(applStateChange);
+			
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			interviewTestScheduleService.delete(its);
+			
 			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
@@ -440,6 +481,20 @@ public class ApplicationController {
 	private Exception alreadySchedule(Application appl) throws Exception {
 		if(interviewTestScheduleService.findScheduleByApplication(appl.getId())!=null) {
 			throw new Exception("Schedule already exist");
+		}
+		return null;
+	}
+	
+	private Exception valRescheduleInterview(InterviewTestSchedule schedule) throws Exception {
+		if(schedule.getRescheduleReason()==null || schedule.getRescheduleReason().equalsIgnoreCase("")) {
+			throw new Exception("Reason must be field");
+		}
+		return null;
+	}
+	
+	private Exception valRejectApplication(InterviewTestSchedule schedule) throws Exception {
+		if(schedule.getRejectReason()==null || schedule.getRejectReason().equalsIgnoreCase("")) {
+			throw new Exception("Reason must be field");
 		}
 		return null;
 	}

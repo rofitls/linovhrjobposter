@@ -40,15 +40,15 @@ a, a:hover {
 <!-- BODY -->
 <!-- Set message background color (twice) and text color (twice) -->
 <body topmargin="0" rightmargin="0" bottommargin="0" leftmargin="0" marginwidth="0" marginheight="0" width="100%" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%; height: 100%; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%;
-	background-color: #FFFFFF;
+	background-color: #f9fcfb;
 	color: #000000;"
-	bgcolor="#FFFFFF"
+	bgcolor="#f9fcfb"
 	text="#000000">
 
 <!-- SECTION / BACKGROUND -->
 <!-- Set message background color one again -->
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%;" class="background"><tr><td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;"
-	bgcolor="#127DB3">
+	bgcolor="#f9fcfb">
 
 <!-- WRAPPER -->
 <!-- Set wrapper width (twice) -->
@@ -63,19 +63,21 @@ a, a:hover {
 
 			<!-- PREHEADER -->
 			<!-- Set text color to background color -->
+			<!--
 			<div style="display: none; visibility: hidden; overflow: hidden; opacity: 0; font-size: 1px; line-height: 1px; height: 0; max-height: 0; max-width: 0;
 				color: #FFFFFF;" class="preheader">
-				Available on&nbsp;GitHub and&nbsp;CodePen. Highly compatible. Designer friendly. More than 50%&nbsp;of&nbsp;total email opens occurred on&nbsp;a&nbsp;mobile device&nbsp;— a&nbsp;mobile-friendly design is&nbsp;a&nbsp;must for&nbsp;email campaigns.</div>
+				Available on&nbsp;GitHub and&nbsp;CodePen. Highly compatible. Designer friendly. More than 50%&nbsp;of&nbsp;total email opens occurred on&nbsp;a&nbsp;mobile device&nbsp;— a&nbsp;mobile-friendly design is&nbsp;a&nbsp;must for&nbsp;email campaigns.</div> -->
 
 			<!-- LOGO -->
 			<!-- Image text color should be opposite to background color. Set your url, image src, alt and title. Alt text should fit the image size. Real image size should be x2. URL format: http://domain.com/?utm_source={{Campaign-Source}}&utm_medium=email&utm_content=logo&utm_campaign={{Campaign-Name}} -->
+			<!--
 			<a target="_blank" style="text-decoration: none;"
 				href="https://github.com/konsav/email-templates/"><img border="0" vspace="0" hspace="0"
 				src="https://raw.githubusercontent.com/rofitls/linovhrjobposter/master/src/main/resources/templates/lwcn-logo.png"
 				width="100" height="30"
 				alt="Logo" title="Logo" style="
 				color: #000000;
-				font-size: 10px; margin: 0; padding: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;" /></a>
+				font-size: 10px; margin: 0; padding: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;" /></a> -->
 
 		</td>
 	</tr>
@@ -100,7 +102,7 @@ a, a:hover {
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 14px; font-weight: 400; line-height: 150%; letter-spacing: 2px;
 			padding-top: 27px;
 			padding-bottom: 0;
-			color: #FFFFFF;
+			color: #192965;
 			font-family: sans-serif;" class="supheader">
 				Job Poster Password Account
 		</td>
@@ -111,7 +113,7 @@ a, a:hover {
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;  padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 24px; font-weight: bold; line-height: 130%;
 			padding-top: 5px;
-			color: #FFFFFF;
+			color: #192965;
 			font-family: sans-serif;" class="header">
 				Dear, ${name}
 		</td>
@@ -122,14 +124,26 @@ a, a:hover {
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
 			padding-top: 15px; 
-			color: #FFFFFF;
+			color: #192965;
 			font-family: sans-serif;" class="paragraph">
-				This is your password account : ${content}
+				This is your password account :
+		</td>
+	</tr>
+	
+	<!-- PARAGRAPH -->
+	<!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
+	<tr>
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
+			padding-top: 15px; 
+			color: #192965;
+			font-family: sans-serif;" class="paragraph">
+			<strong> ${content} </strong>
 		</td>
 	</tr>
 
 	<!-- BUTTON -->
 	<!-- Set button background color at TD, link/text color at A and TD, font family ("sans-serif" or "Georgia, serif") at TD. For verification codes add "letter-spacing: 5px;". Link format: http://domain.com/?utm_source={{Campaign-Source}}&utm_medium=email&utm_content={{Button-Name}}&utm_campaign={{Campaign-Name}} -->
+	<!--
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
 			padding-top: 25px;
@@ -143,14 +157,14 @@ a, a:hover {
 					</a>
 			</td></tr></table></a>
 		</td>
-	</tr>
+	</tr> -->
 
 	<!-- LINE -->
 	<!-- Set line color -->
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
 			padding-top: 30px;" class="line"><hr
-			color: "#FFFFFF" align="center" width="100%" size="1" noshade style="margin: 0; padding: 0;" />
+			color: "#192965" align="center" width="100%" size="1" noshade style="margin: 0; padding: 0;" />
 		</td>
 	</tr>
 
@@ -160,10 +174,10 @@ a, a:hover {
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 13px; font-weight: 400; line-height: 150%;
 			padding-top: 10px;
 			padding-bottom: 20px;
-			color: #FFFFFF;
+			color: #192965;
 			font-family: sans-serif;" class="footer">
 
-				This email template was sent to&nbsp;you becouse we&nbsp;want to&nbsp;make the&nbsp;world a&nbsp;better place. You&nbsp;could change your <a href="https://github.com/konsav/email-templates/" target="_blank" style="text-decoration: underline; color: #828999; font-family: sans-serif; font-size: 13px; font-weight: 400; line-height: 150%;">subscription settings</a> anytime.
+				This email template was sent to&nbsp;you becouse we&nbsp;want to&nbsp;make the&nbsp;world a&nbsp;better place. You&nbsp;could change your <a href="https://github.com/konsav/email-templates/" target="_blank" style="text-decoration: underline; color: #192965; font-family: sans-serif; font-size: 13px; font-weight: 400; line-height: 150%;">subscription settings</a> anytime.
 
 				<!-- ANALYTICS -->
 				<!-- http://www.google-analytics.com/collect?v=1&tid={{UA-Tracking-ID}}&cid={{Client-ID}}&t=event&ec=email&ea=open&cs={{Campaign-Source}}&cm=email&cn={{Campaign-Name}} -->
