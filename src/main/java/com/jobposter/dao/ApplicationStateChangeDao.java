@@ -161,6 +161,59 @@ public class ApplicationStateChangeDao extends CommonDao {
 			return (List<String>)list;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Long> coba2(String id) {
+		
+		//Query buat total hire
+				StringBuilder query2 = new StringBuilder();
+				query2.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
+				List<Long> list = super.entityManager
+						.createQuery(query2.toString())
+						.setParameter("id", id)
+						.setParameter("state", "Hire")
+						.getResultList();
+				if(list.size() == 0) 
+					return null;
+				else
+					return (List<Long>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Long> coba3(String id) {
+		
+		//Query buat total interview
+				StringBuilder query3 = new StringBuilder();
+				query3.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
+				List<Long> list = super.entityManager
+						.createQuery(query3.toString())
+						.setParameter("id", id)
+						.setParameter("state", "Interview")
+						.getResultList();
+				if(list.size() == 0) 
+					return null;
+				else
+					return (List<Long>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Long> coba4(String id) {
+		
+		//Query buat total applicant per job
+				StringBuilder query4 = new StringBuilder();
+				query4.append("select count(ap.jobPosting.jobTitleName) from Application ap where ap.jobPosting.user.id =: id group by ap.jobPosting.jobTitleName");
+				List<Long> list = super.entityManager
+						.createQuery(query4.toString())
+						.setParameter("id", id)
+						.getResultList();
+				if(list.size() == 0) 
+					return null;
+				else
+					return (List<Long>)list;
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
