@@ -10,8 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -249,16 +254,61 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/report/{id}")
-	public ResponseEntity<?> exportReport(@PathVariable String id) throws FileNotFoundException, JRException{
-		try {
-			Users user = userService.findById(id);
-			List<ReportPojo> rp = stateService.reportMaster(id);
-			rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
-			return ResponseEntity.ok(userService.exportReport(id,rp));	
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
+	public ResponseEntity<?> exportReport(@PathVariable String id, HttpServletRequest request) throws FileNotFoundException, JRException{
+			try {
+				Users user = userService.findById(id);
+				List<ReportPojo> rp = stateService.reportMaster(id);
+				rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
+				
+				String fileName = userService.exportReport(id, rp);
+				
+				// Load file as Resource
+		        Resource resource = userService.loadFileAsResource(fileName);
+
+		        // Try to determine file's content type
+		        String contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		        
+
+		        // Fallback to the default content type if type could not be determined
+		        if(contentType == null) {
+		            contentType = "application/octet-stream";
+		        }
+
+		        return ResponseEntity.ok()
+		                .contentType(MediaType.parseMediaType(contentType))
+		                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+		                .body(resource);
+			}catch(Exception e) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			}
+			
+
 	}
+	
+//	@GetMapping("/report1/{format}")
+//	public ResponseEntity<?> correctPerPackage(@PathVariable String format, HttpServletRequest request) 
+//			throws JRException, IOException {
+//		
+//		String fileName = report.correctPerPackage(format);
+//		
+//		// Load file as Resource
+//        Resource resource = report.loadFileAsResource(fileName);
+//
+//        // Try to determine file's content type
+//        String contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+//        
+//
+//        // Fallback to the default content type if type could not be determined
+//        if(contentType == null) {
+//            contentType = "application/octet-stream";
+//        }
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(contentType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+//                .body(resource);
+//    	
+//	}
 	
 	@GetMapping("/user/report/json/{id}")
 	public ResponseEntity<?> reportJSON(@PathVariable String id) throws FileNotFoundException, JRException{

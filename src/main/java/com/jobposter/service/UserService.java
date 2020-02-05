@@ -2,6 +2,8 @@ package com.jobposter.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -48,6 +53,9 @@ public class UserService implements UserDetailsService {
 	
 //	@Autowired
 //	private PasswordEncoder bcryptEncoder;
+	
+	@Value("${reportdir}")
+	private Path reportdir;
 
 	public Users findById(String id) {
 		Users user = userDao.findById(id);
@@ -93,7 +101,6 @@ public class UserService implements UserDetailsService {
 	}
 	
 	public String exportReport(String id, List<ReportPojo> rp) throws ErrorException, FileNotFoundException, JRException {
-		String path = "E:\\Report";
         //load file and compile it
         File file = ResourceUtils.getFile("classpath:master.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
@@ -101,7 +108,22 @@ public class UserService implements UserDetailsService {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Java Techie");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-        JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\report.pdf");
-        return "report generated in path : " + path;
+        JasperExportManager.exportReportToPdfFile(jasperPrint, reportdir.toString() + "/report.pdf");
+        String fileName = "report.pdf";
+        return fileName;
 	}
+	
+	public Resource loadFileAsResource(String fileName) throws Exception {
+        try {
+            Path filePath = reportdir.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new Exception("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new Exception("File not found " + fileName, ex);
+        }
+    }
 }
