@@ -149,7 +149,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 			query.append("select ap.application.jobPosting.jobTitleName from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id group by ap.application.jobPosting.jobTitleName");
 			String list = (String) super.entityManager
 					.createQuery(query.toString())
-					.setParameter("id", id)
+					.setParameter("id", jp.getUser().getId())
 					.getSingleResult();
 			
 			//Query buat total hire
@@ -157,7 +157,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 			query2.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
 			Long list2 = (Long) super.entityManager
 					.createQuery(query2.toString())
-					.setParameter("id", id)
+					.setParameter("id", jp.getUser().getId())
 					.setParameter("state", "Hire")
 					.getSingleResult();
 			
@@ -166,7 +166,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 			query3.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
 			Long list3 = (Long) super.entityManager
 					.createQuery(query3.toString())
-					.setParameter("id", id)
+					.setParameter("id", jp.getUser().getId())
 					.setParameter("state", "Interview")
 					.getSingleResult();
 			
@@ -175,7 +175,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 			query4.append("select count(ap.jobPosting.jobTitleName) from Application ap where ap.jobPosting.user.id =: id group by ap.jobPosting.jobTitleName");
 			Long list4 = (Long) super.entityManager
 					.createQuery(query4.toString())
-					.setParameter("id", id)
+					.setParameter("id", jp.getUser().getId())
 					.getSingleResult();
 			
 			reportPojo.setJobPosting(list);
