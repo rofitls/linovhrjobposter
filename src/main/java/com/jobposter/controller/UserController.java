@@ -258,13 +258,13 @@ public class UserController {
 	public ResponseEntity<?> exportReport(@PathVariable String id, HttpServletRequest request) throws FileNotFoundException, JRException{
 			try {
 				Users user = userService.findById(id);
-				List<ReportMasterPojo> rp = stateService.reportMaster(id);
-				List<ReportSubReportPojo> Listrp = stateService.reportPerJob(id);
+				List<ReportMasterPojo> listRp = stateService.reportMaster(id);
 				
-				rp.get(0).setJobList(Listrp);
-				rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
+				for(ReportMasterPojo rp : listRp) {
+					rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+				}
 				
-				String fileName = userService.exportReport(id, rp);
+				String fileName = userService.exportReport(id, listRp);
 				
 				// Load file as Resource
 		        Resource resource = userService.loadFileAsResource(fileName);

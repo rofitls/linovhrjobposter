@@ -126,22 +126,72 @@ public class ApplicationStateChangeDao extends CommonDao {
 	@Transactional
 	public List<ReportMasterPojo> reportMaster(String id) {	
 		//Query buat total upload job per recruiter
-		StringBuilder query5 = new StringBuilder();
-		query5.append("select count(jp) from JobPosting jp where jp.user.id =: id");
-		List<Long> list5 =  super.entityManager
-				.createQuery(query5.toString())
+		
+		List<JobPosting> jpsting = super.entityManager.createQuery("From JobPosting where user.id =: id")
 				.setParameter("id", id)
 				.getResultList();
-		ReportMasterPojo reportPojo = new ReportMasterPojo();
-		reportPojo.setTotalUploadJob(list5.get(0));
 		
-		List<ReportMasterPojo> listRp = new ArrayList<ReportMasterPojo>();
-		listRp.add(reportPojo);
+		List<ReportMasterPojo> masterPojo = new ArrayList<ReportMasterPojo>();
+		
+		for(JobPosting jp : jpsting) {
+			
+			ReportMasterPojo reportPojo = new ReportMasterPojo();
+			
+			StringBuilder query5 = new StringBuilder();
+			query5.append("select count(jp) from JobPosting jp where jp.user.id =: id");
+			Long list5 =(Long)  super.entityManager
+					.createQuery(query5.toString())
+					.setParameter("id", jp.getUser().getId())
+					.getSingleResult();	
 
-		if(listRp.size() == 0) 
+			//Query buat total hire
+			StringBuilder query = new StringBuilder();
+			query.append("select ap.application.jobPosting.jobTitleName from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id group by ap.application.jobPosting.jobTitleName");
+			String list = (String) super.entityManager
+					.createQuery(query.toString())
+					.setParameter("id", id)
+					.getSingleResult();
+			
+			//Query buat total hire
+			StringBuilder query2 = new StringBuilder();
+			query2.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
+			Long list2 = (Long) super.entityManager
+					.createQuery(query2.toString())
+					.setParameter("id", id)
+					.setParameter("state", "Hire")
+					.getSingleResult();
+			
+			//Query buat total interview
+			StringBuilder query3 = new StringBuilder();
+			query3.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
+			Long list3 = (Long) super.entityManager
+					.createQuery(query3.toString())
+					.setParameter("id", id)
+					.setParameter("state", "Interview")
+					.getSingleResult();
+			
+			//Query buat total applicant per job
+			StringBuilder query4 = new StringBuilder();
+			query4.append("select count(ap.jobPosting.jobTitleName) from Application ap where ap.jobPosting.user.id =: id group by ap.jobPosting.jobTitleName");
+			Long list4 = (Long) super.entityManager
+					.createQuery(query4.toString())
+					.setParameter("id", id)
+					.getSingleResult();
+			
+			reportPojo.setJobPosting(list);
+			reportPojo.setCountHire(list2);
+			reportPojo.setCountInterview(list3);
+			reportPojo.setCountApplicant(list4);
+			reportPojo.setTotalUploadJob(list5);
+			masterPojo.add(reportPojo);
+		}
+		
+		
+
+		if(masterPojo.size() == 0) 
 			return null;
 		else
-			return (List<ReportMasterPojo>)listRp;
+			return (List<ReportMasterPojo>)masterPojo;
 	}
 	
 	@SuppressWarnings("unchecked")
