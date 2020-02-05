@@ -155,7 +155,11 @@ public class ApplicationStateChangeDao extends CommonDao {
 					.setParameter("id2", jp.getId())
 					.getSingleResult();
 			
-			Long list4 = (Long) super.entityManager.createQuery("select count(*) from Application ap where ap.jobPosting.user.id =: id").setParameter("id", jp.getUser().getId()).getSingleResult();
+			Long list4 = (Long) super.entityManager.createQuery("select count(*) from Application ap where ap.jobPosting.user.id =: id"
+					+ " and ap.jobPosting.id =: id2")
+					.setParameter("id", jp.getUser().getId())
+					.setParameter("id2", jp.getId())
+					.getSingleResult();
 			
 			reportPojo.setJobPosting(jp.getJobTitleName());
 			reportPojo.setRecruiterName(jp.getUser().getFirstName()+ " " +jp.getUser().getLastName());
@@ -171,77 +175,6 @@ public class ApplicationStateChangeDao extends CommonDao {
 		else
 			return (List<ReportMasterPojo>)masterPojo;
 	}
-	
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<String> coba(String id) {
-		
-		//Query buat total hire
-		StringBuilder query = new StringBuilder();
-		query.append("select ap.application.jobPosting.jobTitleName from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id group by ap.application.jobPosting.jobTitleName");
-		List<String> list = super.entityManager
-				.createQuery(query.toString())
-				.setParameter("id", id)
-				.getResultList();
-		if(list.size() == 0) 
-			return null;
-		else
-			return (List<String>)list;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<Long> coba2(String id) {
-		
-		//Query buat total hire
-				StringBuilder query2 = new StringBuilder();
-				query2.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
-				List<Long> list = super.entityManager
-						.createQuery(query2.toString())
-						.setParameter("id", id)
-						.setParameter("state", "Hire")
-						.getResultList();
-				if(list.size() == 0) 
-					return null;
-				else
-					return (List<Long>)list;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<Long> coba3(String id) {
-		
-		//Query buat total interview
-				StringBuilder query3 = new StringBuilder();
-				query3.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
-				List<Long> list = super.entityManager
-						.createQuery(query3.toString())
-						.setParameter("id", id)
-						.setParameter("state", "Interview")
-						.getResultList();
-				if(list.size() == 0) 
-					return null;
-				else
-					return (List<Long>)list;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<Long> coba4(String id) {
-		
-		//Query buat total applicant per job
-				StringBuilder query4 = new StringBuilder();
-				query4.append("select count(ap.jobPosting.jobTitleName) from Application ap where ap.jobPosting.user.id =: id group by ap.jobPosting.jobTitleName");
-				List<Long> list = super.entityManager
-						.createQuery(query4.toString())
-						.setParameter("id", id)
-						.getResultList();
-				if(list.size() == 0) 
-					return null;
-				else
-					return (List<Long>)list;
-	}
-	
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
