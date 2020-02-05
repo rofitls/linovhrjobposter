@@ -146,18 +146,18 @@ public class ApplicationStateChangeDao extends CommonDao {
 			return (List<ReportPojo>)listRp;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<ReportPerJobPojo> reportPerJob(String id) {
 		
 		//Query buat total hire
-				StringBuilder query = new StringBuilder();
-				query.append("select ap.application.jobPosting.jobTitleName from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
-				List<String> list = super.entityManager
-						.createQuery(query.toString())
-						.setParameter("id", id)
-						.setParameter("state", "Hire")
-						.getResultList();
+		StringBuilder query = new StringBuilder();
+		query.append("select ap.application.jobPosting.jobTitleName from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id group by ap.application.jobPosting.jobTitleName");
+		List<String> list = super.entityManager
+				.createQuery(query.toString())
+				.setParameter("id", id)
+				.getResultList();
 		
 		//Query buat total hire
 		StringBuilder query2 = new StringBuilder();
