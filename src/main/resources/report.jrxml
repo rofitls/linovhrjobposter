@@ -7,13 +7,13 @@
 	</field>
 	<field name="totalUploadJob" class="java.lang.Long">
 	</field>
-	<field name="countInterview" class="java.lang.Long">
+	<field name="jobList.countInterview" class="java.lang.Long">
 	</field>
-	<field name="countHire" class="java.lang.Long">
+	<field name="jobList.countHire" class="java.lang.Long">
 	</field>
-	<field name="countApplicant" class="java.lang.Long">
+	<field name="jobList.countApplicant" class="java.lang.Long">
 	</field>
-	<field name="jobPosting" class="java.lang.String">
+	<field name="jobList.jobPosting" class="java.lang.String">
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -120,22 +120,22 @@
 			<textField>
 				<reportElement x="0" y="0" width="140" height="30" uuid="d9c5b653-807e-438d-bf3c-fa4bfea0c2eb"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{countInterview}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{jobList.countInterview}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="141" y="0" width="138" height="30" uuid="6cb31d33-4ed7-4bdc-aa3a-2ceeef2eb556"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{countHire}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{jobList.countHire}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="279" y="0" width="138" height="30" uuid="ebb6600f-70b9-42da-84d6-4878c8eef9e5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{countApplicant}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{jobList.countApplicant}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="417" y="0" width="138" height="30" uuid="655ae82c-3c68-4aed-9b26-13236c9fc164"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{jobPosting}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{jobList.jobPosting}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
