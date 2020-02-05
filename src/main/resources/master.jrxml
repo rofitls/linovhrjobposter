@@ -10,10 +10,6 @@
 	</background>
 	<pageHeader>
 		<band height="85" splitType="Stretch">
-			<image>
-				<reportElement x="360" y="20" width="189" height="31" uuid="3bb3b470-397b-49e0-a234-0eb9b9c6f93f"/>
-				<imageExpression><![CDATA["logo rename.png"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="10" y="15" width="302" height="44" uuid="619feeee-d786-47f5-bb56-6fe53a439b9a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
