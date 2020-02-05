@@ -50,7 +50,7 @@ public class ApplicantProjectDao extends CommonDao {
 	@Transactional
 	public List<ApplicantProject> findAPUser(String id){
 		List<ApplicantProject> list = super.entityManager
-				.createQuery("from ApplicantProject ap where ap.user.id =: id")
+				.createQuery("from ApplicantProject ap where ap.user.id =: id order by ap.endDate")
 				.setParameter("id", id)
 				.getResultList();
 		if(list.size()==0)

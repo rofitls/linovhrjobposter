@@ -252,8 +252,8 @@ public class UserController {
 	public ResponseEntity<?> exportReport(@PathVariable String id) throws FileNotFoundException, JRException{
 		try {
 			Users user = userService.findById(id);
-			ReportPojo rp = stateService.reportTotalHirePerRecruiter(id);
-			rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+			List<ReportPojo> rp = stateService.reportMaster(id);
+			rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
 			return ResponseEntity.ok(userService.exportReport(id,rp));	
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

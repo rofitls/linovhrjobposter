@@ -1,5 +1,7 @@
 package com.jobposter.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -111,8 +113,8 @@ public class ApplicationStateChangeController {
 	public ResponseEntity<?> report(@PathVariable String id) throws ErrorException {
 		try {
 			Users user = userService.findById(id);
-			ReportPojo rp = appStateChangeService.reportTotalHirePerRecruiter(id);
-			rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+			List<ReportPojo> rp = appStateChangeService.reportMaster(id);
+			rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
 			return ResponseEntity.ok(rp);	
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

@@ -60,7 +60,11 @@ public class ApplicationStateChangeService {
 		return stateDao.findApplicationHire(id);
 	}
 	
-	public ReportPojo reportTotalHirePerRecruiter(String id) throws Exception {
-		return stateDao.reportTotalHirePerRecruiter(id);
+	public List<ReportPojo> reportMaster(String id) throws Exception {
+		return stateDao.reportMaster(id);
+	}
+	
+	public List<ReportPerJobPojo> reportPerJob(String id) throws ErrorException {
+		return stateDao.reportPerJob(id);
 	}
 }

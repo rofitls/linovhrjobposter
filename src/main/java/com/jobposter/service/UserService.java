@@ -97,50 +97,16 @@ public class UserService implements UserDetailsService {
 				new ArrayList<>());
 	}
 	
-	public String exportReport(String id, ReportPojo rp) throws ErrorException, FileNotFoundException, JRException {
-//		 String path = "E:\\Report";
-//		 File file = ResourceUtils.getFile("classpath:report_per_month.jrxml");
-//		 JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-//	     List<ReportPojo> listRp = new ArrayList<ReportPojo>();
-//	     listRp.add(rp);
-//	     JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listRp, false);
-//	     Map<String, Object> parameters = new HashMap<>();
-//	     parameters.put("createdBy", "Java Techie");
-//	     JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-//	     JasperExportManager.exportReportToPdfFile(jasperPrint, "\\report_per_month.pdf");
-//	     JasperExportManager.exportReportToPdf(jasperPrint);
-//	     return "report generated in path : " + path;
-		
-		 String path = "E:\\Report";
-		 File file = ResourceUtils.getFile("classpath:report.jrxml");
-		 JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-		 ReportInput reportInput = new ReportInput();
-		 reportInput.setInstituteName("PT Lawencon International");
-		 List<ReportPojo> listRp = new ArrayList<>();
-		 listRp.add(rp);
-		 JRBeanCollectionDataSource studentDataSource = new JRBeanCollectionDataSource(listRp, false);
-		 reportInput.setStudentDataSource(studentDataSource);
-		 
-		 for(ReportPojo rpp : listRp) {
-			 System.out.println(rpp.getRecruiterName());
-			 System.out.println(rpp.getTotalUploadJob());
-			 for(ReportPerJobPojo rpjp : rpp.getJobList()) {
-				 System.out.println(rpjp.getCountApplicant());
-			 }
-		 }
-		 //byte[] reportData = null;
-	       try {
-	           JRMapArrayDataSource dataSource = new JRMapArrayDataSource(new Object[]{reportInput.getDataSources()});
-	 
-	           JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
-	                   reportInput.getParameters(), dataSource);
-	 
-	           JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\report.pdf");
-	       } catch (JRException e) {
-	           e.printStackTrace();
-	       } catch (Exception e) {
-	           e.printStackTrace();
-	       }
-	    return "report generated in path : " + path;
+	public String exportReport(String id, List<ReportPojo> rp) throws ErrorException, FileNotFoundException, JRException {
+		String path = "E:\\Report";
+        //load file and compile it
+        File file = ResourceUtils.getFile("classpath:master.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(rp);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("createdBy", "Java Techie");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\report.pdf");
+        return "report generated in path : " + path;
 	}
 }

@@ -50,7 +50,7 @@ public class ApplicantEducationDao extends CommonDao {
 	@Transactional
 	public List<ApplicantEducation> findAEUser(String id){
 		List<ApplicantEducation> list = super.entityManager
-				.createQuery("from ApplicantEducation ae where ae.user.id =: id")
+				.createQuery("from ApplicantEducation ae where ae.user.id =: id order by ae.endDate")
 				.setParameter("id", id)
 				.getResultList();
 		if(list.size()==0)

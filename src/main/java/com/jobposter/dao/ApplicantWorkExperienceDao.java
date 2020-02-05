@@ -39,7 +39,7 @@ public class ApplicantWorkExperienceDao extends CommonDao {
 	@Transactional
 	public List<ApplicantWorkExperience> findAWEUser(String id) {
 		List<ApplicantWorkExperience> list = super.entityManager
-				.createQuery("from ApplicantWorkExperience awe where awe.user.id =: id")
+				.createQuery("from ApplicantWorkExperience awe where awe.user.id =: id order by awe.endDate")
 				.setParameter("id", id)
 				.getResultList();
 		if(list.size()==0)
