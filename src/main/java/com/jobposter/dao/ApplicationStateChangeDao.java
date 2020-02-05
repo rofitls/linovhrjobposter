@@ -259,19 +259,19 @@ public class ApplicationStateChangeDao extends CommonDao {
 			ReportPerJobPojo rPojo = new ReportPerJobPojo();
 			rPojo.setJobPosting(list.get(i));
 			
-//			if(list2.get(i)!=null) {
-//				rPojo.setCountHire(0L);
-//			}else {
-//				rPojo.setCountHire(list2.get(i));	
-//			}
+			if(list2.get(i)==null) {
+				rPojo.setCountHire(0L);
+			}else {
+				rPojo.setCountHire(list2.get(i));	
+			}
 			
-			if(list3.get(i)!=null) {
+			if(list3.get(i)==null) {
 				rPojo.setCountInterview(0L);	
 			}else {
 				rPojo.setCountInterview(list3.get(i));
 			}
 			
-			if(list4.get(i)!=null) {
+			if(list4.get(i)==null) {
 				rPojo.setCountApplicant(0L);	
 			}else {
 				rPojo.setCountApplicant(list4.get(i));
