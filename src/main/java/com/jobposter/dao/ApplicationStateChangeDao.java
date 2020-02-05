@@ -124,9 +124,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<ReportPojo> reportMaster(String id) {
-		
-		
+	public List<ReportPojo> reportMaster(String id) {	
 		//Query buat total upload job per recruiter
 		StringBuilder query5 = new StringBuilder();
 		query5.append("select count(jp) from JobPosting jp where jp.user.id =: id");
@@ -144,6 +142,23 @@ public class ApplicationStateChangeDao extends CommonDao {
 			return null;
 		else
 			return (List<ReportPojo>)listRp;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<String> coba(String id) {
+		
+		//Query buat total hire
+		StringBuilder query = new StringBuilder();
+		query.append("select ap.application.jobPosting.jobTitleName from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id group by ap.application.jobPosting.jobTitleName");
+		List<String> list = super.entityManager
+				.createQuery(query.toString())
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size() == 0) 
+			return null;
+		else
+			return (List<String>)list;
 	}
 	
 	
@@ -172,7 +187,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 		StringBuilder query3 = new StringBuilder();
 		query3.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
 		List<Long> list3 = super.entityManager
-				.createQuery(query2.toString())
+				.createQuery(query3.toString())
 				.setParameter("id", id)
 				.setParameter("state", "Interview")
 				.getResultList();

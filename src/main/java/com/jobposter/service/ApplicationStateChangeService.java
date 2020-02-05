@@ -67,4 +67,8 @@ public class ApplicationStateChangeService {
 	public List<ReportPerJobPojo> reportPerJob(String id) throws ErrorException {
 		return stateDao.reportPerJob(id);
 	}
+	
+	public List<String> coba(String id) throws ErrorException {
+		return stateDao.coba(id);
+	}
 }
