@@ -260,6 +260,18 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("/user/report/json/{id}")
+	public ResponseEntity<?> reportJSON(@PathVariable String id) throws FileNotFoundException, JRException{
+		try {
+			Users user = userService.findById(id);
+			List<ReportPojo> rp = stateService.reportMaster(id);
+			rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
+			return ResponseEntity.ok(rp);	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
 	@PostMapping("/user/upload/{id}")
 	public ResponseEntity<?> saveImage(@PathVariable String id, @RequestPart MultipartFile[] upload ) throws IOException {
 		try {
