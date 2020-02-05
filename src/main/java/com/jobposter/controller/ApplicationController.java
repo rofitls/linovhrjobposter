@@ -324,7 +324,7 @@ public class ApplicationController {
 		try {
 			valIdExist(appl.getId());
 			
-			ApplicationStateChange applStateChange = new ApplicationStateChange();
+			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
 			
 			applStateChange.setState(applStateService.findByStateName("Reject"));
 			applStateChange.setDateChanged(new Date());
@@ -333,10 +333,16 @@ public class ApplicationController {
 			applStateChangeService.update(applStateChange);
 			
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-			interviewTestScheduleService.delete(its);
+			if(its == null) {
+				applStateChange.getApplication().setUser(null);
+				return ResponseEntity.status(HttpStatus.OK).body(applStateChange);	
+			}
 			
+			
+			interviewTestScheduleService.delete(its);
 			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
+
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
