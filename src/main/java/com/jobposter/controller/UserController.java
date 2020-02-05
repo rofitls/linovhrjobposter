@@ -53,6 +53,7 @@ import com.jobposter.entity.DocumentType;
 import com.jobposter.entity.Mail;
 import com.jobposter.entity.PasswordPojo;
 import com.jobposter.entity.Register;
+import com.jobposter.entity.ReportPerJobPojo;
 import com.jobposter.entity.ReportPojo;
 import com.jobposter.entity.Role;
 import com.jobposter.entity.UserPassword;
@@ -281,41 +282,41 @@ public class UserController {
 			}catch(Exception e) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 			}
-			
-
 	}
 	
-//	@GetMapping("/report1/{format}")
-//	public ResponseEntity<?> correctPerPackage(@PathVariable String format, HttpServletRequest request) 
-//			throws JRException, IOException {
-//		
-//		String fileName = report.correctPerPackage(format);
-//		
-//		// Load file as Resource
-//        Resource resource = report.loadFileAsResource(fileName);
-//
-//        // Try to determine file's content type
-//        String contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-//        
-//
-//        // Fallback to the default content type if type could not be determined
-//        if(contentType == null) {
-//            contentType = "application/octet-stream";
-//        }
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType(contentType))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-//                .body(resource);
-//    	
-//	}
+	@GetMapping("/user/sub-report/{id}")
+	public ResponseEntity<?> exportSubReport(@PathVariable String id, HttpServletRequest request) throws FileNotFoundException, JRException{
+			try {
+				
+				List<ReportPerJobPojo> rp = stateService.reportPerJob(id);
+				
+				String fileName = userService.exportSubReport(id, rp);
+				
+				// Load file as Resource
+		        Resource resource = userService.loadFileAsResource(fileName);
+
+		        // Try to determine file's content type
+		        String contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		        
+
+		        // Fallback to the default content type if type could not be determined
+		        if(contentType == null) {
+		            contentType = "application/octet-stream";
+		        }
+
+		        return ResponseEntity.ok()
+		                .contentType(MediaType.parseMediaType(contentType))
+		                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+		                .body(resource);
+			}catch(Exception e) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			}
+	}
 	
 	@GetMapping("/user/report/json/{id}")
 	public ResponseEntity<?> reportJSON(@PathVariable String id) throws FileNotFoundException, JRException{
 		try {
-			Users user = userService.findById(id);
-			List<ReportPojo> rp = stateService.reportMaster(id);
-			rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
+			List<ReportPerJobPojo> rp = stateService.reportPerJob(id);
 			return ResponseEntity.ok(rp);	
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="person-educations" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="dd365783-8d6b-4938-8ee3-df11da1d4bde">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="396"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="590"/>
+	<field name="jobPosting" class="java.lang.String"> </field>
+	<field name="countHire" class="java.lang.Long"> </field>
+	<field name="countInterview" class="java.lang.Long"> </field>
+	<field name="countApplicant" class="java.lang.Long"> </field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="141" height="25" forecolor="#FFFFFF" backcolor="#1976D2" uuid="a3102d62-c885-43d1-8c2c-b8c05ea853c0"/>
+				<box>
+					<pen lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="141" y="0" width="138" height="25" forecolor="#FFFFFF" backcolor="#1976D2" uuid="e6a8b672-9d78-416d-8ded-ae14496864b6"/>
+				<box>
+					<pen lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Applicant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="279" y="0" width="138" height="25" forecolor="#FFFFFF" backcolor="#1976D2" uuid="3cff1a76-fb9d-4b72-abba-8193e01f45c8"/>
+				<box>
+					<pen lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Hired Applicant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="417" y="0" width="138" height="25" forecolor="#FFFFFF" backcolor="#1976D2" uuid="6f5f11a6-004e-4057-933a-c307e27acd04"/>
+				<box>
+					<pen lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Interviewed]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="54" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField>
+				<reportElement x="0" y="0" width="141" height="30" uuid="d7751034-3857-431e-9038-2e92b3928e5a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ac486e17-9371-498b-b4c6-bb5ae703a25f"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{jobPosting}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="0" width="138" height="30" uuid="67907af7-8ac6-4544-8111-57dc8b696414">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c2aeeed7-ea57-4c85-8ef0-abb454bd0033"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{countApplicant}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="0" width="138" height="30" uuid="609e696d-8531-4c42-8b67-657f522e840a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8c8f0f5d-b3cd-4555-8aa9-60fa561656a9"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{countHire}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="417" y="0" width="138" height="30" uuid="f972636c-988a-492d-8cee-90e67a82a3ec">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="98215cc3-0b93-4e13-8b53-99ee240a1c5b"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{countInterview}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

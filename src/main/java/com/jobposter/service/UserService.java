@@ -113,6 +113,19 @@ public class UserService implements UserDetailsService {
         return fileName;
 	}
 	
+	public String exportSubReport(String id, List<ReportPerJobPojo> rp) throws ErrorException, FileNotFoundException, JRException {
+        //load file and compile it
+        File file = ResourceUtils.getFile("classpath:subreport.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(rp);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("createdBy", "Java Techie");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, reportdir.toString() + "/subreport.pdf");
+        String fileName = "subreport.pdf";
+        return fileName;
+	}
+	
 	public Resource loadFileAsResource(String fileName) throws Exception {
         try {
             Path filePath = reportdir.resolve(fileName).normalize();
