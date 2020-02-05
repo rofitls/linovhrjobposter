@@ -95,6 +95,19 @@ public class JobPostingController {
 		return ResponseEntity.status(HttpStatus.OK).body(jpost);
 	}
 	
+	@PutMapping("/admin/job-posting/close")
+	public ResponseEntity<?> closeJob(@RequestBody JobPosting jpost) throws ErrorException{
+		try {
+			valIdExist(jpost.getId());
+			jpost.setActiveState(false);
+			jobPostingService.update(jpost);
+			jpost.setUser(null);
+			return ResponseEntity.status(HttpStatus.OK).body(jpost);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
 	@DeleteMapping("/admin/job-posting/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id) throws ErrorException {
 		try {

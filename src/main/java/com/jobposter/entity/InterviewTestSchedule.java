@@ -40,6 +40,9 @@ public class InterviewTestSchedule {
 	@Column(name="interview_result", nullable=true)
 	private String interviewResult;
 	
+	@Column(name="interview_location")
+	private String interviewLocation;
+	
 	@Column(name="is_attend", nullable=true)
 	private boolean attend;
 	
@@ -148,7 +151,13 @@ public class InterviewTestSchedule {
 	public void setReject(boolean reject) {
 		this.reject = reject;
 	}
-	
-	
+
+	public String getInterviewLocation() {
+		return interviewLocation;
+	}
+
+	public void setInterviewLocation(String interviewLocation) {
+		this.interviewLocation = interviewLocation;
+	}
 
 }

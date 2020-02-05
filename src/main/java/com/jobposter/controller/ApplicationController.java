@@ -207,22 +207,22 @@ public class ApplicationController {
 			Application appl = applService.findById(id);
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
 			
+			valInterview(schedule);
+			
 			applStateChange.setState(applStateService.findByStateName("Interview"));
 			applStateChange.setDateChanged(new Date());
 			mail.setName(appl.getUser().getFirstName()+" "+appl.getUser().getLastName());
 		    mail.setSubject("Interview invitation " + appl.getJobPosting().getCompany()); 
-		    //mail.setContent(date);
 		    mail.setTo(appl.getUser().getUsername());
 		    mail.setPosition(appl.getJobPosting().getJobTitleName());
 		    mail.setDate(strDate);
 		    mail.setTime(strTime);
-		    mail.setAddress(appl.getJobPosting().getCompany() + " " + appl.getJobPosting().getUser().getAddress());
+		    mail.setAddress(schedule.getInterviewLocation());
 		    
 		    schedule.setApplication(appl);
 		    schedule.setInterviewCode("SCHEDULE-"+id);
 		    schedule.setInterviewDate(schedule.getInterviewDate());
 		    schedule.setInterviewTime(schedule.getInterviewTime());
-		    //alreadySchedule(appl); //cek udah ada schedule sebelumnya belom
 		    
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.update(applStateChange);
@@ -505,9 +505,16 @@ public class ApplicationController {
 		return null;
 	}
 	
-//	private Exception valNonBk(Application appl) throws Exception {
-//		return null;
-//	}
+	private Exception valInterview(InterviewTestSchedule schedule) throws Exception {
+		if(schedule.getInterviewDate()==null) {
+			throw new Exception("Interview date must be filled");
+		}else if(schedule.getInterviewTime()==null) {
+			throw new Exception("Interview time must be filled");
+		}else if(schedule.getInterviewLocation()==null) {
+			throw new Exception("Interview location must be filled");
+		}
+		return null;
+	}
 }
 
 
