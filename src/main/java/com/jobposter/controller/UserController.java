@@ -319,6 +319,7 @@ public class UserController {
 			List<ReportPerJobPojo> rp = stateService.reportPerJob(id);
 			return ResponseEntity.ok(rp);	
 		}catch(Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
