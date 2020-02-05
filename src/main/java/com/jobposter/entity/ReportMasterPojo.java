@@ -5,11 +5,11 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-public class ReportPojo {
+public class ReportMasterPojo {
 
 	private String recruiterName;
 	private Long totalUploadJob;
-//	private List<ReportPerJobPojo> jobList = new ArrayList<>();
+	private List<ReportSubReportPojo> jobList = new ArrayList<>();
 	
 	public String getRecruiterName() {
 		return recruiterName;
@@ -23,19 +23,11 @@ public class ReportPojo {
 	public void setTotalUploadJob(Long totalUploadJob) {
 		this.totalUploadJob = totalUploadJob;
 	}
-	
-//	public List<ReportPerJobPojo> getJobList() {
-//		return jobList;
-//	}
-//	public void setJobList(List<ReportPerJobPojo> jobList) {
-//		this.jobList = jobList;
-//	}
-//	public JRBeanCollectionDataSource getCoursedataSource() {
-//		return new JRBeanCollectionDataSource(jobList, false);
-//	}
-//	public void setCoursedataSource(JRBeanCollectionDataSource coursedataSource) {
-//		this.coursedataSource = coursedataSource;
-//	}
-	
+	public List<ReportSubReportPojo> getJobList() {
+		return jobList;
+	}
+	public void setJobList(List<ReportSubReportPojo> jobList) {
+		this.jobList = jobList;
+	}
 
 }

@@ -53,8 +53,8 @@ import com.jobposter.entity.DocumentType;
 import com.jobposter.entity.Mail;
 import com.jobposter.entity.PasswordPojo;
 import com.jobposter.entity.Register;
-import com.jobposter.entity.ReportPerJobPojo;
-import com.jobposter.entity.ReportPojo;
+import com.jobposter.entity.ReportSubReportPojo;
+import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.entity.Role;
 import com.jobposter.entity.UserPassword;
 import com.jobposter.entity.UserPojo;
@@ -258,7 +258,10 @@ public class UserController {
 	public ResponseEntity<?> exportReport(@PathVariable String id, HttpServletRequest request) throws FileNotFoundException, JRException{
 			try {
 				Users user = userService.findById(id);
-				List<ReportPojo> rp = stateService.reportMaster(id);
+				List<ReportMasterPojo> rp = stateService.reportMaster(id);
+				List<ReportSubReportPojo> Listrp = stateService.reportPerJob(id);
+				
+				rp.get(0).setJobList(Listrp);
 				rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
 				
 				String fileName = userService.exportReport(id, rp);
@@ -288,7 +291,7 @@ public class UserController {
 	public ResponseEntity<?> exportSubReport(@PathVariable String id, HttpServletRequest request) throws FileNotFoundException, JRException{
 			try {
 				
-				List<ReportPerJobPojo> rp = stateService.reportPerJob(id);
+				List<ReportSubReportPojo> rp = stateService.reportPerJob(id);
 				
 				String fileName = userService.exportSubReport(id, rp);
 				
@@ -316,7 +319,7 @@ public class UserController {
 	@GetMapping("/user/report/json/{id}")
 	public ResponseEntity<?> reportJSON(@PathVariable String id) throws FileNotFoundException, JRException{
 		try {
-			List<ReportPerJobPojo> rp = stateService.reportPerJob(id);
+			List<ReportSubReportPojo> rp = stateService.reportPerJob(id);
 			return ResponseEntity.ok(rp);	
 		}catch(Exception e) {
 			e.printStackTrace();

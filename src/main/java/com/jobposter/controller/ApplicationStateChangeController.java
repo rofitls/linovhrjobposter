@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobposter.entity.ApplicationStateChange;
-import com.jobposter.entity.ReportPojo;
+import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.entity.Users;
 import com.jobposter.exception.ErrorException;
 import com.jobposter.service.ApplicationService;
@@ -113,7 +113,7 @@ public class ApplicationStateChangeController {
 	public ResponseEntity<?> report(@PathVariable String id) throws ErrorException {
 		try {
 			Users user = userService.findById(id);
-			List<ReportPojo> rp = appStateChangeService.reportMaster(id);
+			List<ReportMasterPojo> rp = appStateChangeService.reportMaster(id);
 			rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
 			return ResponseEntity.ok(rp);	
 		}catch(Exception e) {

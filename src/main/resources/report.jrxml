@@ -1,102 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ad4d0d3-8333-4437-8262-7c8e8d55520d">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<subDataset name="StudentDataSet" uuid="cff34e5b-eaae-4e71-b3db-be511381488f">
-		<queryString>
-			<![CDATA[]]>
-		</queryString>
-		<field name="recruiterName" class="java.lang.String"/>
-		<field name="totalUploadJob" class="java.lang.Long"/>
-		<field name="coursedataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
-	</subDataset>
-	<subDataset name="CourseDataSet" uuid="a30fd044-85d2-497f-8528-ef14d9634091">
-		<queryString>
-			<![CDATA[]]>
-		</queryString>
-		<field name="jobPosting" class="java.lang.String"/>
-		<field name="countHire" class="java.lang.Long"/>
-		<field name="countInterview" class="java.lang.Long"/>
-		<field name="countApplicant" class="java.lang.Long"/>
-	</subDataset>
-	<queryString>
-		<![CDATA[]]>
-	</queryString>
-	<field name="studentDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9a74e2de-5014-43a2-8f5d-9d10d5ed803c">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<field name="recruiterName" class="java.lang.String">
+	</field>
+	<field name="totalUploadJob" class="java.lang.Long">
+	</field>
+	<field name="countInterview" class="java.lang.Long">
+	</field>
+	<field name="countHire" class="java.lang.Long">
+	</field>
+	<field name="countApplicant" class="java.lang.Long">
+	</field>
+	<field name="jobPosting" class="java.lang.String">
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="79" splitType="Stretch"/>
-	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="69" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="6" width="302" height="44" uuid="997e78a0-fd47-45bb-a553-f31d824b6767"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[JOB POSTER REPORT]]></text>
+			</staticText>
+			<image>
+				<reportElement x="395" y="12" width="150" height="32" uuid="0872f8a6-6b4d-411a-987d-8a9956530f49"/>
+				<imageExpression><![CDATA["https://raw.githubusercontent.com/rofitls/linovhrjobposter/master/src/main/resources/templates/lwcn-logo.png"]]></imageExpression>
+			</image>
+		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="128">
+			<staticText>
+				<reportElement x="10" y="5" width="120" height="30" uuid="20f071aa-7bb5-4c61-a32b-3f3eb909ea7f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Recruiter Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="46" width="119" height="34" uuid="d69d698d-ea05-4871-9100-c06b5796c03b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Total Job Posting]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="12" width="20" height="22" uuid="50611267-139f-4026-93c3-6c37ae09c49f"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="141" y="52" width="19" height="23" uuid="d6b796c8-1b34-456a-87ab-aab10b7b970d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="190" y="5" width="100" height="30" uuid="8353794c-cfff-4392-bcaf-573394609ba1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{recruiterName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="48" width="100" height="30" uuid="dfa69610-ca9c-4652-9fdc-ff9c6d2094dd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{totalUploadJob}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="417" y="95" width="138" height="25" forecolor="#FFFFFF" backcolor="#1976D2" uuid="98875873-b553-4cb4-965d-29aacc7c8c14"/>
+				<box>
+					<pen lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Interviewed]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="279" y="95" width="138" height="25" forecolor="#FFFFFF" backcolor="#1976D2" uuid="cb504df9-d1dc-4995-8004-012046ca36ef"/>
+				<box>
+					<pen lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Hired Applicant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="141" y="95" width="138" height="25" forecolor="#FFFFFF" backcolor="#1976D2" uuid="1494f4ff-70ce-453c-8896-3ffc413748b3"/>
+				<box>
+					<pen lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Applicant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="95" width="141" height="25" forecolor="#FFFFFF" backcolor="#1976D2" uuid="80a82e73-e915-4f41-b11e-7fa653fca3a6"/>
+				<box>
+					<pen lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job Name]]></text>
+			</staticText>
+		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
-			<componentElement>
-				<reportElement x="10" y="-61" width="350" height="186" uuid="5e4b2294-6822-4f7a-b1f3-6bec2ec8e2c0"/>
-				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="StudentDataSet" uuid="56ff149b-3514-464a-9776-4129dd0c26fe">
-						<dataSourceExpression><![CDATA[$F{studentDataSource}]]></dataSourceExpression>
-					</datasetRun>
-					<jr:listContents height="186" width="350">
-						<textField>
-							<reportElement x="0" y="0" width="33" height="30" uuid="adb35e64-cef7-49b0-9924-59aeb0a95bca"/>
-							<textFieldExpression><![CDATA[$F{recruiterName}]]></textFieldExpression>
-						</textField>
-						<textField>
-							<reportElement x="33" y="0" width="33" height="30" uuid="9275b761-26ec-4914-92d1-c9db47b6e296"/>
-							<textFieldExpression><![CDATA[$F{totalUploadJob}]]></textFieldExpression>
-						</textField>
-						<textField>
-							<reportElement x="66" y="0" width="33" height="30" uuid="c694727c-4c2e-4488-8a32-466f0f7e320c"/>
-							<textFieldExpression><![CDATA[$F{coursedataSource}]]></textFieldExpression>
-						</textField>
-					</jr:listContents>
-				</jr:list>
-			</componentElement>
-			<componentElement>
-				<reportElement x="10" y="10" width="100" height="30" uuid="68e01f45-798d-4903-9b24-6bfc2fc34177"/>
-				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="CourseDataSet" uuid="fe92f0da-389c-42bb-8c77-6ebdb892ec68">
-						<datasetParameter name="REPORT_DATA_SOURCE">
-							<datasetParameterExpression><![CDATA[$F{coursedataSource}]]></datasetParameterExpression>
-						</datasetParameter>
-						<dataSourceExpression><![CDATA[$P{REPORT_CONNECTION}]]></dataSourceExpression>
-					</datasetRun>
-					<jr:listContents height="30" width="100">
-						<textField>
-							<reportElement x="0" y="0" width="25" height="30" uuid="97340514-4d8a-45d8-a54b-75ae7613f00a"/>
-							<textFieldExpression><![CDATA[$F{jobPosting}]]></textFieldExpression>
-						</textField>
-						<textField>
-							<reportElement x="25" y="0" width="25" height="30" uuid="e05b7e69-9798-4f68-b710-f40d2bee7d00"/>
-							<textFieldExpression><![CDATA[$F{countHire}]]></textFieldExpression>
-						</textField>
-						<textField>
-							<reportElement x="50" y="0" width="25" height="30" uuid="6cc6743d-f7de-45f1-90b2-e44ce7bb21ba"/>
-							<textFieldExpression><![CDATA[$F{countInterview}]]></textFieldExpression>
-						</textField>
-						<textField>
-							<reportElement x="75" y="0" width="25" height="30" uuid="4a06e394-8b97-4f65-8ed0-2a67494804df"/>
-							<textFieldExpression><![CDATA[$F{countApplicant}]]></textFieldExpression>
-						</textField>
-					</jr:listContents>
-				</jr:list>
-			</componentElement>
+		<band height="34">
+			<textField>
+				<reportElement x="0" y="0" width="140" height="30" uuid="d9c5b653-807e-438d-bf3c-fa4bfea0c2eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{countInterview}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="0" width="138" height="30" uuid="6cb31d33-4ed7-4bdc-aa3a-2ceeef2eb556"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{countHire}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="0" width="138" height="30" uuid="ebb6600f-70b9-42da-84d6-4878c8eef9e5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{countApplicant}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="417" y="0" width="138" height="30" uuid="655ae82c-3c68-4aed-9b26-13236c9fc164"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{jobPosting}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>

@@ -1,6 +1,6 @@
 package com.jobposter.entity;
 
-public class ReportPerJobPojo {
+public class ReportSubReportPojo {
 
 	private String jobPosting;
 	private Long countHire;

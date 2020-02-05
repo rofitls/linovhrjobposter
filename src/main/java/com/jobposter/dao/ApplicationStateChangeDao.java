@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.jobposter.entity.ApplicationStateChange;
 import com.jobposter.entity.JobPosting;
-import com.jobposter.entity.ReportPerJobPojo;
-import com.jobposter.entity.ReportPojo;
+import com.jobposter.entity.ReportSubReportPojo;
+import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.entity.Users;
 
 @Repository
@@ -124,7 +124,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<ReportPojo> reportMaster(String id) {	
+	public List<ReportMasterPojo> reportMaster(String id) {	
 		//Query buat total upload job per recruiter
 		StringBuilder query5 = new StringBuilder();
 		query5.append("select count(jp) from JobPosting jp where jp.user.id =: id");
@@ -132,16 +132,16 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.createQuery(query5.toString())
 				.setParameter("id", id)
 				.getResultList();
-		ReportPojo reportPojo = new ReportPojo();
+		ReportMasterPojo reportPojo = new ReportMasterPojo();
 		reportPojo.setTotalUploadJob(list5.get(0));
 		
-		List<ReportPojo> listRp = new ArrayList<ReportPojo>();
+		List<ReportMasterPojo> listRp = new ArrayList<ReportMasterPojo>();
 		listRp.add(reportPojo);
 
 		if(listRp.size() == 0) 
 			return null;
 		else
-			return (List<ReportPojo>)listRp;
+			return (List<ReportMasterPojo>)listRp;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -217,7 +217,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<ReportPerJobPojo> reportPerJob(String id) {
+	public List<ReportSubReportPojo> reportPerJob(String id) {
 		
 		//Query buat total hire
 		StringBuilder query = new StringBuilder();
@@ -253,10 +253,10 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.setParameter("id", id)
 				.getResultList();
 		
-		List<ReportPerJobPojo> listRp = new ArrayList<ReportPerJobPojo>();
+		List<ReportSubReportPojo> listRp = new ArrayList<ReportSubReportPojo>();
 		
 		for(int i = 0; i < list.size(); i++) {
-			ReportPerJobPojo rPojo = new ReportPerJobPojo();
+			ReportSubReportPojo rPojo = new ReportSubReportPojo();
 			rPojo.setJobPosting(list.get(i));
 			
 			if(list2.size()<i+1) {
@@ -283,6 +283,6 @@ public class ApplicationStateChangeDao extends CommonDao {
 		if(listRp.size() == 0) 
 			return null;
 		else
-			return (List<ReportPerJobPojo>)listRp;
+			return (List<ReportSubReportPojo>)listRp;
 	}
 }

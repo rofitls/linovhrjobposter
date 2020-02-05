@@ -25,9 +25,8 @@ import org.springframework.util.ResourceUtils;
 import com.jobposter.dao.ApplicationStateChangeDao;
 import com.jobposter.dao.UserDao;
 import com.jobposter.dao.UserPasswordDao;
-import com.jobposter.entity.ReportInput;
-import com.jobposter.entity.ReportPerJobPojo;
-import com.jobposter.entity.ReportPojo;
+import com.jobposter.entity.ReportSubReportPojo;
+import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.entity.UserPassword;
 import com.jobposter.entity.Users;
 import com.jobposter.exception.ErrorException;
@@ -51,9 +50,6 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private UserPasswordDao userPasswordDao;
 	
-//	@Autowired
-//	private PasswordEncoder bcryptEncoder;
-	
 	@Value("${reportdir}")
 	private Path reportdir;
 
@@ -63,7 +59,6 @@ public class UserService implements UserDetailsService {
 	}
 	
 	public void insert(Users user) throws ErrorException{
-//		user.setPassword(bcryptEncoder.encode(user.getPassword()));
 		userDao.save(user);
 	}
 	
@@ -100,9 +95,9 @@ public class UserService implements UserDetailsService {
 				new ArrayList<>());
 	}
 	
-	public String exportReport(String id, List<ReportPojo> rp) throws ErrorException, FileNotFoundException, JRException {
+	public String exportReport(String id, List<ReportMasterPojo> rp) throws ErrorException, FileNotFoundException, JRException {
         //load file and compile it
-        File file = ResourceUtils.getFile("classpath:master.jrxml");
+        File file = ResourceUtils.getFile("classpath:report.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(rp);
         Map<String, Object> parameters = new HashMap<>();
@@ -113,7 +108,7 @@ public class UserService implements UserDetailsService {
         return fileName;
 	}
 	
-	public String exportSubReport(String id, List<ReportPerJobPojo> rp) throws ErrorException, FileNotFoundException, JRException {
+	public String exportSubReport(String id, List<ReportSubReportPojo> rp) throws ErrorException, FileNotFoundException, JRException {
         //load file and compile it
         File file = ResourceUtils.getFile("classpath:subreport.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
