@@ -320,10 +320,6 @@ public class UserController {
 	public ResponseEntity<?> reportJSON(@PathVariable String id) throws FileNotFoundException, JRException{
 		try {
 			List<ReportMasterPojo> listRp = stateService.reportMaster(id);
-			Users user = userService.findById(id);
-			for(ReportMasterPojo rp : listRp) {
-				rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
-			}
 			return ResponseEntity.ok(listRp);	
 		}catch(Exception e) {
 			e.printStackTrace();
