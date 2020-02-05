@@ -319,8 +319,12 @@ public class UserController {
 	@GetMapping("/user/report/json/{id}")
 	public ResponseEntity<?> reportJSON(@PathVariable String id) throws FileNotFoundException, JRException{
 		try {
-			List<ReportSubReportPojo> rp = stateService.reportPerJob(id);
-			return ResponseEntity.ok(rp);	
+			List<ReportMasterPojo> listRp = stateService.reportMaster(id);
+			Users user = userService.findById(id);
+			for(ReportMasterPojo rp : listRp) {
+				rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+			}
+			return ResponseEntity.ok(listRp);	
 		}catch(Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
