@@ -126,7 +126,7 @@ a, a:hover {
 			padding-top: 15px; 
 			color: #192965;
 			font-family: sans-serif;" class="paragraph">
-				Based on the interview invitation for the <strong> ${position} </strong> position, at
+				Let me introduce myself, my name is ${aplname}. Based on the interview invitation for the <strong> ${position} </strong> position, at
 		</td>
 	</tr>
 	

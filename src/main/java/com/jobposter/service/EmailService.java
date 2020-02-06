@@ -43,12 +43,12 @@ public class EmailService {
 		model.put("name", mailModel.getName());
         model.put("location", "Jakarta");
         model.put("signature", "https://jobposterlinov.com");
-        model.put("content", mailModel.getContent());
         model.put("position", mailModel.getPosition());
         model.put("reason", mailModel.getReasonReschedule());
+        model.put("address", mailModel.getAddress());
+        model.put("aplname", mailModel.getReasonRejected());
         model.put("date", mailModel.getDate());
         model.put("time", mailModel.getTime());
-        model.put("address", mailModel.getAddress());
         /**
          * Add below line if you need to create a token to verification emails and uncomment line:32 in "email.ftl"
          * model.put("token",UUID.randomUUID().toString());

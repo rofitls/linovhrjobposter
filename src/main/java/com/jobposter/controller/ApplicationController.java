@@ -243,8 +243,14 @@ public class ApplicationController {
 			valRescheduleInterview(schedule);
 			
 			mail.setName(appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName());
+			mail.setSubject("Reschedule request");
 			mail.setTo(appl.getJobPosting().getUser().getUsername());
 			mail.setPosition(appl.getJobPosting().getJobTitleName());
+			mail.setReasonRejected(appl.getUser().getFirstName() + " "+appl.getUser().getFirstName());
+			mail.setAddress(schedule.getInterviewLocation());
+			mail.setDate(schedule.getInterviewDate());
+			mail.setTime(schedule.getInterviewTime());
+			mail.setReasonReschedule(schedule.getRescheduleReason());
 			
 			schedule.setReschedule(true);
 			interviewTestScheduleService.update(schedule);
