@@ -100,6 +100,15 @@ public class InterviewTestScheduleController {
 		}
 	}
 	
+	@GetMapping("/schedule/schedule-per-job/{id}")
+	public ResponseEntity<?> getScheduleByJob(@PathVariable String id) throws ErrorException {
+		try {
+			return ResponseEntity.ok(scheduleService.findScheduleByJob(id));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+	
 	private Exception valIdNull(InterviewTestSchedule schedule) throws Exception {
 		if(schedule.getId()!=null) {
 			throw new Exception("Insert Failed");

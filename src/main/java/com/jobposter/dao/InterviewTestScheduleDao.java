@@ -101,6 +101,19 @@ public class InterviewTestScheduleDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<InterviewTestSchedule> findScheduleByJob(String id){
+		List<InterviewTestSchedule> list = super.entityManager
+				.createQuery("from InterviewTestSchedule where application.jobPosting.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<InterviewTestSchedule>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public Long countSchedule() {
 		StringBuilder query = new StringBuilder();
 		query.append("select count(schedule) from InterviewTestSchedule schedule");

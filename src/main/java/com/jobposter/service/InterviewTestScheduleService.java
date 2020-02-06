@@ -52,6 +52,10 @@ public class InterviewTestScheduleService {
 		return scheduleDao.findScheduleByApplicant(id);
 	}
 	
+	public List<InterviewTestSchedule> findScheduleByJob(String id) throws ErrorException {
+		return scheduleDao.findScheduleByJob(id);
+	}
+	
 	
 }
 
