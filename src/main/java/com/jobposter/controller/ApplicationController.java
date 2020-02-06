@@ -238,6 +238,10 @@ public class ApplicationController {
 	public ResponseEntity<?> applicantRequestRescheduleInterview(@RequestBody InterviewTestSchedule schedule) throws ErrorException {
 		try {
 			Mail mail = new Mail();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+		    String strDate = dateFormat.format(schedule.getInterviewDate());
+			String strTime = timeFormat.format(schedule.getInterviewTime());
 
 			valRescheduleInterview(schedule);
 			
@@ -249,8 +253,8 @@ public class ApplicationController {
 			mail.setTo(schedule.getApplication().getJobPosting().getUser().getUsername());
 			mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
 			mail.setReasonReschedule(schedule.getRescheduleReason());
-			mail.setDate(schedule.getInterviewDate());
-			mail.setTime(schedule.getInterviewTime());
+			mail.setDate(strDate);
+			mail.setTime(strTime);
 			mail.setAddress(schedule.getApplication().getJobPosting().getAddress());
 			mail.setReasonRejected(schedule.getApplication().getUser().getFirstName() + " "+schedule.getApplication().getUser().getFirstName());
 			
