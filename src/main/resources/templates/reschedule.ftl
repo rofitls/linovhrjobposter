@@ -42,7 +42,7 @@ a, a:hover {
 <body topmargin="0" rightmargin="40%" bottommargin="0" leftmargin="40%" marginwidth="0" marginheight="0" width="100%" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%; height: 100%; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%;
 	background-color: #f9fcfb;
 	color: #000000;"
-	bgcolor="f9fcfb"
+	bgcolor="#f9fcfb"
 	text="#000000">
 
 <!-- SECTION / BACKGROUND -->
@@ -76,7 +76,7 @@ a, a:hover {
 				src="https://raw.githubusercontent.com/rofitls/linovhrjobposter/master/src/main/resources/templates/lwcn-logo.png"
 				width="100" height="30"
 				alt="Logo" title="Logo" style="
-				color: #192965;
+				color: #000000;
 				font-size: 10px; margin: 0; padding: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;" /></a> -->
 
 		</td>
@@ -93,7 +93,7 @@ a, a:hover {
 			width="340" style="
 			width: 87.5%;
 			max-width: 340px;
-			color: #192965; font-size: 13px; margin: 0; padding: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;"/></a></td>
+			color: #FFFFFF; font-size: 13px; margin: 0; padding: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: block;"/></a></td>
 	</tr>
 
 	<!-- SUPHEADER -->
@@ -142,7 +142,7 @@ a, a:hover {
 				Place : <strong> ${address} </strong>
 		</td>
 	</tr>
-	
+
 	<!-- PARAGRAPH -->
 	<!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
 	<tr>
@@ -154,12 +154,13 @@ a, a:hover {
 		</td>
 	</tr>
 
+
 	<!-- LINE -->
 	<!-- Set line color -->
 	<tr>
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
 			padding-top: 30px;" class="line"><hr
-			color: "#192965" align="center" width="100%" size="1" noshade style="margin: 0; padding: 0;" />
+			color: "#211717" align="center" width="100%" size="1" noshade style="margin: 0; padding: 0;" />
 		</td>
 	</tr>
 
@@ -172,7 +173,7 @@ a, a:hover {
 			color: #192965;
 			font-family: sans-serif;" class="footer">
 
-				This email template was sent to&nbsp;you becouse we&nbsp;want to&nbsp;make the&nbsp;world a&nbsp;better place. You&nbsp;could change your <a href="https://github.com/konsav/email-templates/" target="_blank" style="text-decoration: underline; color: #828999; font-family: sans-serif; font-size: 13px; font-weight: 400; line-height: 150%;">subscription settings</a> anytime.
+				This email template was sent to&nbsp;you becouse we&nbsp;want to&nbsp;make the&nbsp;world a&nbsp;better place. You&nbsp;could change your <a href="https://github.com/konsav/email-templates/" target="_blank" style="text-decoration: underline; color: #192965; font-family: sans-serif; font-size: 13px; font-weight: 400; line-height: 150%;">subscription settings</a> anytime.
 
 				<!-- ANALYTICS -->
 				<!-- http://www.google-analytics.com/collect?v=1&tid={{UA-Tracking-ID}}&cid={{Client-ID}}&t=event&ec=email&ea=open&cs={{Campaign-Source}}&cm=email&cn={{Campaign-Name}} -->

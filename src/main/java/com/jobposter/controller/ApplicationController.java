@@ -242,25 +242,28 @@ public class ApplicationController {
 			InterviewTestSchedule schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			valRescheduleInterview(schedule);
 			
-			mail.setName(appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName());
-			mail.setSubject("Reschedule request");
-			mail.setTo(appl.getJobPosting().getUser().getUsername());
-			mail.setPosition(appl.getJobPosting().getJobTitleName());
-			mail.setReasonRejected(appl.getUser().getFirstName() + " "+appl.getUser().getFirstName());
-			mail.setAddress(schedule.getInterviewLocation());
-			mail.setDate(schedule.getInterviewDate());
-			mail.setTime(schedule.getInterviewTime());
-			mail.setReasonReschedule(schedule.getRescheduleReason());
-			
 			schedule.setReschedule(true);
 			interviewTestScheduleService.update(schedule);
 			
 			schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			
+			mail.setName(appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName());
+			mail.setSubject("Reschedule request");
+			mail.setTo(appl.getJobPosting().getUser().getUsername());
+			mail.setPosition(appl.getJobPosting().getJobTitleName());
 			mail.setReasonReschedule(schedule.getRescheduleReason());
 			mail.setDate(schedule.getInterviewDate());
 			mail.setTime(schedule.getInterviewTime());
 			mail.setAddress(schedule.getApplication().getJobPosting().getAddress());
+			mail.setReasonRejected(appl.getUser().getFirstName() + " "+appl.getUser().getFirstName());
+			
+			System.out.println(mail.getTo());
+			System.out.println(mail.getPosition());
+			System.out.println(mail.getReasonReschedule());
+			System.out.println(mail.getDate());
+			System.out.println(mail.getTime());
+			System.out.println(mail.getAddress());
+			System.out.println(mail.getReasonRejected());
 			
 			emailService.sendReschedule(mail);
 			
