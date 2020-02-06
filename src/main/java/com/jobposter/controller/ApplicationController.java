@@ -234,28 +234,25 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/admin/application/applicant-request-reschedule/{id}")
-	public ResponseEntity<?> applicantRequestRescheduleInterview(@RequestBody Application appl) throws ErrorException {
+	@PutMapping("/apl/application/applicant-request-reschedule")
+	public ResponseEntity<?> applicantRequestRescheduleInterview(@RequestBody InterviewTestSchedule schedule) throws ErrorException {
 		try {
-			valIdExist(appl.getId());
 			Mail mail = new Mail();
-			InterviewTestSchedule schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+
 			valRescheduleInterview(schedule);
 			
 			schedule.setReschedule(true);
 			interviewTestScheduleService.update(schedule);
 			
-			schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-			
-			mail.setName(appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName());
+			mail.setName(schedule.getApplication().getJobPosting().getUser().getFirstName() + " " + schedule.getApplication().getJobPosting().getUser().getLastName());
 			mail.setSubject("Reschedule request");
-			mail.setTo(appl.getJobPosting().getUser().getUsername());
-			mail.setPosition(appl.getJobPosting().getJobTitleName());
+			mail.setTo(schedule.getApplication().getJobPosting().getUser().getUsername());
+			mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
 			mail.setReasonReschedule(schedule.getRescheduleReason());
 			mail.setDate(schedule.getInterviewDate());
 			mail.setTime(schedule.getInterviewTime());
 			mail.setAddress(schedule.getApplication().getJobPosting().getAddress());
-			mail.setReasonRejected(appl.getUser().getFirstName() + " "+appl.getUser().getFirstName());
+			mail.setReasonRejected(schedule.getApplication().getUser().getFirstName() + " "+schedule.getApplication().getUser().getFirstName());
 			
 			System.out.println(mail.getTo());
 			System.out.println(mail.getPosition());
@@ -267,8 +264,7 @@ public class ApplicationController {
 			
 			emailService.sendReschedule(mail);
 			
-			appl.setUser(null);
-			return ResponseEntity.ok(appl);
+			return ResponseEntity.ok(schedule);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
