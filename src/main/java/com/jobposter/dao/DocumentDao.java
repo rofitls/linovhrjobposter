@@ -48,6 +48,19 @@ public class DocumentDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<Document> findADUser(String id){
+		List<Document> list = super.entityManager
+				.createQuery("from Document ad where ad.user.id =: id")
+				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<Document>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<Document> findADUser(String id, String idDoc){
 		List<Document> list = super.entityManager
 				.createQuery("from Document ad where ad.user.id =: id and ad.docType.id =: id2")
