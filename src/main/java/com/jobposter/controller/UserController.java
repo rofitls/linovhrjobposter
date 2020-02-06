@@ -346,13 +346,33 @@ public class UserController {
 		try {
 			Users user = userService.findById(id);
 			DocumentType dt = documentTypeService.findById(path);
-			Document doc = new Document();
-			doc.setFile(upload[0].getBytes());
-			doc.setFileType(upload[0].getContentType());
-			doc.setFileName(upload[0].getOriginalFilename());
-			doc.setDocType(dt);
-			doc.setUser(user);
-			documentService.insert(doc);
+			Document doc = documentService.findADUser(user.getId(), dt.getId());
+			if(dt.isFlag() == false) {
+				doc = new Document();
+				doc.setFile(upload[0].getBytes());
+				doc.setFileType(upload[0].getContentType());
+				doc.setFileName(upload[0].getOriginalFilename());
+				doc.setDocType(dt);
+				doc.setUser(user);
+				documentService.insert(doc);
+			}
+			if(doc == null) {
+				doc = new Document();
+				doc.setFile(upload[0].getBytes());
+				doc.setFileType(upload[0].getContentType());
+				doc.setFileName(upload[0].getOriginalFilename());
+				doc.setDocType(dt);
+				doc.setUser(user);
+				documentService.insert(doc);
+			}else if(doc != null) {
+				doc.setFile(upload[0].getBytes());
+				doc.setFileType(upload[0].getContentType());
+				doc.setFileName(upload[0].getOriginalFilename());
+				doc.setDocType(dt);
+				doc.setUser(user);
+				documentService.update(doc);
+			}
+			
 			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

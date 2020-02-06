@@ -91,10 +91,7 @@ public class DocumentController {
 	@GetMapping("/docs/list/{id}/{idDoc}")
 	public ResponseEntity<?> getDocumentByApplicant(@PathVariable String id, @PathVariable String idDoc) throws ErrorException {
 		try {
-			List<Document> docs = documentService.findADUser(id,idDoc);
-			for(Document doc : docs) {
-				doc.setUser(null);
-			}
+			Document docs = documentService.findADUser(id,idDoc);
 			return ResponseEntity.ok(docs);	
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

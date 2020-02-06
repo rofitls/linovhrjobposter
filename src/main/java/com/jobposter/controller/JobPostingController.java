@@ -235,8 +235,6 @@ public class JobPostingController {
 			throw new Exception("BK cannot change");
 		}else if(!jpost.getStartDate().equals(jobPostingService.findById(jpost.getId()).getStartDate())) {
 			throw new Exception("BK cannot change");
-		}else if(!jpost.getEndDate().equals(jobPostingService.findById(jpost.getId()).getEndDate())) {
-			throw new Exception("BK cannot change");
 		}else if(!jpost.getCompany().equalsIgnoreCase(jobPostingService.findById(jpost.getId()).getCompany())) {
 			throw new Exception("BK cannot change");
 		}
