@@ -67,7 +67,8 @@ public class EmailService {
         Template template = emailConfig.getTemplate("reschedule.ftl");
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, mailModel.getModel());
 
-        mimeMessageHelper.setTo(mailModel.getTo());
+//        mimeMessageHelper.setTo(mailModel.getTo());
+        mimeMessageHelper.setTo("tulussyifarofi@gmail.com");
         mimeMessageHelper.setText(html, true);
         mimeMessageHelper.setSubject(mailModel.getSubject());
         mimeMessageHelper.setFrom("no-reply@gmail.com");
