@@ -50,15 +50,18 @@ public class JobBenefitController {
 	}
 	
 	@PutMapping("/job-benefit")
-	public ResponseEntity<?> update(@RequestBody JobBenefit jBenefits) throws ErrorException{
+	public ResponseEntity<?> update(@RequestBody List<JobBenefit> jBenefits) throws ErrorException{
 		try {
-			valIdNotNull(jBenefits);
-			valIdExist(jBenefits.getId());
-			valBkNotNull(jBenefits);
-			valBkNotChange(jBenefits);
-			valNonBk(jBenefits);
-			jobBenefitService.update(jBenefits);
-			jBenefits.getJobPosting().setUser(null);
+			for(JobBenefit jBenefit : jBenefits) {
+				valIdNotNull(jBenefit);
+				valIdExist(jBenefit.getId());
+				valBkNotNull(jBenefit);
+				valBkNotChange(jBenefit);
+				valNonBk(jBenefit);
+				jobBenefitService.update(jBenefit);
+				jBenefit.getJobPosting().setUser(null);
+			}
+			
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}

@@ -50,19 +50,22 @@ public class JobRequirementController {
 	}
 	
 	@PutMapping("/job-requirement")
-	public ResponseEntity<?> update(@RequestBody JobRequirement jreq) throws ErrorException{
+	public ResponseEntity<?> update(@RequestBody List<JobRequirement> jreqs) throws ErrorException{
 		try {
-			valIdNotNull(jreq);
-			valIdExist(jreq.getId());
-			valBkNotNull(jreq);
-			valBkNotChange(jreq);
-			valNonBk(jreq);
-			jobRequirementService.update(jreq);
-			jreq.getJobPosting().setUser(null);
+			for(JobRequirement jreq : jreqs) {
+				valIdNotNull(jreq);
+				valIdExist(jreq.getId());
+				valBkNotNull(jreq);
+				valBkNotChange(jreq);
+				valNonBk(jreq);
+				jobRequirementService.update(jreq);
+				jreq.getJobPosting().setUser(null);
+			}
+			
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(jreq);
+		return ResponseEntity.status(HttpStatus.OK).body(jreqs);
 	}
 	
 	@DeleteMapping("/job-requirement/{id}")

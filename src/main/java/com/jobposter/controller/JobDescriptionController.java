@@ -50,19 +50,21 @@ public class JobDescriptionController {
 	}
 	
 	@PutMapping("/job-description")
-	public ResponseEntity<?> update(@RequestBody JobDescription jdesc) throws ErrorException{
+	public ResponseEntity<?> update(@RequestBody List<JobDescription> jdescs) throws ErrorException{
 		try {
-			valIdNotNull(jdesc);
-			valIdExist(jdesc.getId());
-			valBkNotNull(jdesc);
-			valBkNotChange(jdesc);
-			valNonBk(jdesc);
-			jobDescriptionService.update(jdesc);
-			jdesc.getJobPosting().setUser(null);
+			for(JobDescription jdesc : jdescs) {
+				valIdNotNull(jdesc);
+				valIdExist(jdesc.getId());
+				valBkNotNull(jdesc);
+				valBkNotChange(jdesc);
+				valNonBk(jdesc);
+				jobDescriptionService.update(jdesc);
+				jdesc.getJobPosting().setUser(null);
+			}
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(jdesc);
+		return ResponseEntity.status(HttpStatus.OK).body(jdescs);
 	}
 	
 	@DeleteMapping("/job-description/{id}")
