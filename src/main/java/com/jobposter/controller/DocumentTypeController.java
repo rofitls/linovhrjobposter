@@ -83,7 +83,15 @@ public class DocumentTypeController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		
+	}
+	
+	@GetMapping("/doc-type/{code}")
+	public ResponseEntity<?> getByDocumentCode(@PathVariable String code) throws ErrorException {
+		try {
+			return ResponseEntity.ok(documentTypeService.findByBk(code));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	private Exception valIdNull(DocumentType dt) throws Exception {
