@@ -206,8 +206,18 @@ public class ApplicationController {
 			Mail mail = new Mail();
 			Application appl = applService.findById(id);
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
+			InterviewTestSchedule schedule2;
 			
-			valInterview(schedule);
+			if(schedule.getApplication().getId().equalsIgnoreCase(appl.getId())) {
+				schedule2 = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+				schedule2.setInterviewDate(schedule.getInterviewDate());
+				schedule2.setInterviewTime(schedule.getInterviewTime());
+				schedule2.setInterviewLocation(schedule.getInterviewLocation());
+			}else {
+				schedule2 = schedule;
+			}
+			
+			valInterview(schedule2);
 			
 			applStateChange.setState(applStateService.findByStateName("Interview"));
 			applStateChange.setDateChanged(new Date());
@@ -221,8 +231,8 @@ public class ApplicationController {
 		    
 		    schedule.setApplication(appl);
 		    schedule.setInterviewCode("SCHEDULE-"+id);
-		    schedule.setInterviewDate(schedule.getInterviewDate());
-		    schedule.setInterviewTime(schedule.getInterviewTime());
+//		    schedule.setInterviewDate(schedule.getInterviewDate());
+//		    schedule.setInterviewTime(schedule.getInterviewTime());
 		    
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.update(applStateChange);
@@ -256,15 +266,7 @@ public class ApplicationController {
 			mail.setDate(strDate);
 			mail.setTime(strTime);
 			mail.setAddress(schedule.getApplication().getJobPosting().getAddress());
-			mail.setReasonRejected(schedule.getApplication().getUser().getFirstName() + " "+schedule.getApplication().getUser().getFirstName());
-			
-			System.out.println(mail.getTo());
-			System.out.println(mail.getPosition());
-			System.out.println(mail.getReasonReschedule());
-			System.out.println(mail.getDate());
-			System.out.println(mail.getTime());
-			System.out.println(mail.getAddress());
-			System.out.println(mail.getReasonRejected());
+			mail.setReasonRejected(schedule.getApplication().getUser().getFirstName() + " "+schedule.getApplication().getUser().getLastName());
 			
 			emailService.sendReschedule(mail);
 			
