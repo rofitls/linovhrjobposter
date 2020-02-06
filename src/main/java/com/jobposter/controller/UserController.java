@@ -353,7 +353,7 @@ public class UserController {
 			doc.setDocType(dt);
 			doc.setUser(user);
 			documentService.insert(doc);
-			return ResponseEntity.status(HttpStatus.OK).body(doc);
+			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
