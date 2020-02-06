@@ -88,10 +88,10 @@ public class DocumentController {
 		}	
 	}
 	
-	@GetMapping("/docs/list/{id}")
-	public ResponseEntity<?> getDocumentByApplicant(@PathVariable String id) throws ErrorException {
+	@GetMapping("/docs/list/{id}/{idDoc}")
+	public ResponseEntity<?> getDocumentByApplicant(@PathVariable String id, @PathVariable String idDoc) throws ErrorException {
 		try {
-			List<Document> docs = documentService.findADUser(id);
+			List<Document> docs = documentService.findADUser(id, idDoc);
 			for(Document doc : docs) {
 				doc.setUser(null);
 			}
