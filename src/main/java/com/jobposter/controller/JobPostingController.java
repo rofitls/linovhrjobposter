@@ -72,7 +72,7 @@ public class JobPostingController {
 			jquota.setJobQuota(jPostPojo.getQuota());
 			jobQuotaService.insert(jquota);
 			jpost.setUser(null);
-			return ResponseEntity.status(HttpStatus.CREATED).body(jpost);
+			return ResponseEntity.status(HttpStatus.CREATED).body(jobPosting);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
