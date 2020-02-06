@@ -75,7 +75,7 @@ public class InterviewTestScheduleController {
 		try {
 			valIdExist(id);
 			InterviewTestSchedule schedule = scheduleService.findById(id);
-			schedule.getApplication().setUser(null);
+//			schedule.getApplication().setUser(null);
 			return ResponseEntity.ok(schedule);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
