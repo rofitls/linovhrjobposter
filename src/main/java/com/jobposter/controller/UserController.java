@@ -370,11 +370,11 @@ public class UserController {
 				doc.setFileName(upload[0].getOriginalFilename());
 				doc.setDocType(dt);
 				doc.setUser(user);
-				documentService.update(doc);
+				documentService.insert(doc);
 			}
-			
 			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}catch(Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}

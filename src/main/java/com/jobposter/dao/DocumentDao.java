@@ -70,7 +70,7 @@ public class DocumentDao extends CommonDao {
 		if(list.size()==0)
 			return null;
 		else
-			return (Document)list;
+			return (Document)list.get(0);
 	}
 	
 	@SuppressWarnings("unchecked")
