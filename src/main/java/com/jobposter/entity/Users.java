@@ -74,6 +74,9 @@ public class Users {
 	@Column(name="religion")
 	private String religion;
 	
+	@Column(name="salary")
+	private Double salary;
+	
 	@ManyToOne
 	@JoinColumn(name="id_city", referencedColumnName="id", nullable=true)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
@@ -222,4 +225,11 @@ public class Users {
 		this.religion = religion;
 	}
 
+	public Double getSalary() {
+		return salary;
+	}
+
+	public void setSalary(Double salary) {
+		this.salary = salary;
+	}
 }
