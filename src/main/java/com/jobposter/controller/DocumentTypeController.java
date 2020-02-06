@@ -85,7 +85,7 @@ public class DocumentTypeController {
 		}
 	}
 	
-	@GetMapping("/doc-type/{code}")
+	@GetMapping("/doc-type/code/{code}")
 	public ResponseEntity<?> getByDocumentCode(@PathVariable String code) throws ErrorException {
 		try {
 			return ResponseEntity.ok(documentTypeService.findByBk(code));
