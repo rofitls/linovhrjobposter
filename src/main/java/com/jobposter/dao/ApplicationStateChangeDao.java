@@ -111,7 +111,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 	@Transactional
 	public List<ApplicationStateChange> findApplicationHireList(String id){
 		StringBuilder query = new StringBuilder();
-		query.append("select count(ap) from ApplicationStateChange ap where ap.application.jobPosting.id =: id and ap.state.stateName =: state");
+		query.append("select from ApplicationStateChange ap where ap.application.jobPosting.id =: id and ap.state.stateName =: state");
 		List<ApplicationStateChange> list = super.entityManager
 				.createQuery(query.toString())
 				.setParameter("id", id)
