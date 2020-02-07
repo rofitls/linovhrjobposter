@@ -109,11 +109,11 @@ public class ApplicationStateChangeController {
 		
 	}
 	
-	@GetMapping("/application-state-change/report/{id}/{year}")
-	public ResponseEntity<?> report(@PathVariable String id, @PathVariable String year) throws ErrorException {
+	@GetMapping("/application-state-change/report/{id}")
+	public ResponseEntity<?> report(@PathVariable String id) throws ErrorException {
 		try {
 			Users user = userService.findById(id);
-			List<ReportMasterPojo> rp = appStateChangeService.reportMaster(id, year);
+			List<ReportMasterPojo> rp = appStateChangeService.reportMaster(id);
 			rp.get(0).setRecruiterName(user.getFirstName()+" "+user.getLastName());
 			return ResponseEntity.ok(rp);	
 		}catch(Exception e) {

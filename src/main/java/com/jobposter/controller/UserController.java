@@ -254,11 +254,11 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/user/report/{id}/{year}")
-	public ResponseEntity<?> exportReport(@PathVariable String id, @PathVariable String year, HttpServletRequest request) throws FileNotFoundException, JRException{
+	@GetMapping("/user/report/{id}")
+	public ResponseEntity<?> exportReport(@PathVariable String id, HttpServletRequest request) throws FileNotFoundException, JRException{
 			try {
 				Users user = userService.findById(id);
-				List<ReportMasterPojo> listRp = stateService.reportMaster(id,year);
+				List<ReportMasterPojo> listRp = stateService.reportMaster(id);
 				
 				for(ReportMasterPojo rp : listRp) {
 					rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
@@ -287,10 +287,10 @@ public class UserController {
 			}
 	}
 	
-	@GetMapping("/user/report/json/{id}/{year}")
-	public ResponseEntity<?> reportJSON(@PathVariable String id, @PathVariable String year) throws FileNotFoundException, JRException{
+	@GetMapping("/user/report/json/{id}")
+	public ResponseEntity<?> reportJSON(@PathVariable String id) throws FileNotFoundException, JRException{
 		try {
-			List<ReportMasterPojo> listRp = stateService.reportMaster(id,year);
+			List<ReportMasterPojo> listRp = stateService.reportMaster(id);
 			return ResponseEntity.ok(listRp);	
 		}catch(Exception e) {
 			e.printStackTrace();

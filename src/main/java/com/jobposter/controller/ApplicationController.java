@@ -328,7 +328,7 @@ public class ApplicationController {
 			mail.setReasonReschedule(schedule.getRescheduleReason());
 			mail.setDate(strDate);
 			mail.setTime(strTime);
-			mail.setAddress(schedule.getApplication().getJobPosting().getAddress());
+			mail.setAddress(schedule.getInterviewLocation());
 			mail.setReasonRejected(schedule.getApplication().getUser().getFirstName() + " "+schedule.getApplication().getUser().getLastName());
 			
 			emailService.sendReschedule(mail);
