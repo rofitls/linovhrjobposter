@@ -136,7 +136,9 @@ public class ApplicationStateChangeDao extends CommonDao {
 		}
 		
 		Query queryExecuted = super.entityManager.createQuery(query.toString());
-		
+
+		queryExecuted.setParameter("id", id);
+
 		if(year != null) {
 			queryExecuted.setParameter("year", year);
 		}
