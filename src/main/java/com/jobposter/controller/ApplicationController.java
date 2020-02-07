@@ -388,6 +388,7 @@ public class ApplicationController {
 			mail.setTo(appl.getJobPosting().getUser().getUsername());
 			mail.setPosition(appl.getJobPosting().getJobTitleName());
 			mail.setReasonRejected(reason);
+			mail.setSubject("Reject Application");
 			
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			interviewTestScheduleService.delete(its);
