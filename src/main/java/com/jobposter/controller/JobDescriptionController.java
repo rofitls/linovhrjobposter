@@ -78,7 +78,17 @@ public class JobDescriptionController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		
+	}
+	
+	@DeleteMapping("/job-description/by-job/{id}")
+	public ResponseEntity<?> deleteByJob(@PathVariable String id) throws ErrorException {
+		try {
+			jobDescriptionService.deleteByJob(id);
+			Object obj = new Object();
+			return ResponseEntity.ok(obj);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/job-description/id/{id}")

@@ -32,6 +32,10 @@ public class JobRequirementService {
 		jobRequirementDao.delete(jreq);
 	}
 	
+	public void deleteByJob(String id) throws ErrorException {
+		jobRequirementDao.deleteByJob(id);
+	}
+	
 	public JobRequirement findByBk(String Bk)  throws ErrorException {
 		JobRequirement jreq = jobRequirementDao.findByBk(Bk);
 		return jreq;

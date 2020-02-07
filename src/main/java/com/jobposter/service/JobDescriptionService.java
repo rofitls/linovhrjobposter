@@ -32,6 +32,10 @@ public class JobDescriptionService {
 		jobDescriptionDao.delete(jdesc);
 	}
 	
+	public void deleteByJob(String id) throws ErrorException {
+		jobDescriptionDao.deleteByJob(id);
+	}
+	
 	public JobDescription findByBk(String Bk) throws ErrorException {
 		JobDescription jdesc = jobDescriptionDao.findByBk(Bk);
 		return jdesc;

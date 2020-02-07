@@ -131,7 +131,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 		StringBuilder query = new StringBuilder();
 		query.append("From JobPosting where user.id =: id");
 		
-		if(year != null) {
+		if(year != null && !year.equalsIgnoreCase("null")) {
 			query.append(" and to_char(startDate,'YYYY') =: year or to_char(endDate,'YYYY') =: year");
 		}
 		
@@ -139,7 +139,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 
 		queryExecuted.setParameter("id", id);
 
-		if(year != null) {
+		if(year != null && !year.equalsIgnoreCase("null")) {
 			queryExecuted.setParameter("year", year);
 		}
 		

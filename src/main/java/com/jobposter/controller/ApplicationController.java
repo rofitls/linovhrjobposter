@@ -265,7 +265,11 @@ public class ApplicationController {
 		    schedule.setInterviewTime(schedule.getInterviewTime());
 		    schedule.setInterviewLocation(schedule.getInterviewLocation());
 		    
-		    interviewTestScheduleService.insert(schedule);
+		    schedule.setReschedule(false);
+		    schedule.setAttend(false);
+		    schedule.setReject(false);
+		    
+		    interviewTestScheduleService.update(schedule);
 			applStateChangeService.update(applStateChange);
 			emailService.sendInterview(mail);
 			applStateChange.getApplication().setUser(null);

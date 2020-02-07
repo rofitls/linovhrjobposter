@@ -32,6 +32,10 @@ public class JobBenefitService {
 		jobBenefitDao.delete(jBenefit);
 	}
 	
+	public void deleteByJob(String id) throws ErrorException {
+		jobBenefitDao.deleteByJob(id);
+	}
+	
 	public JobBenefit findByBk(String Bk) throws ErrorException {
 		JobBenefit jdesc = jobBenefitDao.findByBk(Bk);
 		return jdesc;

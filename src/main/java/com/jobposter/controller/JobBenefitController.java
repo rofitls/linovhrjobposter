@@ -79,7 +79,17 @@ public class JobBenefitController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		
+	}
+	
+	@DeleteMapping("/job-benefit/by-job/{id}")
+	public ResponseEntity<?> deleteByJob(@PathVariable String id) throws ErrorException {
+		try {
+			jobBenefitService.deleteByJob(id);
+			Object obj = new Object();
+			return ResponseEntity.ok(obj);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/job-benefit/id/{id}")
