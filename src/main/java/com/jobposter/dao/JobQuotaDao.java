@@ -56,7 +56,7 @@ public class JobQuotaDao extends CommonDao {
 				.setParameter("id", id)
 				.getResultList();
 		if(list.size()==0)
-			return null;
+			return 0;
 		else
 			return list.get(0);
 	}
