@@ -126,7 +126,7 @@ a, a:hover {
 			padding-top: 15px; 
 			color: #192965;
 			font-family: sans-serif;" class="paragraph">
-				Thank you for applying for ${position} position. Sorry you haven't fulfilled the qualifications that we are looking for. Because ${reason}
+				Let me introduce myself, my name is ${aplname}. Thank you for giving me the opportunity to interview on <strong> ${position} </strong> position. I am willing to attend according to a predetermined schedule.
 		</td>
 	</tr>
 	

@@ -126,7 +126,18 @@ a, a:hover {
 			padding-top: 15px; 
 			color: #192965;
 			font-family: sans-serif;" class="paragraph">
-				Thank you for applying for ${position} position. Sorry you haven't fulfilled the qualifications that we are looking for. Because ${reason}
+				Let me introduce myself, my name is ${aplname}. Thank you for giving me the opportunity to interview on <strong> ${position} </strong> position. But I couldn't attend the interview for one reason or another.
+		</td>
+	</tr>
+	
+	<!-- PARAGRAPH -->
+	<!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
+	<tr>
+		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
+			padding-top: 15px; 
+			color: #192965;
+			font-family: sans-serif;" class="paragraph">
+			Thank you in advance, hopefully we can meet and work together later.	
 		</td>
 	</tr>
 	

@@ -206,18 +206,8 @@ public class ApplicationController {
 			Mail mail = new Mail();
 			Application appl = applService.findById(id);
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
-			InterviewTestSchedule schedule2;
 			
-			if(schedule.getApplication().getId().equalsIgnoreCase(appl.getId())) {
-				schedule2 = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-				schedule2.setInterviewDate(schedule.getInterviewDate());
-				schedule2.setInterviewTime(schedule.getInterviewTime());
-				schedule2.setInterviewLocation(schedule.getInterviewLocation());
-			}else {
-				schedule2 = schedule;
-			}
-			
-			valInterview(schedule2);
+			valInterview(schedule);
 			
 			applStateChange.setState(applStateService.findByStateName("Interview"));
 			applStateChange.setDateChanged(new Date());
@@ -231,8 +221,8 @@ public class ApplicationController {
 		    
 		    schedule.setApplication(appl);
 		    schedule.setInterviewCode("SCHEDULE-"+id);
-//		    schedule.setInterviewDate(schedule.getInterviewDate());
-//		    schedule.setInterviewTime(schedule.getInterviewTime());
+		    schedule.setInterviewDate(schedule.getInterviewDate());
+		    schedule.setInterviewTime(schedule.getInterviewTime());
 		    
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.update(applStateChange);
@@ -243,6 +233,79 @@ public class ApplicationController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
+	
+	@PutMapping("/admin/application/interview-reschedule/{id}")
+	public ResponseEntity<?> interviewRescheduleApplicant(@RequestBody InterviewTestSchedule schedule) throws ErrorException {
+		try {
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+			
+		    String strDate = dateFormat.format(schedule.getInterviewDate());
+			String strTime = timeFormat.format(schedule.getInterviewTime());
+		    
+			Mail mail = new Mail();
+			ApplicationStateChange applStateChange = applStateChangeService.findByBk(schedule.getApplication().getId());
+			
+			valInterview(schedule);
+			
+			applStateChange.setState(applStateService.findByStateName("Interview"));
+			applStateChange.setDateChanged(new Date());
+			
+			mail.setName(schedule.getApplication().getUser().getFirstName()+" "+schedule.getApplication().getUser().getLastName());
+		    mail.setSubject("Interview invitation " + schedule.getApplication().getJobPosting().getCompany()); 
+		    mail.setTo(schedule.getApplication().getUser().getUsername());
+		    mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
+		    mail.setDate(strDate);
+		    mail.setTime(strTime);
+		    mail.setAddress(schedule.getInterviewLocation());
+		    
+		    schedule.setApplication(schedule.getApplication());
+		    schedule.setInterviewDate(schedule.getInterviewDate());
+		    schedule.setInterviewTime(schedule.getInterviewTime());
+		    schedule.setInterviewLocation(schedule.getInterviewLocation());
+		    
+		    interviewTestScheduleService.insert(schedule);
+			applStateChangeService.update(applStateChange);
+			emailService.sendInterview(mail);
+			applStateChange.getApplication().setUser(null);
+			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("/apl/application/attend-interview/{id}")
+	public ResponseEntity<?> attendInterview(@RequestBody InterviewTestSchedule schedule) throws ErrorException {
+		try {
+			
+			Mail mail = new Mail();
+			
+			valInterview(schedule);
+			
+			schedule.setAttend(true);
+			schedule.setReschedule(false);
+			schedule.setReject(false);
+			
+			mail.setName(schedule.getApplication().getJobPosting().getUser().getFirstName()+" "+schedule.getApplication().getJobPosting().getUser().getLastName());
+		    mail.setSubject("Interview invitation " + schedule.getApplication().getJobPosting().getCompany()); 
+		    mail.setTo(schedule.getApplication().getUser().getUsername());
+		    mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
+		    mail.setReasonRejected(schedule.getApplication().getUser().getFirstName()+" "+schedule.getApplication().getUser().getLastName());
+		    
+		    schedule.setApplication(schedule.getApplication());
+		    schedule.setInterviewDate(schedule.getInterviewDate());
+		    schedule.setInterviewTime(schedule.getInterviewTime());
+		    schedule.setInterviewLocation(schedule.getInterviewLocation());
+		    
+		    interviewTestScheduleService.insert(schedule);
+			emailService.sendAttend(mail);
+			return ResponseEntity.status(HttpStatus.OK).body(schedule);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
 	
 	@PutMapping("/apl/application/applicant-request-reschedule")
 	public ResponseEntity<?> applicantRequestRescheduleInterview(@RequestBody InterviewTestSchedule schedule) throws ErrorException {
@@ -313,10 +376,18 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/admin/application/applicant-reject")
-	public ResponseEntity<?> applicantRejectApplication(@RequestBody Application appl) throws ErrorException {
+	@PutMapping("/admin/application/applicant-reject/{reason}")
+	public ResponseEntity<?> applicantRejectApplication(@RequestBody Application appl, @PathVariable String reason) throws ErrorException {
 		try {
 			valIdExist(appl.getId());
+			
+			Mail mail = new Mail();
+			
+			mail.setName(appl.getJobPosting().getUser().getFirstName() + " " + appl.getJobPosting().getUser().getLastName());
+			mail.setAddress(appl.getUser().getFirstName() + " " + appl.getUser().getLastName());
+			mail.setTo(appl.getJobPosting().getUser().getUsername());
+			mail.setPosition(appl.getJobPosting().getJobTitleName());
+			mail.setReasonRejected(reason);
 			
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			interviewTestScheduleService.delete(its);
@@ -325,6 +396,8 @@ public class ApplicationController {
 			applStateChangeService.delete(applStateChange);
 			
 			applService.delete(appl);
+			
+			emailService.sendRejectByApplicant(mail);
 			return ResponseEntity.status(HttpStatus.OK).body(appl);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -332,26 +405,38 @@ public class ApplicationController {
 	}
 	
 	@PutMapping("/admin/application/reject")
-	public ResponseEntity<?> rejectApplicant(@RequestBody Application appl) throws ErrorException {
+	public ResponseEntity<?> rejectApplicant(@RequestBody InterviewTestSchedule schedule) throws ErrorException {
 		try {
-			valIdExist(appl.getId());
 			
-			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
+			Mail mail = new Mail();
+			
+			mail.setName(schedule.getApplication().getUser().getFirstName() + " " + schedule.getApplication().getUser().getLastName());
+			//mail.setAddress(appl.getUser().getFirstName() + " " + appl.getUser().getLastName());
+			mail.setTo(schedule.getApplication().getJobPosting().getUser().getUsername());
+			mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
+			mail.setReasonRejected(schedule.getInterviewResult());
+			
+			
+			valIdExist(schedule.getApplication().getId());
+			
+			ApplicationStateChange applStateChange = applStateChangeService.findByBk(schedule.getApplication().getId());
 			
 			applStateChange.setState(applStateService.findByStateName("Reject"));
 			applStateChange.setDateChanged(new Date());
-			applStateChange.setApplication(appl);
+			applStateChange.setApplication(schedule.getApplication());
 			
 			applStateChangeService.update(applStateChange);
 			
-			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-			if(its == null) {
-				applStateChange.getApplication().setUser(null);
-				return ResponseEntity.status(HttpStatus.OK).body(applStateChange);	
-			}
+//			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+//			if(its == null) {
+//				applStateChange.getApplication().setUser(null);
+//				return ResponseEntity.status(HttpStatus.OK).body(applStateChange);	
+//			}
+//			
+//			
+//			interviewTestScheduleService.delete(its);
 			
-			
-			interviewTestScheduleService.delete(its);
+			emailService.sendReject(mail);
 			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 

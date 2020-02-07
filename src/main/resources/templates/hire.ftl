@@ -126,7 +126,7 @@ a, a:hover {
 			padding-top: 15px; 
 			color: #192965;
 			font-family: sans-serif;" class="paragraph">
-				Based on the interview invitation for the <strong> ${position} </strong> position, at
+				Based on the results of the interview for the position <strong> ${position} </strong> position.  we want to hire you in this position. We invite you to sign the contract on 
 		</td>
 	</tr>
 	
@@ -150,7 +150,6 @@ a, a:hover {
 			padding-top: 15px; 
 			color: #192965;
 			font-family: sans-serif;" class="paragraph">
-				I requested rescheduling because <strong> ${reason} </strong>
 		</td>
 	</tr>
 
