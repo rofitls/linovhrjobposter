@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.jobposter.dao.ApplicationDao;
 import com.jobposter.entity.Application;
+import com.jobposter.entity.ApplicationStateChange;
+import com.jobposter.entity.InterviewTestSchedule;
 import com.jobposter.exception.ErrorException;
 
 @Service("applicationService")
@@ -14,7 +16,13 @@ public class ApplicationService {
 
 	@Autowired
 	private ApplicationDao applDao;
+	
+	@Autowired
+	private InterviewTestScheduleService scheduleService;
 
+	@Autowired
+	private ApplicationStateChangeService stateService;
+	
 	public Application findById(String id) throws ErrorException {
 		Application appl = applDao.findById(id);
 		return appl;
@@ -28,7 +36,9 @@ public class ApplicationService {
 		applDao.save(appl);
 	}
 	
-	public void delete(Application appl) throws ErrorException{
+	public void delete(Application appl, InterviewTestSchedule schedule, ApplicationStateChange state) throws ErrorException{
+		scheduleService.delete(schedule);
+		stateService.delete(state);
 		applDao.delete(appl);
 	}
 	
