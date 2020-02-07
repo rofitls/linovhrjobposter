@@ -275,6 +275,7 @@ public class ApplicationController {
 			applStateChange.getApplication().setUser(null);
 			return ResponseEntity.status(HttpStatus.OK).body(applStateChange);
 		}catch(Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
@@ -442,6 +443,8 @@ public class ApplicationController {
 //			
 //			
 			schedule.setReject(true);
+			schedule.setAttend(false);
+			schedule.setReschedule(false);
 			interviewTestScheduleService.update(schedule);
 			
 			emailService.sendReject(mail);
