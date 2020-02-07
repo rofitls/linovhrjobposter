@@ -91,7 +91,7 @@ public class DocumentDao extends CommonDao {
 	@Transactional
 	public Document findCVApplicant(String id) {
 		List<Document> list = super.entityManager
-				.createQuery("from Document where user.id =: id and docType.docTypeName =: type")
+				.createQuery("from Document where user.id =: id and docType.docTypeCode =: type")
 				.setParameter("id", id)
 				.setParameter("type", "CV")
 				.getResultList();
