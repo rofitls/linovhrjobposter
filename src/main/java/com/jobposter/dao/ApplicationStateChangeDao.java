@@ -118,7 +118,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.setParameter("state", "Hire")
 				.getResultList();
 		if(list.size()==0)
-			return null;
+			return 0L;
 		else
 			return (Long)list.get(0);
 	}
