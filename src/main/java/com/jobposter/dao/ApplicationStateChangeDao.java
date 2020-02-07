@@ -132,7 +132,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 		query.append("From JobPosting where user.id =: id");
 		
 		if(year != null) {
-			query.append(" and where to_char(startDate,'YYYY') =:year or to_char(endDate,'YYYY') =:year");
+			query.append(" and where to_char(startDate,'YYYY') =: year or to_char(endDate,'YYYY') =: year");
 		}
 		
 		Query queryExecuted = super.entityManager.createQuery(query.toString());
