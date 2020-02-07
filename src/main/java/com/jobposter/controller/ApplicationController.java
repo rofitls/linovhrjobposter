@@ -429,14 +429,14 @@ public class ApplicationController {
 			
 			applStateChangeService.update(applStateChange);
 			
-//			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 //			if(its == null) {
 //				applStateChange.getApplication().setUser(null);
 //				return ResponseEntity.status(HttpStatus.OK).body(applStateChange);	
 //			}
 //			
 //			
-//			interviewTestScheduleService.delete(its);
+			schedule.setReject(true);
+			interviewTestScheduleService.update(schedule);
 			
 			emailService.sendReject(mail);
 			applStateChange.getApplication().setUser(null);
