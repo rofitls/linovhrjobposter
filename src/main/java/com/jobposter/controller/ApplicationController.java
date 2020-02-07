@@ -293,12 +293,7 @@ public class ApplicationController {
 		    mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
 		    mail.setReasonRejected(schedule.getApplication().getUser().getFirstName()+" "+schedule.getApplication().getUser().getLastName());
 		    
-		    schedule.setApplication(schedule.getApplication());
-		    schedule.setInterviewDate(schedule.getInterviewDate());
-		    schedule.setInterviewTime(schedule.getInterviewTime());
-		    schedule.setInterviewLocation(schedule.getInterviewLocation());
-		    
-		    interviewTestScheduleService.insert(schedule);
+		   
 			emailService.sendAttend(mail);
 			return ResponseEntity.status(HttpStatus.OK).body(schedule);
 		}catch(Exception e) {
