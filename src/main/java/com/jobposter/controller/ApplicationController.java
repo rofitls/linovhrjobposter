@@ -253,7 +253,7 @@ public class ApplicationController {
 			applStateChange.setDateChanged(new Date());
 			
 			mail.setName(schedule.getApplication().getUser().getFirstName()+" "+schedule.getApplication().getUser().getLastName());
-		    mail.setSubject("Interview invitation " + schedule.getApplication().getJobPosting().getCompany()); 
+		    mail.setSubject("Interview Invitation " + schedule.getApplication().getJobPosting().getCompany()); 
 		    mail.setTo(schedule.getApplication().getUser().getUsername());
 		    mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
 		    mail.setDate(strDate);
@@ -288,7 +288,7 @@ public class ApplicationController {
 			schedule.setReject(false);
 			
 			mail.setName(schedule.getApplication().getJobPosting().getUser().getFirstName()+" "+schedule.getApplication().getJobPosting().getUser().getLastName());
-		    mail.setSubject("Interview invitation " + schedule.getApplication().getJobPosting().getCompany()); 
+		    mail.setSubject("Attending Interview Invitation " + schedule.getApplication().getJobPosting().getCompany()); 
 		    mail.setTo(schedule.getApplication().getUser().getUsername());
 		    mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
 		    mail.setReasonRejected(schedule.getApplication().getUser().getFirstName()+" "+schedule.getApplication().getUser().getLastName());
@@ -322,7 +322,7 @@ public class ApplicationController {
 			interviewTestScheduleService.update(schedule);
 			
 			mail.setName(schedule.getApplication().getJobPosting().getUser().getFirstName() + " " + schedule.getApplication().getJobPosting().getUser().getLastName());
-			mail.setSubject("Reschedule request");
+			mail.setSubject("Reschedule Request for " + schedule.getApplication().getJobPosting().getJobTitleName() + " Position at " + schedule.getApplication().getJobPosting().getCompany());
 			mail.setTo(schedule.getApplication().getJobPosting().getUser().getUsername());
 			mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
 			mail.setReasonReschedule(schedule.getRescheduleReason());
@@ -349,6 +349,7 @@ public class ApplicationController {
 			
 			mail.setName(appl.getUser().getFirstName() + " " + appl.getUser().getLastName());
 			mail.setTo(appl.getUser().getUsername());
+			mail.setSubject("Taken Contract and Hiring for " + appl.getJobPosting().getJobTitleName() + " Position at " + appl.getJobPosting().getCompany());
 			mail.setPosition(appl.getJobPosting().getJobTitleName());
 			mail.setDate(date);
 			mail.setTime(time);
@@ -388,7 +389,7 @@ public class ApplicationController {
 			mail.setTo(appl.getJobPosting().getUser().getUsername());
 			mail.setPosition(appl.getJobPosting().getJobTitleName());
 			mail.setReasonRejected(reason);
-			mail.setSubject("Reject Application");
+			mail.setSubject("Reject Application for " + appl.getJobPosting().getJobTitleName() + " Position at " + appl.getJobPosting().getCompany());
 			
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
 			interviewTestScheduleService.delete(its);
