@@ -337,7 +337,7 @@ public class ApplicationController {
 	}
 	
 	@PutMapping("/admin/application/hire/{date}/{time}/{location}")
-	public ResponseEntity<?> hireApplicant(@RequestBody Application appl, @PathVariable Date date, @PathVariable Time time, @PathVariable String location) throws ErrorException {
+	public ResponseEntity<?> hireApplicant(@RequestBody Application appl, @PathVariable String date, @PathVariable String time, @PathVariable String location) throws ErrorException {
 		try {
 			valIdExist(appl.getId());
 			
