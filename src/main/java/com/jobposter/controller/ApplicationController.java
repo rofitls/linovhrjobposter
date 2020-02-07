@@ -414,7 +414,7 @@ public class ApplicationController {
 			
 			mail.setName(schedule.getApplication().getUser().getFirstName() + " " + schedule.getApplication().getUser().getLastName());
 			//mail.setAddress(appl.getUser().getFirstName() + " " + appl.getUser().getLastName());
-			mail.setTo(schedule.getApplication().getJobPosting().getUser().getUsername());
+			mail.setTo(schedule.getApplication().getUser().getUsername());
 			mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
 			mail.setReasonRejected(schedule.getInterviewResult());
 			mail.setSubject("Reject Application for " + schedule.getApplication().getJobPosting().getJobTitleName() + " Position at " + schedule.getApplication().getJobPosting().getCompany());
