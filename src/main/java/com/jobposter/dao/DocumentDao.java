@@ -89,6 +89,20 @@ public class DocumentDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public Document findCVApplicant(String id) {
+		List<Document> list = super.entityManager
+				.createQuery("from Document where user.id =: id and docType.docTypeName =: type")
+				.setParameter("id", id)
+				.setParameter("type", "CV")
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (Document)list.get(0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public Long filterDoc(String id) {
 		StringBuilder query = new StringBuilder();
 		query.append("select count(d) from Document d where d.docType.flag =: flag and d.user.id =: id");

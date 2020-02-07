@@ -54,4 +54,8 @@ public class DocumentService {
 	public Long filterDoc(String id) throws ErrorException {
 		return documentDao.filterDoc(id);
 	}
+	
+	public Document findCVApplicant(String id) throws ErrorException {
+		return documentDao.findCVApplicant(id);
+	}
 }

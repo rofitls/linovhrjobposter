@@ -121,6 +121,15 @@ public class DocumentController {
 		
 	}
 	
+	@GetMapping("/docs/cv-applicant/{id}")
+	public ResponseEntity<?> getCVApplicant(@PathVariable String id) throws ErrorException {
+		try {
+			return ResponseEntity.ok(documentService.findCVApplicant(id));	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+	
 	private Exception valIdNull(Document doc) throws Exception {
 		if(doc.getId()!=null) {
 			throw new Exception("Insert Failed");
