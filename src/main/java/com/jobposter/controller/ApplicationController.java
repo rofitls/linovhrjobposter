@@ -417,6 +417,7 @@ public class ApplicationController {
 			mail.setTo(schedule.getApplication().getJobPosting().getUser().getUsername());
 			mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
 			mail.setReasonRejected(schedule.getInterviewResult());
+			mail.setSubject("Reject Application for " + schedule.getApplication().getJobPosting().getJobTitleName() + " Position at " + schedule.getApplication().getJobPosting().getCompany());
 			
 			
 			valIdExist(schedule.getApplication().getId());

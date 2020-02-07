@@ -126,7 +126,7 @@ a, a:hover {
 			padding-top: 15px; 
 			color: #192965;
 			font-family: sans-serif;" class="paragraph">
-				Let me introduce myself, my name is ${aplname}. Thank you for giving me the opportunity to interview on <strong> ${position} </strong> position. But I couldn't attend the interview for one reason or another.
+				Let me introduce myself, my name is ${aplname}. Thank you for giving me the opportunity to interview on <strong> ${position} </strong> position. But I couldn't attend the interview because ${reason}.
 		</td>
 	</tr>
 	
