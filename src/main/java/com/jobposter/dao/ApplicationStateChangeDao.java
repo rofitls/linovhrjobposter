@@ -109,6 +109,22 @@ public class ApplicationStateChangeDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
+	public List<ApplicationStateChange> findApplicationHireList(String id){
+		StringBuilder query = new StringBuilder();
+		query.append("select count(ap) from ApplicationStateChange ap where ap.application.jobPosting.id =: id and ap.state.stateName =: state");
+		List<ApplicationStateChange> list = super.entityManager
+				.createQuery(query.toString())
+				.setParameter("id", id)
+				.setParameter("state", "Hire")
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<ApplicationStateChange>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public Long findApplicationHire(String id) {
 		StringBuilder query = new StringBuilder();
 		query.append("select count(ap) from ApplicationStateChange ap where ap.application.jobPosting.id =: id and ap.state.stateName =: state");

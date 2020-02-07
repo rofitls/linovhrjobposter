@@ -63,4 +63,8 @@ public class ApplicationStateChangeService {
 	public List<ReportMasterPojo> reportMaster(String id) throws Exception {
 		return stateDao.reportMaster(id);
 	}
+	
+	public List<ApplicationStateChange> findApplicationHireList(String id) throws Exception {
+		return stateDao.findApplicationHireList(id);
+	}
 }
