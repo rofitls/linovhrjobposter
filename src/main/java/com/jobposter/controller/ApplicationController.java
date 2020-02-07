@@ -234,7 +234,7 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/admin/application/interview-reschedule/{id}")
+	@PutMapping("/admin/application/interview-reschedule")
 	public ResponseEntity<?> interviewRescheduleApplicant(@RequestBody InterviewTestSchedule schedule) throws ErrorException {
 		try {
 			
@@ -289,11 +289,12 @@ public class ApplicationController {
 			
 			mail.setName(schedule.getApplication().getJobPosting().getUser().getFirstName()+" "+schedule.getApplication().getJobPosting().getUser().getLastName());
 		    mail.setSubject("Attending Interview Invitation " + schedule.getApplication().getJobPosting().getCompany()); 
-		    mail.setTo(schedule.getApplication().getUser().getUsername());
+		    mail.setTo(schedule.getApplication().getJobPosting().getUser().getUsername());
 		    mail.setPosition(schedule.getApplication().getJobPosting().getJobTitleName());
 		    mail.setReasonRejected(schedule.getApplication().getUser().getFirstName()+" "+schedule.getApplication().getUser().getLastName());
 		    
-		   
+		    
+		    interviewTestScheduleService.update(schedule);
 			emailService.sendAttend(mail);
 			return ResponseEntity.status(HttpStatus.OK).body(schedule);
 		}catch(Exception e) {
