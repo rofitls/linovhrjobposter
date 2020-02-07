@@ -10,6 +10,7 @@ public class ReportMasterPojo {
 	private String recruiterName;
 	private Long totalUploadJob;
 	private String jobPosting;
+	private String year;
 	private Long countHire;
 	private Long countInterview;
 	private Long countApplicant;
@@ -50,5 +51,10 @@ public class ReportMasterPojo {
 	public void setCountApplicant(Long countApplicant) {
 		this.countApplicant = countApplicant;
 	}
-
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
 }

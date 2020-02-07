@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
@@ -124,12 +125,27 @@ public class ApplicationStateChangeDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<ReportMasterPojo> reportMaster(String id) {	
+	public List<ReportMasterPojo> reportMaster(String id, String year) {	
 		//Query buat total upload job per recruiter
 		
-		List<JobPosting> jpsting = super.entityManager.createQuery("From JobPosting where user.id =: id")
-				.setParameter("id", id)
-				.getResultList();
+		StringBuilder query = new StringBuilder();
+		query.append("From JobPosting where user.id =: id");
+		
+		if(year != null) {
+			query.append(" and where to_char(startDate,'YYYY') =:year or to_char(endDate,'YYYY') =:year");
+		}
+		
+		Query queryExecuted = super.entityManager.createQuery(query.toString());
+		
+		if(year != null) {
+			queryExecuted.setParameter("year", year);
+		}
+		
+		List<JobPosting> jpsting = queryExecuted.getResultList();
+		
+//		= super.entityManager.createQuery()
+//		.setParameter("id", id)
+//		.getResultList();
 		
 		List<ReportMasterPojo> masterPojo = new ArrayList<ReportMasterPojo>();
 		
@@ -163,6 +179,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 			
 			reportPojo.setJobPosting(jp.getJobTitleName());
 			reportPojo.setRecruiterName(jp.getUser().getFirstName()+ " " +jp.getUser().getLastName());
+			reportPojo.setYear(year);
 			reportPojo.setCountHire(list2);
 			reportPojo.setCountInterview(list3);
 			reportPojo.setCountApplicant(list4);
@@ -176,74 +193,4 @@ public class ApplicationStateChangeDao extends CommonDao {
 			return (List<ReportMasterPojo>)masterPojo;
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<ReportSubReportPojo> reportPerJob(String id) {
-		
-		//Query buat total hire
-		StringBuilder query = new StringBuilder();
-		query.append("select ap.application.jobPosting.jobTitleName from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id group by ap.application.jobPosting.jobTitleName");
-		List<String> list = super.entityManager
-				.createQuery(query.toString())
-				.setParameter("id", id)
-				.getResultList();
-		
-		//Query buat total hire
-		StringBuilder query2 = new StringBuilder();
-		query2.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
-		List<Long> list2 = super.entityManager
-				.createQuery(query2.toString())
-				.setParameter("id", id)
-				.setParameter("state", "Hire")
-				.getResultList();
-		
-		//Query buat total interview
-		StringBuilder query3 = new StringBuilder();
-		query3.append("select count(ap.application.jobPosting.jobTitleName) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id and ap.state.stateName =: state group by ap.application.jobPosting.jobTitleName");
-		List<Long> list3 = super.entityManager
-				.createQuery(query3.toString())
-				.setParameter("id", id)
-				.setParameter("state", "Interview")
-				.getResultList();
-		
-		//Query buat total applicant per job
-		StringBuilder query4 = new StringBuilder();
-		query4.append("select count(ap.jobPosting.jobTitleName) from Application ap where ap.jobPosting.user.id =: id group by ap.jobPosting.jobTitleName");
-		List<Long> list4 = super.entityManager
-				.createQuery(query4.toString())
-				.setParameter("id", id)
-				.getResultList();
-		
-		List<ReportSubReportPojo> listRp = new ArrayList<ReportSubReportPojo>();
-		
-		for(int i = 0; i < list.size(); i++) {
-			ReportSubReportPojo rPojo = new ReportSubReportPojo();
-			rPojo.setJobPosting(list.get(i));
-			
-			if(list2.size()<i+1) {
-				rPojo.setCountHire(0L);
-			}else {
-				rPojo.setCountHire(list2.get(i));	
-			}
-			
-			if(list3.size()<i+1) {
-				rPojo.setCountInterview(0L);	
-			}else {
-				rPojo.setCountInterview(list3.get(i));
-			}
-			
-			if(list4.size()<i+1) {
-				rPojo.setCountApplicant(0L);	
-			}else {
-				rPojo.setCountApplicant(list4.get(i));
-			}
-			
-			listRp.add(rPojo);
-		}
-		
-		if(listRp.size() == 0) 
-			return null;
-		else
-			return (List<ReportSubReportPojo>)listRp;
-	}
 }

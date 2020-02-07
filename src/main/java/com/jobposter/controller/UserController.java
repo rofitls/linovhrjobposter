@@ -254,11 +254,11 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/user/report/{id}")
-	public ResponseEntity<?> exportReport(@PathVariable String id, HttpServletRequest request) throws FileNotFoundException, JRException{
+	@GetMapping("/user/report/{id}/{year}")
+	public ResponseEntity<?> exportReport(@PathVariable String id, @PathVariable String year, HttpServletRequest request) throws FileNotFoundException, JRException{
 			try {
 				Users user = userService.findById(id);
-				List<ReportMasterPojo> listRp = stateService.reportMaster(id);
+				List<ReportMasterPojo> listRp = stateService.reportMaster(id,year);
 				
 				for(ReportMasterPojo rp : listRp) {
 					rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
@@ -287,39 +287,10 @@ public class UserController {
 			}
 	}
 	
-	@GetMapping("/user/sub-report/{id}")
-	public ResponseEntity<?> exportSubReport(@PathVariable String id, HttpServletRequest request) throws FileNotFoundException, JRException{
-			try {
-				
-				List<ReportSubReportPojo> rp = stateService.reportPerJob(id);
-				
-				String fileName = userService.exportSubReport(id, rp);
-				
-				// Load file as Resource
-		        Resource resource = userService.loadFileAsResource(fileName);
-
-		        // Try to determine file's content type
-		        String contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-		        
-
-		        // Fallback to the default content type if type could not be determined
-		        if(contentType == null) {
-		            contentType = "application/octet-stream";
-		        }
-
-		        return ResponseEntity.ok()
-		                .contentType(MediaType.parseMediaType(contentType))
-		                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-		                .body(resource);
-			}catch(Exception e) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-			}
-	}
-	
-	@GetMapping("/user/report/json/{id}")
-	public ResponseEntity<?> reportJSON(@PathVariable String id) throws FileNotFoundException, JRException{
+	@GetMapping("/user/report/json/{id}/{year}")
+	public ResponseEntity<?> reportJSON(@PathVariable String id, @PathVariable String year) throws FileNotFoundException, JRException{
 		try {
-			List<ReportMasterPojo> listRp = stateService.reportMaster(id);
+			List<ReportMasterPojo> listRp = stateService.reportMaster(id,year);
 			return ResponseEntity.ok(listRp);	
 		}catch(Exception e) {
 			e.printStackTrace();
