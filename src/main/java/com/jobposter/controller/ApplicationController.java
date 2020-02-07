@@ -400,6 +400,7 @@ public class ApplicationController {
 			emailService.sendRejectByApplicant(mail);
 			return ResponseEntity.status(HttpStatus.OK).body(appl);
 		}catch(Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
