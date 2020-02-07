@@ -376,7 +376,7 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/admin/application/applicant-reject/{reason}")
+	@PutMapping("/apl/application/applicant-reject/{reason}")
 	public ResponseEntity<?> applicantRejectApplication(@RequestBody Application appl, @PathVariable String reason) throws ErrorException {
 		try {
 			valIdExist(appl.getId());
