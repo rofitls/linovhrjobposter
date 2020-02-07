@@ -64,9 +64,8 @@ public class InterviewTestScheduleDao extends CommonDao {
 	@Transactional
 	public InterviewTestSchedule findScheduleByApplication(String id) {
 		List<InterviewTestSchedule> list = super.entityManager
-				.createQuery("from InterviewTestSchedule where application.id =: id and reject =: state")
+				.createQuery("from InterviewTestSchedule where application.id =: id")
 				.setParameter("id", id)
-				.setParameter("state", false)
 				.getResultList();
 		if(list.size()==0)
 			return null;
@@ -78,8 +77,9 @@ public class InterviewTestScheduleDao extends CommonDao {
 	@Transactional
 	public List<InterviewTestSchedule> findScheduleByApplicant(String id){
 		List<InterviewTestSchedule> list = super.entityManager
-				.createQuery("from InterviewTestSchedule where application.user.id =: id")
+				.createQuery("from InterviewTestSchedule where application.user.id =: id and reject =: state")
 				.setParameter("id", id)
+				.setParameter("state", false)
 				.getResultList();
 		if(list.size()==0)
 			return null;
