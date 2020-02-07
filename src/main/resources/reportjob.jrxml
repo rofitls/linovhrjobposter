@@ -13,8 +13,6 @@
 	</field>
 	<field name="jobPosting" class="java.sql.Timestamp">
 	</field>
-	<field name="year" class="java.lang.Integer">
-	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -148,25 +146,6 @@ linovhrjobposter@gmail.com]]></text>
 				</textElement>
 				<text><![CDATA[JOB POSTER REPORT]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="419" y="85" width="20" height="22" uuid="b2a8ecc0-2dae-485a-b51a-1bfdd7675546"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="290" y="81" width="120" height="30" uuid="de057537-6f3f-4bf9-abe4-0ff09fbf3f00"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Tahun]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="450" y="81" width="100" height="30" uuid="a7e20722-bf3e-4256-96a7-c3f22d88a7c0"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
-			</textField>
 		</band>
 	</columnHeader>
 	<detail>

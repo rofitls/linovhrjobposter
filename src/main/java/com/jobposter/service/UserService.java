@@ -97,7 +97,7 @@ public class UserService implements UserDetailsService {
 	
 	public String exportReport(String id, List<ReportMasterPojo> rp) throws ErrorException, FileNotFoundException, JRException {
         //load file and compile it
-        File file = ResourceUtils.getFile("classpath:report.jrxml");
+        File file = ResourceUtils.getFile("classpath:reportjob.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(rp);
         Map<String, Object> parameters = new HashMap<>();
