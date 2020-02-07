@@ -185,7 +185,7 @@ public class ApplicationController {
 		try {
 			valIdExist(id);
 			Application appl = applService.findById(id);
-//			applService.delete(appl);
+			applService.delete(appl);
 			appl.setUser(null);
 			return ResponseEntity.ok(appl);
 		}catch(Exception e) {
@@ -376,7 +376,7 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/apl/application/applicant-reject/{reason}")
+	@DeleteMapping("/apl/application/applicant-reject/{reason}")
 	public ResponseEntity<?> applicantRejectApplication(@RequestBody Application appl, @PathVariable String reason) throws ErrorException {
 		try {
 			valIdExist(appl.getId());
@@ -390,12 +390,12 @@ public class ApplicationController {
 			mail.setReasonRejected(reason);
 			
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-//			interviewTestScheduleService.delete(its);
+			interviewTestScheduleService.delete(its);
 			
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
-//			applStateChangeService.delete(applStateChange);
+			applStateChangeService.delete(applStateChange);
 			
-			applService.delete(appl,its,applStateChange);
+			applService.delete(appl);
 			
 			emailService.sendRejectByApplicant(mail);
 			return ResponseEntity.status(HttpStatus.OK).body(appl);

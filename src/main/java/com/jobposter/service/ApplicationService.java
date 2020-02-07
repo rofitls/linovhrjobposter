@@ -17,12 +17,6 @@ public class ApplicationService {
 	@Autowired
 	private ApplicationDao applDao;
 	
-	@Autowired
-	private InterviewTestScheduleService scheduleService;
-
-	@Autowired
-	private ApplicationStateChangeService stateService;
-	
 	public Application findById(String id) throws ErrorException {
 		Application appl = applDao.findById(id);
 		return appl;
@@ -36,9 +30,7 @@ public class ApplicationService {
 		applDao.save(appl);
 	}
 	
-	public void delete(Application appl, InterviewTestSchedule schedule, ApplicationStateChange state) throws ErrorException{
-		scheduleService.delete(schedule);
-		stateService.delete(state);
+	public void delete(Application appl) throws ErrorException{
 		applDao.delete(appl);
 	}
 	
