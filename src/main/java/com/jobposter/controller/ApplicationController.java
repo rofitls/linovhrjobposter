@@ -275,7 +275,7 @@ public class ApplicationController {
 		}
 	}
 	
-	@PutMapping("/apl/application/attend-interview/{id}")
+	@PutMapping("/apl/application/attend-interview")
 	public ResponseEntity<?> attendInterview(@RequestBody InterviewTestSchedule schedule) throws ErrorException {
 		try {
 			
