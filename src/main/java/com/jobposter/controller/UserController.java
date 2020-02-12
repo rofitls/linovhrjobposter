@@ -53,6 +53,7 @@ import com.jobposter.entity.DocumentType;
 import com.jobposter.entity.Mail;
 import com.jobposter.entity.PasswordPojo;
 import com.jobposter.entity.Register;
+import com.jobposter.entity.ReportInput;
 import com.jobposter.entity.ReportSubReportPojo;
 import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.entity.Role;
@@ -254,18 +255,31 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/user/report/{id}")
-	public ResponseEntity<?> exportReport(@PathVariable String id, HttpServletRequest request) throws FileNotFoundException, JRException{
+	@GetMapping("/user/report")
+	public ResponseEntity<?> exportReport(@RequestBody ReportInput ri, HttpServletRequest request) throws FileNotFoundException, JRException{
 			try {
-				Users user = userService.findById(id);
-				List<ReportMasterPojo> listRp = stateService.reportMaster(id);
+				Users user = userService.findById(ri.getRecruiter());
 				
-				for(ReportMasterPojo rp : listRp) {
-					rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+				String fileName = "";
+				List<ReportMasterPojo> listRp;
+				
+				if(ri.getRecruiter() == null && ri.getYear() == null) {
+				
+				
+				}else {
+					listRp = stateService.reportMaster(ri.getRecruiter(), ri.getYear());
+					
+					for(ReportMasterPojo rp : listRp) {
+						rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+					}
+					
+					if(ri.getYear() != null) {
+						fileName = userService.exportReportPerYear(listRp);
+					}else {
+						fileName = userService.exportReport(listRp);
+					}
+					
 				}
-				
-				String fileName = userService.exportReport(id, listRp);
-				
 				// Load file as Resource
 		        Resource resource = userService.loadFileAsResource(fileName);
 
@@ -288,9 +302,9 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/report/json/{id}")
-	public ResponseEntity<?> reportJSON(@PathVariable String id) throws FileNotFoundException, JRException{
+	public ResponseEntity<?> reportJSON(@RequestBody ReportInput ri) throws FileNotFoundException, JRException{
 		try {
-			List<ReportMasterPojo> listRp = stateService.reportMaster(id);
+			List<ReportMasterPojo> listRp = stateService.reportMaster(ri.getRecruiter(), ri.getYear());
 			return ResponseEntity.ok(listRp);	
 		}catch(Exception e) {
 			e.printStackTrace();

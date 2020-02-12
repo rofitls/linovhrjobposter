@@ -141,28 +141,26 @@ public class ApplicationStateChangeDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<ReportMasterPojo> reportMaster(String id) {	
+	public List<ReportMasterPojo> reportMaster(String recruiter, String year) {	
 		//Query buat total upload job per recruiter
 		
-//		StringBuilder query = new StringBuilder();
-//		query.append("From JobPosting where user.id =: id");
+		StringBuilder query = new StringBuilder();
+		query.append("From JobPosting where user.id =: id");
 		
-//		if(year != null && !year.equalsIgnoreCase("null")) {
-//			query.append(" and to_char(startDate,'YYYY') =: year or to_char(endDate,'YYYY') =: year");
-//		}
-//		
-//		Query queryExecuted = super.entityManager.createQuery(query.toString());
-//
-//		queryExecuted.setParameter("id", id);
-//
-//		if(year != null && !year.equalsIgnoreCase("null")) {
-//			queryExecuted.setParameter("year", year);
-//		}
+		if(year != null && !year.equalsIgnoreCase("null")) {
+			query.append(" and to_char(startDate,'YYYY') =: year or to_char(endDate,'YYYY') =: year");
+		}
 		
-		List<JobPosting> jpsting = super.entityManager.createQuery("From JobPosting where user.id =: id")
-				.setParameter("id", id)
+		Query queryExecuted = super.entityManager.createQuery(query.toString());
+
+		queryExecuted.setParameter("id", recruiter);
+
+		if(year != null && !year.equalsIgnoreCase("null")) {
+			queryExecuted.setParameter("year", year);
+		}
+		
+		List<JobPosting> jpsting = super.entityManager.createQuery(queryExecuted.toString())
 				.getResultList();
-		
 		
 		List<ReportMasterPojo> masterPojo = new ArrayList<ReportMasterPojo>();
 		
@@ -200,6 +198,9 @@ public class ApplicationStateChangeDao extends CommonDao {
 			reportPojo.setCountInterview(list3);
 			reportPojo.setCountApplicant(list4);
 			reportPojo.setTotalUploadJob(list5);
+			if(year != null) {
+				reportPojo.setYear(year);
+			}
 			masterPojo.add(reportPojo);
 		}
 

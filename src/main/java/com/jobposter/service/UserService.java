@@ -95,7 +95,7 @@ public class UserService implements UserDetailsService {
 				new ArrayList<>());
 	}
 	
-	public String exportReport(String id, List<ReportMasterPojo> rp) throws ErrorException, FileNotFoundException, JRException {
+	public String exportReport(List<ReportMasterPojo> rp) throws ErrorException, FileNotFoundException, JRException {
         //load file and compile it
         File file = ResourceUtils.getFile("classpath:reportjob.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
@@ -108,16 +108,16 @@ public class UserService implements UserDetailsService {
         return fileName;
 	}
 	
-	public String exportSubReport(String id, List<ReportSubReportPojo> rp) throws ErrorException, FileNotFoundException, JRException {
+	public String exportReportPerYear(List<ReportMasterPojo> rp) throws ErrorException, FileNotFoundException, JRException {
         //load file and compile it
-        File file = ResourceUtils.getFile("classpath:subreport.jrxml");
+        File file = ResourceUtils.getFile("classpath:reportperyear.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(rp);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Java Techie");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-        JasperExportManager.exportReportToPdfFile(jasperPrint, reportdir.toString() + "/subreport.pdf");
-        String fileName = "subreport.pdf";
+        JasperExportManager.exportReportToPdfFile(jasperPrint, reportdir.toString() + "/report_per_year.pdf");
+        String fileName = "report.pdf";
         return fileName;
 	}
 	

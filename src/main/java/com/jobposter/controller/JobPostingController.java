@@ -52,7 +52,6 @@ public class JobPostingController {
 			JobPosting jpost = new JobPosting();
 			jpost.setJobTitleName(jPostPojo.getJobTitleName());
 			jpost.setSalary(jPostPojo.getSalary());
-//			jpost.setStartDate(jPostPojo.getStartDate());
 			jpost.setStartDate(new Date());
 			jpost.setEndDate(jPostPojo.getEndDate());
 			jpost.setAddress(jPostPojo.getAddress());
@@ -159,7 +158,19 @@ public class JobPostingController {
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		
+	}
+	
+	@GetMapping("/apl/job-recomedation")
+	public ResponseEntity<?> getRecomendationJob(@PathVariable String jobCategory, @PathVariable Double salary) throws ErrorException {
+		try {
+			List<JobPosting> jposts = jobPostingService.recomendationJob(jobCategory, salary);
+			for(JobPosting jpost : jposts) {
+				jpost.getUser().setImage(null);
+			}
+			return ResponseEntity.ok(jposts);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@PostMapping("/apl/job-posting/filter")

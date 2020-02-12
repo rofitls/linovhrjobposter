@@ -42,7 +42,7 @@ public class JobPostingDao extends CommonDao {
 	@Transactional
 	public List<JobPosting> findAll(){
 		List<JobPosting> list = super.entityManager
-				.createQuery("from JobPosting jp where activeState =: active")
+				.createQuery("from JobPosting where activeState =: active order by startDate")
 				.setParameter("active", true)
 				.getResultList();
 		if(list.size()==0)
@@ -75,6 +75,20 @@ public class JobPostingDao extends CommonDao {
 		List<JobPosting> list = super.entityManager
 				.createQuery("from JobPosting where user.id =: id")
 				.setParameter("id", id)
+				.getResultList();
+		if(list.size()==0)
+			return null;
+		else
+			return (List<JobPosting>)list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<JobPosting> recomendationJob(String jobCategory, Double salaryExpected){
+		List<JobPosting> list = super.entityManager
+				.createQuery("from JobPosting where jobPosition.jobCategory.jobCategoryName =: jobCategory or salary =: salaryExpected")
+				.setParameter("jobCategory", jobCategory)
+				.setParameter("salaryExpected", salaryExpected)
 				.getResultList();
 		if(list.size()==0)
 			return null;

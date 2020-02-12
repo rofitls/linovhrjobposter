@@ -52,5 +52,9 @@ public class JobPostingService {
 		List<JobPosting> jpost = jobPostingDao.filterJob(city, jobPosition, salaryMin, salaryMax);
 		return jpost;
 	}
+	
+	public List<JobPosting> recomendationJob(String jobCategory, Double salary) throws ErrorException {
+		return jobPostingDao.recomendationJob(jobCategory, salary);
+	}
 
 }
