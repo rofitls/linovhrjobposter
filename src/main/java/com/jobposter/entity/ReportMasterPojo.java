@@ -1,10 +1,5 @@
 package com.jobposter.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
 public class ReportMasterPojo {
 
 	private String recruiterName;
@@ -14,6 +9,10 @@ public class ReportMasterPojo {
 	private Long countInterview;
 	private Long countApplicant;
 	private String year;
+	
+	private String applicantName;
+	private String state;
+	private String result;
 	
 	public String getRecruiterName() {
 		return recruiterName;
@@ -56,5 +55,23 @@ public class ReportMasterPojo {
 	}
 	public void setYear(String year) {
 		this.year = year;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getResult() {
+		return result;
+	}
+	public void setResult(String result) {
+		this.result = result;
+	}
+	public String getApplicantName() {
+		return applicantName;
+	}
+	public void setApplicantName(String applicantName) {
+		this.applicantName = applicantName;
 	}
 }

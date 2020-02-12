@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.jobposter.entity.ApplicationStateChange;
 import com.jobposter.entity.JobPosting;
-import com.jobposter.entity.ReportSubReportPojo;
 import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.entity.Users;
 
@@ -137,6 +136,58 @@ public class ApplicationStateChangeDao extends CommonDao {
 			return 0L;
 		else
 			return (Long)list.get(0);
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<ReportMasterPojo> reportPerJob(String job) {
+		
+		List<JobPosting> jpsting = super.entityManager
+				.createQuery("from JobPosting where id =: id")
+				.setParameter("id", job)
+				.getResultList();
+		
+		Long totalApplicant = (Long) super.entityManager.createQuery("select count(*) from Application ap where ap.jobPosting.id =: id")
+				.setParameter("id", job)
+				.getSingleResult();
+		
+		List<String> firstName = super.entityManager
+				.createQuery("select ap.user.firstName from Application ap where ap.jobPosting.id =: id")
+				.setParameter("id", job)
+				.getResultList();
+		
+		List<String> lastName = super.entityManager
+				.createQuery("select ap.user.lastName from Application ap where ap.jobPosting.id =: id")
+				.setParameter("id", job)
+				.getResultList();
+		
+		List<String> state = super.entityManager
+				.createQuery("select ap.application.state.stateName from ApplicationStateChange ap where ap.application.jobPosting.id =: id order by ap.application.user.firstName")
+				.setParameter("id", job)
+				.getResultList();
+		
+		List<String> interviewResult = super.entityManager
+				.createQuery("select ap.interviewResult from InterviewTestSchedule ap where ap.application.jobPosting.id =: id order by ap.application.user.firstName")
+				.setParameter("id", job)
+				.getResultList();
+		
+		List<ReportMasterPojo> reportPojo = new ArrayList<ReportMasterPojo>();
+		
+		for(int i = 0; i < totalApplicant; i++) {
+			ReportMasterPojo rp = new ReportMasterPojo();
+			rp.setApplicantName(firstName.get(i) + " " + lastName.get(i));
+			rp.setJobPosting(jpsting.get(0).getJobTitleName());
+			rp.setCountApplicant(totalApplicant);
+			rp.setState(state.get(i));
+			rp.setResult(interviewResult.get(i));
+			reportPojo.add(rp);
+		}
+		
+		if(reportPojo.size() == 0)
+			return null;
+		else
+			return (List<ReportMasterPojo>)reportPojo;	
 	}
 	
 	@SuppressWarnings("unchecked")

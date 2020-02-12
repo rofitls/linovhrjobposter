@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.jobposter.dao.ApplicationStateChangeDao;
 import com.jobposter.entity.ApplicationStateChange;
-import com.jobposter.entity.ReportSubReportPojo;
 import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.exception.ErrorException;
 
@@ -62,6 +61,10 @@ public class ApplicationStateChangeService {
 	
 	public List<ReportMasterPojo> reportMaster(String id, String year) throws Exception {
 		return stateDao.reportMaster(id, year);
+	}
+	
+	public List<ReportMasterPojo> reportPerJob(String job) throws Exception {
+		return stateDao.reportPerJob(job);
 	}
 	
 	public List<ApplicationStateChange> findApplicationHireList(String id) throws Exception {

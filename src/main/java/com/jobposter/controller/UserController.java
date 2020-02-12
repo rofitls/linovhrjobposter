@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,7 +53,6 @@ import com.jobposter.entity.Mail;
 import com.jobposter.entity.PasswordPojo;
 import com.jobposter.entity.Register;
 import com.jobposter.entity.ReportInput;
-import com.jobposter.entity.ReportSubReportPojo;
 import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.entity.Role;
 import com.jobposter.entity.UserPassword;
@@ -264,8 +262,8 @@ public class UserController {
 				List<ReportMasterPojo> listRp;
 				
 				if(ri.getRecruiter() == null && ri.getYear() == null) {
-				
-				
+					listRp = stateService.reportPerJob(ri.getJob());
+					fileName = userService.exportReportPerJob(listRp);
 				}else {
 					listRp = stateService.reportMaster(ri.getRecruiter(), ri.getYear());
 					

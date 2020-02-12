@@ -25,7 +25,6 @@ import org.springframework.util.ResourceUtils;
 import com.jobposter.dao.ApplicationStateChangeDao;
 import com.jobposter.dao.UserDao;
 import com.jobposter.dao.UserPasswordDao;
-import com.jobposter.entity.ReportSubReportPojo;
 import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.entity.UserPassword;
 import com.jobposter.entity.Users;
@@ -117,6 +116,19 @@ public class UserService implements UserDetailsService {
         parameters.put("createdBy", "Java Techie");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         JasperExportManager.exportReportToPdfFile(jasperPrint, reportdir.toString() + "/report_per_year.pdf");
+        String fileName = "report.pdf";
+        return fileName;
+	}
+	
+	public String exportReportPerJob(List<ReportMasterPojo> rp) throws ErrorException, FileNotFoundException, JRException {
+        //load file and compile it
+        File file = ResourceUtils.getFile("classpath:reportperjob.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(rp);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("createdBy", "Java Techie");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, reportdir.toString() + "/report_per_job.pdf");
         String fileName = "report.pdf";
         return fileName;
 	}
