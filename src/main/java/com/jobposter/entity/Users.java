@@ -19,7 +19,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="tbl_m_user",  uniqueConstraints = @UniqueConstraint(columnNames = {"username","phone"}))
+@Table(name="tbl_m_user",  uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 public class Users {
 
 	@Id
@@ -33,9 +33,6 @@ public class Users {
 	
 	@Column(name="last_name")
 	private String lastName;
-	
-//	@Column(name="password")
-//	private String password;
 	
 	@Column(name="username", nullable=false)
 	private String username;

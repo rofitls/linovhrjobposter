@@ -151,7 +151,6 @@ public class UserController {
 		    appl.setFirstName(reg.getFirstName());
 		    appl.setLastName(reg.getLastName());
 		    appl.setUsername(reg.getEmail());
-//		    appl.setPassword(generatedString);
 		    	
 		    if(reg.getRole().getId().equalsIgnoreCase(roleService.findByName("Applicant").getId())) {
 		    	appl.setGender(reg.getGender());
@@ -410,7 +409,7 @@ public class UserController {
 	}
 	
 	private Exception valBkNotExist (Users user) throws Exception{
-		if(userService.findByBk(user.getUsername(), user.getPhone())!=null) {
+		if(userService.findByBk(user.getUsername())!=null) {
 			throw new Exception("User already exists");
 		}else if(roleService.findById(user.getRole().getId())==null || roleService.findById(user.getRole().getId()).isActiveState()==false) {
 			throw new Exception("Role doesn't exists");
@@ -430,7 +429,7 @@ public class UserController {
 			throw new Exception("Please fill in the blanks");
 		}
 		if(role.getRoleName().equalsIgnoreCase("Applicant")) {
-			if(user.getDateOfBirthday()==null || user.getGender() == null) {
+			if(user.getDateOfBirthday()==null || user.getGender() == null || user.getPhone() == null) {
 				throw new Exception("Please fill in the blanks");
 			}	
 		}

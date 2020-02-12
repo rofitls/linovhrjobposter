@@ -144,7 +144,7 @@ public class ApplicantSkillController {
 	}
 	
 	private Exception valBkNotExist (ApplicantSkill appl) throws Exception{
-		if(applService.findByBk(appl.getUser().getId(),appl.getSkillLevel(), appl.getSkillName())!=null) {
+		if(applService.findByBk(appl.getUser().getId(), appl.getSkillName())!=null) {
 			throw new Exception("Applicant skill already exists");
 		}else if(userService.findById(appl.getUser().getId())==null) {
 			throw new Exception("User doesn't exist");

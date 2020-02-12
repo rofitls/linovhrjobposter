@@ -49,11 +49,10 @@ public class UserDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public Users findByBk(String username, String phone) {
+	public Users findByBk(String username) {
 		List<Users> list = super.entityManager
-				.createQuery("from Users where username=:username and phone=:phone")
+				.createQuery("from Users where username=:username")
 				.setParameter("username", username)
-				.setParameter("phone", phone)
 				.getResultList();
 		if(list.size()==0)
 			return null;

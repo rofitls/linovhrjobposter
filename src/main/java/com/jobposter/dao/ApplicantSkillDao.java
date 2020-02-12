@@ -61,12 +61,11 @@ public class ApplicantSkillDao extends CommonDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public ApplicantSkill findByBk(String Bk1, String Bk2, String Bk3) {
+	public ApplicantSkill findByBk(String Bk1, String Bk2) {
 		List<ApplicantSkill> list = super.entityManager
-				.createQuery("from ApplicantSkill where user.id =: bk1 and skillLevel.id =: bk2 and skillName =: bk3")
+				.createQuery("from ApplicantSkill where user.id =: bk1 and skillName =: bk2")
 				.setParameter("bk1", Bk1)
 				.setParameter("bk2", Bk2)
-				.setParameter("bk3", Bk3)
 				.getResultList();
 		if(list.size()==0)
 			return null;

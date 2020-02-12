@@ -16,7 +16,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="tbl_m_applicant_skill",  uniqueConstraints = @UniqueConstraint(columnNames = {"id_user","skill_level","skill_name"}))
+@Table(name="tbl_m_applicant_skill",  uniqueConstraints = @UniqueConstraint(columnNames = {"id_user","skill_name"}))
 public class ApplicantSkill {
 
 	@Id

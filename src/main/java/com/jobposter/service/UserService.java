@@ -69,8 +69,8 @@ public class UserService implements UserDetailsService {
 		userDao.delete(user);
 	}
 	
-	public Users findByBk(String username, String phone)  throws ErrorException {
-		Users user = userDao.findByBk(username,phone);
+	public Users findByBk(String username)  throws ErrorException {
+		Users user = userDao.findByBk(username);
 		return user;
 	}
 	

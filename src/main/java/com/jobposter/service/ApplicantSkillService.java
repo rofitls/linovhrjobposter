@@ -32,8 +32,8 @@ public class ApplicantSkillService {
 		applSkillDao.delete(appl);
 	}
 	
-	public ApplicantSkill findByBk(String Bk1, String Bk2, String Bk3) throws ErrorException {
-		ApplicantSkill appl = applSkillDao.findByBk(Bk1, Bk2, Bk3);
+	public ApplicantSkill findByBk(String Bk1, String Bk2) throws ErrorException {
+		ApplicantSkill appl = applSkillDao.findByBk(Bk1, Bk2);
 		return appl;
 	}
 	
