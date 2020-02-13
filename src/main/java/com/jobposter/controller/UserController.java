@@ -252,7 +252,7 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/user/report")
+	@PostMapping("/user/report")
 	public ResponseEntity<?> exportReport(@RequestBody ReportInput ri, HttpServletRequest request) throws FileNotFoundException, JRException{
 			try {
 				Users user = userService.findById(ri.getRecruiter());
