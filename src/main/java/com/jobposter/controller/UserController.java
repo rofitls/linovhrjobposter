@@ -260,6 +260,10 @@ public class UserController {
 				String fileName = "";
 				List<ReportMasterPojo> listRp;
 				
+				System.out.println(ri.getRecruiter());
+				System.out.println(ri.getYear());
+				System.out.println(ri.getJob());
+				
 				if(ri.getRecruiter() == null && ri.getYear() == null) {
 					listRp = stateService.reportPerJob(ri.getJob());
 					fileName = userService.exportReportPerJob(listRp);

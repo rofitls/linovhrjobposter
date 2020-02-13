@@ -116,7 +116,7 @@ public class UserService implements UserDetailsService {
         parameters.put("createdBy", "Java Techie");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         JasperExportManager.exportReportToPdfFile(jasperPrint, reportdir.toString() + "/report_per_year.pdf");
-        String fileName = "report.pdf";
+        String fileName = "report_per_year.pdf";
         return fileName;
 	}
 	
@@ -129,7 +129,7 @@ public class UserService implements UserDetailsService {
         parameters.put("createdBy", "Java Techie");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         JasperExportManager.exportReportToPdfFile(jasperPrint, reportdir.toString() + "/report_per_job.pdf");
-        String fileName = "report.pdf";
+        String fileName = "report_per_job.pdf";
         return fileName;
 	}
 	
