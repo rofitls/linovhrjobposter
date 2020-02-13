@@ -163,7 +163,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.getResultList();
 		
 		List<String> state = super.entityManager
-				.createQuery("select ap.application.state.stateName from ApplicationStateChange ap where ap.application.jobPosting.id =: id order by ap.application.user.firstName")
+				.createQuery("select ap.state.stateName from ApplicationStateChange ap where ap.application.jobPosting.id =: id order by ap.application.user.firstName")
 				.setParameter("id", job)
 				.getResultList();
 		
