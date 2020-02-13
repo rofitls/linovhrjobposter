@@ -223,7 +223,7 @@ public class ApplicationController {
 		    schedule.setInterviewCode("SCHEDULE-"+id);
 		    schedule.setInterviewDate(schedule.getInterviewDate());
 		    schedule.setInterviewTime(schedule.getInterviewTime());
-		    
+		    schedule.setActiveState(true);
 		    interviewTestScheduleService.insert(schedule);
 			applStateChangeService.update(applStateChange);
 			emailService.sendInterview(mail);
@@ -268,7 +268,6 @@ public class ApplicationController {
 		    schedule.setReschedule(false);
 		    schedule.setAttend(false);
 		    schedule.setReject(false);
-		    
 		    interviewTestScheduleService.update(schedule);
 			applStateChangeService.update(applStateChange);
 			emailService.sendInterview(mail);
@@ -394,7 +393,11 @@ public class ApplicationController {
 			mail.setSubject("Reject Application for " + appl.getJobPosting().getJobTitleName() + " Position at " + appl.getJobPosting().getCompany());
 			
 			InterviewTestSchedule its = interviewTestScheduleService.findScheduleByApplication(appl.getId());
-			interviewTestScheduleService.delete(its);
+			its.setAttend(false);
+			its.setReschedule(false);
+			its.setReject(true);
+		    its.setActiveState(false);
+			interviewTestScheduleService.update(its);
 			
 			ApplicationStateChange applStateChange = applStateChangeService.findByBk(appl.getId());
 			
@@ -445,6 +448,7 @@ public class ApplicationController {
 			schedule.setReject(true);
 			schedule.setAttend(false);
 			schedule.setReschedule(false);
+		    schedule.setActiveState(false);
 			interviewTestScheduleService.update(schedule);
 			
 			emailService.sendReject(mail);

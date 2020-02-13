@@ -63,6 +63,9 @@ public class InterviewTestSchedule {
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Application application;
+	
+	@Column(name="active_state")
+	private boolean activeState;
 
 	public String getId() {
 		return id;
@@ -158,6 +161,14 @@ public class InterviewTestSchedule {
 
 	public void setInterviewLocation(String interviewLocation) {
 		this.interviewLocation = interviewLocation;
+	}
+
+	public boolean isActiveState() {
+		return activeState;
+	}
+
+	public void setActiveState(boolean activeState) {
+		this.activeState = activeState;
 	}
 
 }
