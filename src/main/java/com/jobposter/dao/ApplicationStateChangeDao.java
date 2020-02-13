@@ -196,7 +196,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 					.createQuery("from InterviewTestSchedule ap where ap.application.id =: id")
 					.setParameter("id", application.get(i).getId())
 					.getResultList();
-			if(schedule.get(0) == null) {
+			if(schedule.size() == 0) {
 				rp.setResult("-");	
 			}else {
 				rp.setResult(schedule.get(0).getInterviewResult());
