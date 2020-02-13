@@ -13,6 +13,9 @@ public class ReportMasterPojo {
 	private String applicantName;
 	private String state;
 	private String result;
+	private String companyName;
+	private String startDate;
+	private String endDate;
 	
 	public String getRecruiterName() {
 		return recruiterName;
@@ -73,5 +76,23 @@ public class ReportMasterPojo {
 	}
 	public void setApplicantName(String applicantName) {
 		this.applicantName = applicantName;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 }

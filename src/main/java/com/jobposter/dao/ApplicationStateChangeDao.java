@@ -1,5 +1,7 @@
 package com.jobposter.dao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +12,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
+import com.jobposter.entity.Application;
 import com.jobposter.entity.ApplicationStateChange;
+import com.jobposter.entity.InterviewTestSchedule;
 import com.jobposter.entity.JobPosting;
 import com.jobposter.entity.ReportMasterPojo;
 import com.jobposter.entity.Users;
@@ -152,6 +156,11 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.setParameter("id", job)
 				.getSingleResult();
 		
+		List<Application> application = super.entityManager
+				.createQuery("from Application ap where ap.jobPosting.id =: id order by ap.user.firstName")
+				.setParameter("id", job)
+				.getResultList();
+		
 		List<String> firstName = super.entityManager
 				.createQuery("select ap.user.firstName from Application ap where ap.jobPosting.id =: id order by ap.user.firstName")
 				.setParameter("id", job)
@@ -167,20 +176,31 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.setParameter("id", job)
 				.getResultList();
 		
-		List<String> interviewResult = super.entityManager
-				.createQuery("select ap.interviewResult from InterviewTestSchedule ap where ap.application.jobPosting.id =: id order by ap.application.user.firstName")
-				.setParameter("id", job)
-				.getResultList();
+//		List<String> interviewResult = super.entityManager
+//				.createQuery("select ap.interviewResult from InterviewTestSchedule ap where ap.application.jobPosting.id =: id order by ap.application.user.firstName")
+//				.setParameter("id", job)
+//				.getResultList();
 		
 		List<ReportMasterPojo> reportPojo = new ArrayList<ReportMasterPojo>();
-	
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		for(int i = 0; i < totalApplicant; i++) {
 			ReportMasterPojo rp = new ReportMasterPojo();
 			rp.setApplicantName(firstName.get(i) + " " + lastName.get(i));
 			rp.setJobPosting(jpsting.get(0).getJobTitleName());
+			rp.setCompanyName(jpsting.get(0).getCompany());
+			rp.setStartDate(dateFormat.format(jpsting.get(0).getStartDate()));
+			rp.setEndDate(dateFormat.format(jpsting.get(0).getEndDate()));
 			rp.setCountApplicant(totalApplicant);
 			rp.setState(state.get(i));
-			rp.setResult("-");
+			List<InterviewTestSchedule> schedule = super.entityManager
+					.createQuery("from InterviewTestSchedule ap where ap.application.id =: id")
+					.setParameter("id", application.get(i).getId())
+					.getResultList();
+			if(schedule.get(0) == null) {
+				rp.setResult("-");	
+			}else {
+				rp.setResult(schedule.get(0).getInterviewResult());
+			}
 			reportPojo.add(rp);
 		}
 		
