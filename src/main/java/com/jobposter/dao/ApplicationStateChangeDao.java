@@ -162,7 +162,7 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.setParameter("id2", job)
 				.getSingleResult();
 		
-		Long countInterview = (Long) super.entityManager.createQuery("select count(*) from ApplicationStateChange ap and ap.state.stateName =: state"
+		Long countInterview = (Long) super.entityManager.createQuery("select count(*) from ApplicationStateChange ap where ap.state.stateName =: state"
 				+ " and ap.application.jobPosting.id =: id2")
 				.setParameter("state", "Interview")
 				.setParameter("id2", job)
