@@ -156,6 +156,18 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.setParameter("id", job)
 				.getSingleResult();
 		
+		Long countHire = (Long) super.entityManager.createQuery("select count(*) from ApplicationStateChange ap where ap.state.stateName =: state"
+				+ " and ap.application.jobPosting.id =: id2")
+				.setParameter("state", "Hire")
+				.setParameter("id2", job)
+				.getSingleResult();
+		
+		Long countInterview = (Long) super.entityManager.createQuery("select count(*) from ApplicationStateChange ap and ap.state.stateName =: state"
+				+ " and ap.application.jobPosting.id =: id2")
+				.setParameter("state", "Interview")
+				.setParameter("id2", job)
+				.getSingleResult();
+		
 		List<Application> application = super.entityManager
 				.createQuery("from Application ap where ap.jobPosting.id =: id order by ap.user.firstName")
 				.setParameter("id", job)
@@ -176,11 +188,6 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.setParameter("id", job)
 				.getResultList();
 		
-//		List<String> interviewResult = super.entityManager
-//				.createQuery("select ap.interviewResult from InterviewTestSchedule ap where ap.application.jobPosting.id =: id order by ap.application.user.firstName")
-//				.setParameter("id", job)
-//				.getResultList();
-		
 		List<ReportMasterPojo> reportPojo = new ArrayList<ReportMasterPojo>();
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		for(int i = 0; i < totalApplicant; i++) {
@@ -191,6 +198,8 @@ public class ApplicationStateChangeDao extends CommonDao {
 			rp.setStartDate(dateFormat.format(jpsting.get(0).getStartDate()));
 			rp.setEndDate(dateFormat.format(jpsting.get(0).getEndDate()));
 			rp.setCountApplicant(totalApplicant);
+			rp.setCountHire(countHire);
+			rp.setCountInterview(countInterview);
 			rp.setState(state.get(i));
 			List<InterviewTestSchedule> schedule = super.entityManager
 					.createQuery("from InterviewTestSchedule ap where ap.application.id =: id")

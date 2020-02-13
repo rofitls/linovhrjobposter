@@ -35,7 +35,7 @@ public class JobBenefitController {
 	public ResponseEntity<?> insert(@RequestBody List<JobBenefit> jBenefits) throws ErrorException{
 		try {
 			for(JobBenefit jBenefit : jBenefits) {
-				jBenefit.setJobBenefitCode("jdesc"+jBenefit.getJobPosting().getId());
+				jBenefit.setJobBenefitCode("jbenefit"+jBenefit.getJobPosting().getId());
 				valIdNull(jBenefit);
 				valBkNotNull(jBenefit);
 				valBkNotExist(jBenefit);
