@@ -320,15 +320,22 @@ public class UserController {
 				}else {
 					listRp = stateService.reportMaster(ri.getRecruiter(), ri.getYear());
 					
-					for(ReportMasterPojo rp : listRp) {
-						rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+					if(listRp == null) {
+						Object obj = new Object();
+						obj = "Report tidak ada";
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(obj);
+					}else {
+						for(ReportMasterPojo rp : listRp) {
+							rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+						}
+						if(ri.getYear() != null) {
+							return ResponseEntity.ok(listRp);
+						}else {
+							return ResponseEntity.ok(listRp);
+						}	
 					}
 					
-					if(ri.getYear() != null) {
-						return ResponseEntity.ok(listRp);
-					}else {
-						return ResponseEntity.ok(listRp);
-					}
+					
 				}
 			}catch(Exception e) {
 				e.printStackTrace();

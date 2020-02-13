@@ -225,9 +225,9 @@ public class ApplicationStateChangeDao extends CommonDao {
 		//Query buat total upload job per recruiter
 		
 		StringBuilder query = new StringBuilder();
-		query.append("From JobPosting where user.id =: id");
+		query.append("from JobPosting where user.id =: id");
 		
-		if(year != null && !year.equalsIgnoreCase("null")) {
+		if(year != null) {
 			query.append(" and to_char(startDate,'YYYY') =: year or to_char(endDate,'YYYY') =: year");
 		}
 		
@@ -235,12 +235,11 @@ public class ApplicationStateChangeDao extends CommonDao {
 
 		queryExecuted.setParameter("id", recruiter);
 
-		if(year != null && !year.equalsIgnoreCase("null")) {
+		if(year != null) {
 			queryExecuted.setParameter("year", year);
 		}
 		
-		List<JobPosting> jpsting = super.entityManager.createQuery(queryExecuted.toString())
-				.getResultList();
+		List<JobPosting> jpsting = queryExecuted.getResultList();
 		
 		List<ReportMasterPojo> masterPojo = new ArrayList<ReportMasterPojo>();
 		
@@ -258,11 +257,9 @@ public class ApplicationStateChangeDao extends CommonDao {
 					.setParameter("id2", jp.getId())
 					.getSingleResult();
 			
-			Long list3 = (Long) super.entityManager.createQuery("select count(*) from ApplicationStateChange ap where ap.application.jobPosting.user.id =: id"
-					+ " and ap.state.stateName =: state"
+			Long list3 = (Long) super.entityManager.createQuery("select count(*) from InterviewTestSchedule ap where ap.application.jobPosting.user.id =: id"
 					+ " and ap.application.jobPosting.id =: id2")
 					.setParameter("id", jp.getUser().getId())
-					.setParameter("state", "Interview")
 					.setParameter("id2", jp.getId())
 					.getSingleResult();
 			

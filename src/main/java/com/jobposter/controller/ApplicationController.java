@@ -362,6 +362,11 @@ public class ApplicationController {
 			
 			applStateChangeService.update(applStateChange);
 			
+			InterviewTestSchedule schedule = interviewTestScheduleService.findScheduleByApplication(appl.getId());
+			schedule.setActiveState(false);
+			
+			interviewTestScheduleService.update(schedule);
+			
 			Long appHire = applStateChangeService.findApplicationHire(appl.getJobPosting().getId());
 			if(jobQuotaService.findJobQuota(appl.getJobPosting().getId()) == appHire.intValue()) {
 				JobPosting jpost = jobPostingService.findById(appl.getJobPosting().getId());
