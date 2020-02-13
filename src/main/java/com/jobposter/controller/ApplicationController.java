@@ -366,6 +366,7 @@ public class ApplicationController {
 			if(jobQuotaService.findJobQuota(appl.getJobPosting().getId()) == appHire.intValue()) {
 				JobPosting jpost = jobPostingService.findById(appl.getJobPosting().getId());
 				jpost.setActiveState(false);
+				jobPostingService.update(jpost);
 			}
 			
 			emailService.sendHire(mail);
