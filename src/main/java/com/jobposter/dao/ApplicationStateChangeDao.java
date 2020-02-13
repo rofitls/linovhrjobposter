@@ -153,12 +153,12 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.getSingleResult();
 		
 		List<String> firstName = super.entityManager
-				.createQuery("select ap.user.firstName from Application ap where ap.jobPosting.id =: id")
+				.createQuery("select ap.user.firstName from Application ap where ap.jobPosting.id =: id order by ap.user.firstName")
 				.setParameter("id", job)
 				.getResultList();
 		
 		List<String> lastName = super.entityManager
-				.createQuery("select ap.user.lastName from Application ap where ap.jobPosting.id =: id")
+				.createQuery("select ap.user.lastName from Application ap where ap.jobPosting.id =: id order by ap.user.firstName")
 				.setParameter("id", job)
 				.getResultList();
 		
@@ -173,14 +173,14 @@ public class ApplicationStateChangeDao extends CommonDao {
 				.getResultList();
 		
 		List<ReportMasterPojo> reportPojo = new ArrayList<ReportMasterPojo>();
-		
+	
 		for(int i = 0; i < totalApplicant; i++) {
 			ReportMasterPojo rp = new ReportMasterPojo();
 			rp.setApplicantName(firstName.get(i) + " " + lastName.get(i));
 			rp.setJobPosting(jpsting.get(0).getJobTitleName());
 			rp.setCountApplicant(totalApplicant);
 			rp.setState(state.get(i));
-			rp.setResult(interviewResult.get(i));
+			rp.setResult("-");
 			reportPojo.add(rp);
 		}
 		

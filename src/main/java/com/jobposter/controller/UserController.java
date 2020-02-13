@@ -302,6 +302,40 @@ public class UserController {
 			}
 	}
 	
+	@PostMapping("/user/json")
+	public ResponseEntity<?> exportJSON(@RequestBody ReportInput ri, HttpServletRequest request) throws FileNotFoundException, JRException{
+			try {
+				Users user = userService.findById(ri.getRecruiter());
+				
+				//String fileName = "";
+				List<ReportMasterPojo> listRp;
+				
+				System.out.println(ri.getRecruiter());
+				System.out.println(ri.getYear());
+				System.out.println(ri.getJob());
+				
+				if(ri.getRecruiter() == null && ri.getYear() == null) {
+					listRp = stateService.reportPerJob(ri.getJob());
+					return ResponseEntity.ok(listRp);
+				}else {
+					listRp = stateService.reportMaster(ri.getRecruiter(), ri.getYear());
+					
+					for(ReportMasterPojo rp : listRp) {
+						rp.setRecruiterName(user.getFirstName()+" "+user.getLastName());
+					}
+					
+					if(ri.getYear() != null) {
+						return ResponseEntity.ok(listRp);
+					}else {
+						return ResponseEntity.ok(listRp);
+					}
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			}
+	}
+	
 	@GetMapping("/user/report/json/{id}")
 	public ResponseEntity<?> reportJSON(@RequestBody ReportInput ri) throws FileNotFoundException, JRException{
 		try {
