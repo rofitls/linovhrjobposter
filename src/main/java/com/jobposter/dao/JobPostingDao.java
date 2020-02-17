@@ -51,6 +51,21 @@ public class JobPostingDao extends CommonDao {
 			return (List<JobPosting>)list;
 	}
 	
+//	public List<JobPosting> findAllWithPagination(){
+//		Query query = super.entityManager
+//				.createQuery("from JobPosting where activeState =: active order by startDate desc")
+//				.setParameter("active", true);
+//		Query countPage= super.entityManager
+//				.createQuery("select count(*) from JobPosting where activeState =: active order by startDate desc")
+//				.setParameter("active", true);
+//		Long countResult = (Long)countPage.getSingleResult();
+//		int pageSize = 10;
+//		int pageNumber = (int) ((countResult / pageSize) + 1);
+//		query.setFirstResult((pageNumber-1) * pageSize); 
+//		query.setMaxResults(pageSize);
+//		
+//	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public JobPosting findByBk(String Bk1, String Bk2, String Bk3, Date Bk4, Date Bk5, String Bk6) {

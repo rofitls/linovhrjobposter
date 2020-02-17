@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobposter.entity.FilterJob;
@@ -164,6 +165,20 @@ public class JobPostingController {
 	public ResponseEntity<?> getRecomendationJob(@PathVariable String jobCategory, @PathVariable Double salary) throws ErrorException {
 		try {
 			List<JobPosting> jposts = jobPostingService.recomendationJob(jobCategory, salary);
+			for(JobPosting jpost : jposts) {
+				jpost.getUser().setImage(null);
+			}
+			return ResponseEntity.ok(jposts);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+	
+	@GetMapping("/apl")
+	public ResponseEntity<?> getAllJobPostingPaging(@RequestParam(defaultValue = "0") Integer pageNo,
+													@RequestParam(defaultValue = "10") Integer pageSize) throws ErrorException {
+		try {
+			List<JobPosting> jposts = jobPostingService.findAllJobPostingPaging(pageNo, pageSize);
 			for(JobPosting jpost : jposts) {
 				jpost.getUser().setImage(null);
 			}
