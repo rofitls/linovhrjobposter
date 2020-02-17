@@ -42,7 +42,7 @@ public class JobPostingDao extends CommonDao {
 	@Transactional
 	public List<JobPosting> findAll(){
 		List<JobPosting> list = super.entityManager
-				.createQuery("from JobPosting where activeState =: active order by startDate")
+				.createQuery("from JobPosting where activeState =: active order by startDate desc")
 				.setParameter("active", true)
 				.getResultList();
 		if(list.size()==0)
