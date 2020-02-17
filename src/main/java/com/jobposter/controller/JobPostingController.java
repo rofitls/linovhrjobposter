@@ -174,20 +174,6 @@ public class JobPostingController {
 		}
 	}
 	
-//	@GetMapping("/apl")
-//	public ResponseEntity<?> getAllJobPostingPaging(@RequestParam(defaultValue = "0") Integer pageNo,
-//													@RequestParam(defaultValue = "10") Integer pageSize) throws ErrorException {
-//		try {
-//			List<JobPosting> jposts = jobPostingService.findAllJobPostingPaging(pageNo, pageSize);
-//			for(JobPosting jpost : jposts) {
-//				jpost.getUser().setImage(null);
-//			}
-//			return ResponseEntity.ok(jposts);
-//		}catch(Exception e) {
-//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//		}
-//	}
-	
 	@PostMapping("/apl/job-posting/filter")
 	public ResponseEntity<?> filterJob(@RequestBody FilterJob filter) throws ErrorException {
 		try {

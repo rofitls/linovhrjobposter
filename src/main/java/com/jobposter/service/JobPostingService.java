@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jobposter.dao.JobPostingDao;
-import com.jobposter.dao.JobPostingRepository;
 import com.jobposter.entity.JobPosting;
 import com.jobposter.entity.JobPostingPojo;
 import com.jobposter.exception.ErrorException;
@@ -21,9 +20,6 @@ public class JobPostingService {
 	
 	@Autowired
 	private JobPostingDao jobPostingDao;
-	
-	@Autowired
-	private JobPostingRepository jobPostingRepo;
 
 	public JobPosting findById(String id) {
 		JobPosting jpost = jobPostingDao.findById(id);
@@ -63,17 +59,6 @@ public class JobPostingService {
 	
 	public List<JobPosting> recomendationJob(String jobCategory, Double salary) throws ErrorException {
 		return jobPostingDao.recomendationJob(jobCategory, salary);
-	}
-	
-	public List<JobPosting> findAllJobPostingPaging(Integer pageNo, Integer pageSize) throws ErrorException {
-		Pageable paging = PageRequest.of(pageNo, pageSize);
-		Page<JobPosting> pagedResult = jobPostingRepo.findAll(paging);
-		
-		if(pagedResult.hasContent()) {
-			return pagedResult.getContent();
-		}else {
-			return new ArrayList<JobPosting>();
-		}
 	}
 
 }
