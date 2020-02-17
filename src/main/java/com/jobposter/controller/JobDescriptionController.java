@@ -85,6 +85,7 @@ public class JobDescriptionController {
 		try {
 			jobDescriptionService.deleteByJob(id);
 			Object obj = new Object();
+			obj = "Berhasil delete description";
 			return ResponseEntity.ok(obj);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

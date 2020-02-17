@@ -86,6 +86,7 @@ public class JobBenefitController {
 		try {
 			jobBenefitService.deleteByJob(id);
 			Object obj = new Object();
+			obj = "Berhasil delete benefit";
 			return ResponseEntity.ok(obj);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

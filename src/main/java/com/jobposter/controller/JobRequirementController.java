@@ -86,6 +86,7 @@ public class JobRequirementController {
 		try {
 			jobRequirementService.deleteByJob(id);
 			Object obj = new Object();
+			obj = "Berhasil delete requirement";
 			return ResponseEntity.ok(obj);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
