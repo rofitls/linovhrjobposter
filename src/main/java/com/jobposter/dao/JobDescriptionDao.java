@@ -26,7 +26,7 @@ public class JobDescriptionDao extends CommonDao {
 		super.entityManager
 				.createQuery("delete from JobDescription where jobPosting.id =: id")
 				.setParameter("id", id)
-				.getResultList();
+				.executeUpdate();
 	}
 	
 	@SuppressWarnings("unchecked")

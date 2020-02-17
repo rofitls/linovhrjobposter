@@ -137,16 +137,17 @@ public class UserController {
 			Users appl = new Users();
 			UserPassword up = new UserPassword();
 			Mail mail = new Mail();
-			Random random = new Random();
 			
-			int leftLimit = 97; // letter 'a'
-		    int rightLimit = 255; // letter 'z'
-		    int targetStringLength = 10;
-		    
-		    String generatedString = random.ints(leftLimit, rightLimit + 1)
-		      .limit(targetStringLength)
-		      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-		      .toString();
+			 int leftLimit = 48; // numeral '0'
+			 int rightLimit = 122; // letter 'z'
+			 int targetStringLength = 10;
+			 Random random = new Random();
+			 
+			    String generatedString = random.ints(leftLimit, rightLimit + 1)
+			      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+			      .limit(targetStringLength)
+			      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+			      .toString();
 		    
 		    appl.setFirstName(reg.getFirstName());
 		    appl.setLastName(reg.getLastName());

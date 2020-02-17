@@ -26,7 +26,7 @@ public class JobRequirementDao extends CommonDao {
 		super.entityManager
 				.createQuery("delete from JobRequirement where jobPosting.id =: id")
 				.setParameter("id", id)
-				.getResultList();
+				.executeUpdate();
 	}
 	
 	@SuppressWarnings("unchecked")
