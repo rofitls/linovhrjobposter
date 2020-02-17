@@ -21,10 +21,9 @@ public class JobBenefitDao extends CommonDao {
 		super.entityManager.remove(jBenefit);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Transactional
 	public void deleteByJob(String id) {
-		List<JobBenefit> list = super.entityManager
+		super.entityManager
 				.createQuery("delete from JobBenefit where jobPosting.id =: id")
 				.setParameter("id", id)
 				.getResultList();

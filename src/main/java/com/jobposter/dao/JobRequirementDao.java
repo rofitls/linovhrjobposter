@@ -21,11 +21,9 @@ public class JobRequirementDao extends CommonDao {
 		super.entityManager.remove(jreq);
 	}
 	
-	
-	@SuppressWarnings("unchecked")
 	@Transactional
 	public void deleteByJob(String id) {
-		List<JobRequirement> list = super.entityManager
+		super.entityManager
 				.createQuery("delete from JobRequirement where jobPosting.id =: id")
 				.setParameter("id", id)
 				.getResultList();

@@ -21,10 +21,9 @@ public class JobDescriptionDao extends CommonDao {
 		super.entityManager.remove(jdesc);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Transactional
 	public void deleteByJob(String id) {
-		List<JobDescription> list = super.entityManager
+		super.entityManager
 				.createQuery("delete from JobDescription where jobPosting.id =: id")
 				.setParameter("id", id)
 				.getResultList();
