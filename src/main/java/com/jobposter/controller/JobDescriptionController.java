@@ -84,9 +84,7 @@ public class JobDescriptionController {
 	public ResponseEntity<?> deleteByJob(@PathVariable String id) throws ErrorException {
 		try {
 			jobDescriptionService.deleteByJob(id);
-			Object obj = new Object();
-			obj = "Berhasil delete description";
-			return ResponseEntity.ok(obj);
+			return ResponseEntity.ok(jobPostingService.findById(id));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}

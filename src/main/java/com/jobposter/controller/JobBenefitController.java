@@ -85,9 +85,7 @@ public class JobBenefitController {
 	public ResponseEntity<?> deleteByJob(@PathVariable String id) throws ErrorException {
 		try {
 			jobBenefitService.deleteByJob(id);
-			Object obj = new Object();
-			obj = "Berhasil delete benefit";
-			return ResponseEntity.ok(obj);
+			return ResponseEntity.ok(jobPostingService.findById(id));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
