@@ -160,7 +160,7 @@ public class JobPostingController {
 		}
 	}
 	
-	@GetMapping("/apl/job-recomedation")
+	@GetMapping("/apl/job-recomedation/{jobCategory}/{salary}")
 	public ResponseEntity<?> getRecomendationJob(@PathVariable String jobCategory, @PathVariable Double salary) throws ErrorException {
 		try {
 			List<JobPosting> jposts = jobPostingService.recomendationJob(jobCategory, salary);
